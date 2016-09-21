@@ -1,0 +1,51 @@
+'ObisConcept.NeosBlog:Post':
+  superTypes:
+    'TYPO3.Neos:Document': TRUE
+  childNodes:
+    'content':
+      type: 'TYPO3.Neos:ContentCollection'
+  constraints:
+    nodeTypes:
+      'TYPO3.Neos.NodeTypes:Page': FALSE
+      'TYPO3.Neos:Shortcut': FALSE
+      'ObisConcept.NeosBlog:Folder': FALSE
+      'ObisConcept.NeosBlog:Post': FALSE
+      'ObisConcept.NeosBlog:Category': FALSE
+  ui:
+    label: 'Post'
+    icon: 'fa fa-file-text'
+    group: 'blog'
+    inspector:
+      groups:
+        'document':
+          label: ObisConcept.NeosBlog:NodeTypes.Post:groups.document
+        'properties':
+          label: i18n
+          icon: 'fa fa-cog'
+  properties:
+    _hiddenInIndex:
+      defaultValue: TRUE
+    shortText:
+      type: string
+    categories:
+      type: references
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'
+          editorOptions:
+            nodeTypes: ['ObisConcept.NeosBlog:Category']
+    publishedAt:
+      type: DateTime
+      defaultValue: 'now'
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'
+          editorOptions:
+            format: 'd.m.Y H:i'
+      validation:
+        'TYPO3.Neos/Validation/NotEmptyValidator': []
+        'TYPO3.Neos/Validation/DateTimeValidator': []

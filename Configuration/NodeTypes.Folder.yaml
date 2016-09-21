@@ -1,0 +1,18 @@
+'ObisConcept.NeosBlog:Folder':
+  superTypes:
+    'TYPO3.Neos:Document': TRUE
+  constraints:
+    nodeTypes:
+      'TYPO3.Neos.NodeTypes:Page': FALSE
+      'TYPO3.Neos:Shortcut': FALSE
+      'ObisConcept.NeosBlog:Folder': FALSE
+      'ObisConcept.NeosBlog:Post': TRUE
+      'ObisConcept.NeosBlog:Category': TRUE
+  ui:
+    label: 'Folder'
+    icon: 'fa fa-folder-open'
+    group: 'blog'
+    inspector:
+      groups:
+        blog:
+          label: i18n

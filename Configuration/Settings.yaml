@@ -1,0 +1,16 @@
+TYPO3:
+  Neos:
+    nodeTypes:
+      groups:
+        blog:
+          position: 'end'
+          label: 'Blog'
+
+    typoScript:
+      autoInclude:
+        'ObisConcept.NeosBlog': TRUE
+
+    userInterface:
+      translation:
+        autoInclude:
+          'ObisConcept.NeosBlog': ['Main', 'NodeTypes/*']

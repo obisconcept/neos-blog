@@ -1,0 +1,25 @@
+'ObisConcept.NeosBlog:CategoryList':
+  superTypes:
+    'TYPO3.Neos:Content': TRUE
+  constraints:
+    nodeTypes:
+      '*': FALSE
+  ui:
+    label: i18n
+    icon: 'fa fa-list'
+    group: 'blog'
+    inspector:
+      groups:
+        'properties':
+          label: i18n
+          icon: 'fa fa-cog'
+  properties:
+    blogFolderNode:
+      type: reference
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'
+          editorOptions:
+            nodeTypes: ['ObisConcept.NeosBlog:Folder']

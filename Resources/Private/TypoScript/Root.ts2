@@ -1,0 +1,24 @@
+include: NodeTypes/*
+
+prototype(TYPO3.Neos:PrimaryContent).post {
+    condition = ${q(documentNode).is('[instanceof ObisConcept.NeosBlog:Post]')}
+    type = 'ObisConcept.NeosBlog:Post'
+}
+
+prototype(TYPO3.Neos:PrimaryContent).blogFolder {
+    prototype(ObisConcept.NeosBlog:PostList) {
+        @override.blogFolderNode = ${documentNode}
+    }
+    condition = ${q(documentNode).is('[instanceof ObisConcept.NeosBlog:Folder]')}
+    type = 'ObisConcept.NeosBlog:PostList'
+}
+
+prototype(TYPO3.Neos:PrimaryContent).postListByCategory {
+    prototype(ObisConcept.NeosBlog:PostList) {
+        @override.blogFolderNode = ${q(documentNode).parent('[instanceof ObisConcept.NeosBlog:Folder]').get(0)}
+
+        postCollection.@process.filterPostsByCategories = ${q(value).filter('[categories *= \'' + q(documentNode).property('_identifier') + '\']').get()}
+    }
+    condition = ${q(documentNode).is('[instanceof ObisConcept.NeosBlog:Category]')}
+    type = 'ObisConcept.NeosBlog:PostList'
+}

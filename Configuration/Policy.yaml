@@ -1,0 +1,11 @@
+privilegeTargets:
+  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    'ObisConcept.NeosBlog:PaginateController.indexAction':
+      matcher: 'method(ObisConcept\NeosBlog\ViewHelpers\Widget\Controller\PaginateController->indexAction())'
+
+roles:
+  'TYPO3.Flow:Everybody':
+    privileges:
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:PaginateController.indexAction'
+        permission: GRANT

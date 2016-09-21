@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" product-name="ObisConcept.NeosBlog" source-language="en" datatype="plaintext" target-language="de">
+		<body>
+      <trans-unit id="label.back" xml:space="preserve">
+				<source>Back</source>
+				<target xml:lang="de" state="translated">Zurück</target>
+			</trans-unit>
+			<trans-unit id="label.readMore" xml:space="preserve">
+				<source>Read more</source>
+				<target xml:lang="de" state="translated">Mehr lesen</target>
+			</trans-unit>
+      <trans-unit id="message.noCategorySelected" xml:space="preserve">
+				<source>Please select at least on category in the inspector</source>
+				<target xml:lang="de" state="translated">Bitte wählen Sie wenigstens eine Kategorie im Inspector aus</target>
+			</trans-unit>
+      <trans-unit id="message.noFolderSelected" xml:space="preserve">
+				<source>Please select a folder in the inspector</source>
+				<target xml:lang="de" state="translated">Bitte wählen Sie einen Ordner im Inspector aus</target>
+			</trans-unit>
+      <trans-unit id="message.noPosts" xml:space="preserve">
+				<source>No posts could be found in the selected folder</source>
+				<target xml:lang="de" state="translated">Im ausgewählten Ordner konnten keine Beiträge gefunden werden</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,6 @@
+prototype(ObisConcept.NeosBlog:CategoryList) < prototype(TYPO3.Neos:Content) {
+    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/CategoryList.html'
+
+    @override.blogFolderNode = ${q(node).property('blogFolderNode')}
+    categoryCollection = ${q(blogFolderNode).is('[instanceof ObisConcept.NeosBlog:Folder]') ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Category]').get() : NULL}
+}

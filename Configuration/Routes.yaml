@@ -1,0 +1,54 @@
+-
+  name: 'ObisConcept.NeosBlog pagination - page = 1'
+  uriPattern: '{node}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--blog-paginator':
+      '@package': ''
+      '@subpackage': ''
+      '@controller': ''
+      '@action': 'index'
+      currentPage: 1
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'ObisConcept.NeosBlog pagination - page > 1'
+  uriPattern: 'page/{--blog-paginator.currentPage}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--blog-paginator':
+      '@package': ''
+      '@subpackage': ''
+      '@controller': ''
+      '@action': 'index'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'ObisConcept.NeosBlog pagination - page > 1'
+  uriPattern: '{node}/page/{--blog-paginator.currentPage}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--blog-paginator':
+      '@package': ''
+      '@subpackage': ''
+      '@controller': ''
+      '@action': 'index'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
