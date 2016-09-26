@@ -27,6 +27,9 @@
       defaultValue: TRUE
     shortText:
       type: string
+      ui:
+        aloha:
+          placeholder: i18n
     categories:
       type: references
       ui:

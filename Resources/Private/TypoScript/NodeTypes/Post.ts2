@@ -1,35 +1,33 @@
 prototype(ObisConcept.NeosBlog:Post) < prototype(TYPO3.Neos:Document) {
-    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/Post.html'
+  _hiddenInIndex = TRUE
 
-    _hiddenInIndex = TRUE
-
-    content = TYPO3.Neos:ContentCollection {
-        nodePath = 'content'
-    }
+  content = TYPO3.Neos:ContentCollection {
+    nodePath = 'content'
+  }
 }
 
 prototype(ObisConcept.NeosBlog:PostList) < prototype(TYPO3.Neos:Content) {
-    @override.templatePathPostList = ${q(node).property('templatePathPostList') != NULL && q(node).property('templatePathPostList') != '' ? 'resource://' + q(node).property('templatePathPostList') : 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/PostList.html'}
-    @override.templatePathPostItem = ${q(node).property('templatePathPostItem') != NULL && q(node).property('templatePathPostItem') != '' ? 'resource://' + q(node).property('templatePathPostItem') : 'resource://ObisConcept.NeosBlog/Private/Templates/TypoScriptObjects/PostItem.html'}
+  @override.templatePathPostList = 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/PostList.html'
+  @override.templatePathPostItem = 'resource://ObisConcept.NeosBlog/Private/Templates/TypoScriptObjects/PostItem.html'
 
-    templatePath = ${templatePathPostList}
+  templatePath = ${templatePathPostList}
 
-    @override.blogFolderNode = ${q(node).property('blogFolderNode')}
-    postCollection = ${q(blogFolderNode).is('[instanceof ObisConcept.NeosBlog:Folder]') ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Post]').get() : NULL}
+  @override.blogFolderNode = ${q(node).property('blogFolderNode')}
+  postCollection = ${q(blogFolderNode).is('[instanceof ObisConcept.NeosBlog:Folder]') ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Post]').get() : NULL}
 
-    @override.categoryList = ${q(node).property('categories') != NULL ? Array.join(q(node).categoryListByProperty('categories')) : ''}
-    postCollection.@process.filterPostsByCategories = ${categoryList != NULL && categoryList != '' ? q(value).filter('[categories *= \'' + categoryList + '\']').get() : value}
+  @override.categoryList = ${q(node).property('categories') != NULL ? Array.join(q(node).categoryListByProperty('categories')) : ''}
+  postCollection.@process.filterPostsByCategories = ${categoryList != NULL && categoryList != '' ? q(value).filter('[categories *= \'' + categoryList + '\']').get() : value}
 
-    postItem = ObisConcept.NeosBlog:Post {
-        templatePath = ${templatePathPostItem}
+  postItem = ObisConcept.NeosBlog:Post {
+    templatePath = ${templatePathPostItem}
+  }
+
+  @cache {
+    mode = 'uncached'
+    context {
+      1 = 'node'
+      2 = 'documentNode'
+      3 = 'site'
     }
-
-    @cache {
-        mode = 'uncached'
-        context {
-            1 = 'node'
-            2 = 'documentNode'
-            3 = 'site'
-        }
-    }
+  }
 }

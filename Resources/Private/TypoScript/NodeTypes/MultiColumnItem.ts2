@@ -1,5 +1,0 @@
-prototype(TYPO3.Neos.NodeTypes:MultiColumnItem) {
-
-    attributes.class = ${'col-sm-' + String.split(q(node).parent().property('layout'), '-')[multiColumnIteration.index]+ ' ' + q(node).parent().property('ownClass')}
-
-}

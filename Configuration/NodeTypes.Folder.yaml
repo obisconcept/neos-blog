@@ -14,5 +14,7 @@
     group: 'blog'
     inspector:
       groups:
-        blog:
+        'document':
+          label: ObisConcept.NeosBlog:NodeTypes.Post:groups.document
+        'blog':
           label: i18n

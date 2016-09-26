@@ -11,6 +11,9 @@
 			<trans-unit id="groups.properties" xml:space="preserve">
         <source>Properties</source>
       </trans-unit>
+			<trans-unit id="properties.shortText.aloha.placeholder" xml:space="preserve">
+        <source>Enter short text here</source>
+      </trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
         <source>Categories</source>
       </trans-unit>

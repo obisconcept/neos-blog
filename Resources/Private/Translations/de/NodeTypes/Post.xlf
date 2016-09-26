@@ -14,6 +14,10 @@
         <source>Properties</source>
 				<target xml:lang="de" state="translated">Eigenschaften</target>
       </trans-unit>
+			<trans-unit id="properties.shortText.aloha.placeholder" xml:space="preserve">
+        <source>Enter short text here</source>
+				<target xml:lang="de" state="translated">Kurztext hier eingeben</target>
+      </trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
         <source>Categories</source>
 				<target xml:lang="de" state="translated">Kategorien</target>

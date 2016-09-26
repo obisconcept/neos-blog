@@ -11,11 +11,14 @@
     "support": {
         "email": "dev@obis-concept.de"
     },
-    "description": "A Neos CMS package with a blog plugin",
+    "description": "A Neos CMS package with a node type based blog",
     "license": ["MIT"],
     "require": {
         "typo3/neos": "~2.3.0",
         "typo3/neos-nodetypes": "~2.3.0"
+    },
+    "suggest": {
+        "obisconcept/neos-bootstrap": "Provides Twitter Bootstrap which classes are used for pagination"
     },
     "autoload": {
         "psr-0": {

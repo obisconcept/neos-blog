@@ -1,8 +1,6 @@
 'TYPO3.Neos:Document':
   constraints:
     nodeTypes:
-      'TYPO3.Neos.NodeTypes:Page': TRUE
-      'TYPO3.Neos:Shortcut': TRUE
-      'ObisConcept.NeosBlog:Folder': TRUE
+      '*': TRUE
       'ObisConcept.NeosBlog:Post': FALSE
       'ObisConcept.NeosBlog:Category': FALSE

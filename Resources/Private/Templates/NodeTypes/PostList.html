@@ -16,12 +16,26 @@
     </f:then>
     <f:else>
       <f:if condition="{neos:rendering.inBackend()}">
-        <f:if condition="{blogFolderNode}">
+        <f:if condition="{node.nodeType.name} == 'ObisConcept.NeosBlog:Folder'">
           <f:then>
             <f:translate id="message.noPosts" package="ObisConcept.NeosBlog" source="Main"></f:translate>
           </f:then>
           <f:else>
-            <f:translate id="message.noFolderSelected" package="ObisConcept.NeosBlog" source="Main"></f:translate>
+            <f:if condition="{node.nodeType.name} == 'ObisConcept.NeosBlog:Category'">
+              <f:then>
+                <f:translate id="message.noPostsAtCategory" package="ObisConcept.NeosBlog" source="Main"></f:translate>
+              </f:then>
+              <f:else>
+                <f:if condition="{blogFolderNode}">
+                  <f:then>
+                    <f:translate id="message.noPosts" package="ObisConcept.NeosBlog" source="Main"></f:translate>
+                  </f:then>
+                  <f:else>
+                    <f:translate id="message.noFolderSelected" package="ObisConcept.NeosBlog" source="Main"></f:translate>
+                  </f:else>
+                </f:if>
+              </f:else>
+            </f:if>
           </f:else>
         </f:if>
       </f:if>
