@@ -18,7 +18,8 @@
         "typo3/neos-nodetypes": "~2.3.0"
     },
     "suggest": {
-        "obisconcept/neos-bootstrap": "Provides Twitter Bootstrap which classes are used for pagination"
+        "obisconcept/neos-bootstrap": "Provides Twitter Bootstrap which classes are used for pagination",
+        "obisconcept/neos-jquery": "Add this package, if you don't use obisconcept/neos-bootstrap package or if you don't inluded jQuery by yourself"
     },
     "autoload": {
         "psr-0": {
