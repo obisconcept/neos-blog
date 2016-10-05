@@ -9,7 +9,7 @@
       'ObisConcept.NeosBlog:Post': TRUE
       'ObisConcept.NeosBlog:Category': TRUE
   ui:
-    label: 'Folder'
+    label: i18n
     icon: 'fa fa-folder-open'
     group: 'blog'
     inspector:
