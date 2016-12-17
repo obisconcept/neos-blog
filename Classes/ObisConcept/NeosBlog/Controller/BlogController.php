@@ -15,9 +15,15 @@ namespace ObisConcept\NeosBlog\Controller;
 
 use TYPO3\Flow\Annotations as Flow;
 use ObisConcept\NeosBlog\Domain\Model\Category;
+<<<<<<< HEAD
 use ObisConcept\NeosBlog\Domain\Service\BlogService;
 use ObisConcept\NeosBlog\Domain\Service\ContentService;
 use ObisConcept\NeosBlog\Domain\Service\PostService;
+=======
+use ObisConcept\NeosBlog\Service\Domain\BlogService;
+use ObisConcept\NeosBlog\Service\Domain\ContentService;
+use ObisConcept\NeosBlog\Service\Domain\PostService;
+>>>>>>> master
 use TYPO3\Neos\Controller\Module\ManagementController;
 use TYPO3\Neos\Domain\Service\ContentContextFactory;
 use TYPO3\Neos\Domain\Service\UserService;
@@ -114,18 +120,27 @@ class BlogController extends ManagementController {
             $personalPosts = $this->postService->getPersonalPosts(' ',$dimension);
         }
 
+<<<<<<< HEAD
         $sortedPosts = array();
         
+=======
+>>>>>>> master
         /** @var NodeInterface $post */
         foreach($personalPosts as $post) {
             $sortedPosts[$post->getProperty('publishedAt')->format('d.m.Y H:i:s')] = $post;
         }
 
+<<<<<<< HEAD
         if ($sortedPosts !== null) {
             usort($sortedPosts, function($postA, $postB) {
                 return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
             });
         }
+=======
+        usort($sortedPosts, function($postA, $postB) {
+            return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
+        });
+>>>>>>> master
 
         /** @var NodeInterface $a */
         $nodes = $sortedPosts;

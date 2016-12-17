@@ -1,4 +1,12 @@
 -
+  name: 'ObisConcept.NeosBlog Post Detail Page'
+  uriPattern: 'neos/NeosBlog/posts/show.php'
+  defaults:
+    '@package': 'ObisConcept.NeosBlog'
+    '@controller': 'Blog'
+    '@action': 'show'
+  httpMethods: ['POST']
+-
   name: 'ObisConcept.NeosBlog pagination - page = 1'
   uriPattern: '{node}'
   defaults:
