@@ -7,25 +7,29 @@
 				<target xml:lang="de" state="translated">Beitrag</target>
 			</trans-unit>
 			<trans-unit id="groups.document" xml:space="preserve">
-        <source>Title</source>
+      			  <source>Title</source>
 				<target xml:lang="de" state="translated">Titel</target>
-      </trans-unit>
+     		 </trans-unit>
+			<trans-unit id="groups.relatedPosts" xml:space="preserve">
+				<source>Related Posts</source>
+				<target xml:lang="de" state="translated">Verbundene Beiträge</target>
+     		 </trans-unit>
 			<trans-unit id="groups.properties" xml:space="preserve">
-        <source>Properties</source>
+        		<source>Properties</source>
 				<target xml:lang="de" state="translated">Eigenschaften</target>
-      </trans-unit>
-			<trans-unit id="properties.shortText.aloha.placeholder" xml:space="preserve">
-        <source>Enter short text here</source>
-				<target xml:lang="de" state="translated">Kurztext hier eingeben</target>
-      </trans-unit>
+      		</trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
-        <source>Categories</source>
+       			 <source>Categories</source>
 				<target xml:lang="de" state="translated">Kategorien</target>
-      </trans-unit>
+      		</trans-unit>
+			<trans-unit id="properties.tags" xml:space="preserve">
+       			 <source>Tags</source>
+				<target xml:lang="de" state="translated">Schlagwörter</target>
+      		</trans-unit>
 			<trans-unit id="properties.publishedAt" xml:space="preserve">
-        <source>Published at</source>
+        		<source>Published at</source>
 				<target xml:lang="de" state="translated">Veröffentlicht am</target>
-      </trans-unit>
+      		</trans-unit>
 		</body>
 	</file>
 </xliff>

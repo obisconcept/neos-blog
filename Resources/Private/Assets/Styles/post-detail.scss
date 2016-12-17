@@ -1,0 +1,48 @@
+i {
+  margin-right: 6px;
+}
+
+.post-details {
+  h1 {
+    &.title {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .identifier {
+    margin-bottom: 40px;
+  }
+
+  .neos-action {
+    i {
+      margin: 0;
+    }
+  }
+
+}
+
+.post-teaser {
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  .post-image {
+    margin-bottom: 20px;
+  }
+}
+
+.related-posts {
+  margin-top: 120px;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+
+
+  .neos-span4:first-of-type {
+    margin-left: 0 !important;
+
+  }
+}

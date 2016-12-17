@@ -1,1 +1,0 @@
-prototype(ObisConcept.NeosBlog:Folder) < prototype(TYPO3.Neos:Document)
