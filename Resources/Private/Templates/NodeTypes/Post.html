@@ -1,12 +1,11 @@
 {namespace neos=TYPO3\Neos\ViewHelpers}
 
 <neos:contentElement.wrap>
-  <div class="blog-detail">
-    <neos:contentElement.editable property="title" tag="h1" />
-    <neos:contentElement.editable property="shortText" tag="p" />
-    <div class="content">
-      {content -> f:format.raw()}
+    <div class="blog-detail">
+        <neos:contentElement.editable property="title" tag="h1" />
+        <div class="content">
+            {content -> f:format.raw()}
+        </div>
     </div>
-  </div>
-  <a href="#" class="blog-link-back" onclick="window.history.back(-1);return false;"><f:translate id="label.back" package="ObisConcept.NeosBlog" source="Main"></f:translate></a>
+    <a href="#" class="blog-link-back" onclick="window.history.back(-1);return false;"><f:translate id="label.back" package="ObisConcept.NeosBlog" source="Main"></f:translate></a>
 </neos:contentElement.wrap>

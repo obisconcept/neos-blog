@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file original="" product-name="ObisConcept.NeosBlog" source-language="en" datatype="plaintext">
-		<body>
-			<trans-unit id="ui.label" xml:space="preserve">
+    <file original="" product-name="ObisConcept.NeosBlog" source-language="en" datatype="plaintext" >
+        <body>
+            <trans-unit id="ui.label" xml:space="preserve">
 				<source>Post</source>
 			</trans-unit>
 			<trans-unit id="groups.document" xml:space="preserve">
-        <source>Title</source>
-      </trans-unit>
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="groups.relatedPosts" xml:space="preserve">
+                <source>Related Posts</source>
+            </trans-unit>
 			<trans-unit id="groups.properties" xml:space="preserve">
-        <source>Properties</source>
-      </trans-unit>
+                <source>Properties</source>
+             </trans-unit>
 			<trans-unit id="properties.shortText.aloha.placeholder" xml:space="preserve">
-        <source>Enter short text here</source>
-      </trans-unit>
+                <source>Enter short text here</source>
+            </trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
-        <source>Categories</source>
-      </trans-unit>
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="properties.tags" xml:space="preserve">
+                <source>Tags</source>
+            </trans-unit>
 			<trans-unit id="properties.publishedAt" xml:space="preserve">
-        <source>Published at</source>
-      </trans-unit>
-		</body>
-	</file>
+                <source>Published at</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

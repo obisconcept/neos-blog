@@ -8,37 +8,48 @@
     nodeTypes:
       'TYPO3.Neos.NodeTypes:Page': FALSE
       'TYPO3.Neos:Shortcut': FALSE
-      'ObisConcept.NeosBlog:Folder': FALSE
+      'ObisConcept.NeosBlog:Blog': FALSE
       'ObisConcept.NeosBlog:Post': FALSE
-      'ObisConcept.NeosBlog:Category': FALSE
   ui:
     label: 'Post'
     icon: 'fa fa-file-text'
     group: 'blog'
     inspector:
+      tabs:
+        'relatedPosts':
+          label: i18n
+          icon: 'fa fa-copy'
       groups:
         'document':
-          label: ObisConcept.NeosBlog:NodeTypes.Post:groups.document
+          label: i18n
         'properties':
           label: i18n
           icon: 'fa fa-cog'
+        'relatedPosts':
+          label: i18n
+          icon: 'fa fa-copy'
+          tab: 'relatedPosts'
   properties:
     _hiddenInIndex:
       defaultValue: TRUE
-    shortText:
+    author:
       type: string
-      ui:
-        aloha:
-          placeholder: i18n
     categories:
-      type: references
+      type: 'ObisConcept\NeosBlog\Domain\Model\Category'
       ui:
         label: i18n
         reloadIfChanged: TRUE
         inspector:
           group: 'properties'
-          editorOptions:
-            nodeTypes: ['ObisConcept.NeosBlog:Category']
+          reloadIfChanged: true
+    tags:
+      type: 'ObisConcept\NeosBlog\Domain\Model\Tag'
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'
+          reloadIfChanged: true
     publishedAt:
       type: DateTime
       defaultValue: 'now'
@@ -52,3 +63,10 @@
       validation:
         'TYPO3.Neos/Validation/NotEmptyValidator': []
         'TYPO3.Neos/Validation/DateTimeValidator': []
+    relatedPosts:
+      type: references
+      ui:
+        inspector:
+          group: 'relatedPosts'
+          editorOptions:
+            nodeTypes: ['ObisConcept.NeosBlog:Post']

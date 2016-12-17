@@ -1,0 +1,270 @@
+{namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace blog=ObisConcept\NeosBlog\ViewHelpers}
+{namespace typo3cr=TYPO3\TYPO3CR\ViewHelpers}
+
+<f:layout name="Default"/>
+<f:section name="Title">
+    <link href="{f:uri.resource(path: 'Styles/main.min.css')}" rel="stylesheet" />
+    <script src="{f:uri.resource(path: 'JavaScript/main.min.js')}" type="text/javascript" ></script>
+</f:section>
+<f:section name="Content">
+    <div id="blog-module" class="neos neos-module media-browser media-module">
+        <f:if condition="{blogs}">
+            <f:then>
+                <div class="neos-media-options">
+                    <div class="neos-file-options">
+                        <span class="count">
+                            {postCount} Posts
+                        </span>
+                        <f:if condition="{posts}"><a id="create-new-post" href="#"><i class="icon-plus"></i>New Post</a></f:if>
+                    </div>
+                    <div class="neos-view-options">
+                        <f:if condition="{dimensions}">
+                            <div class="neos-dropdown" id="dimensions-menu">
+                                <span title="" data-neos-toggle="tooltip" data-original-title="Dimension Menu">
+                                    <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#dimensions-menu">
+                                     <i class="icon-language"></i>
+                                    </a>
+                                </span>
+                                <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                    <f:for each="{dimensions}" key="languageName" as="dimension">
+                                        <li><f:link.action action="index" arguments="{dimension: dimension}"><i class="icon-language"></i> {languageName}</f:link.action></li>
+                                    </f:for>
+                                </ul>
+                            </div>
+                        </f:if>
+                        <div class="neos-dropdown" id="blog-filter-menu">
+                            <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#blog-filter-menu">
+                                 <i class="icon-book"></i>
+                                </a>
+                            </span>
+                            <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                <li><li><f:link.action action="index" ><i class="icon-book"></i> All</f:link.action></li>
+                                <f:for each="{blogFilterMenu}" as="blog" key="blogName">
+                                    <li><f:link.action action="index" arguments="{blogNode: blog}"><i class="icon-book"></i> {blogName}</f:link.action></li>
+                                </f:for>
+                            </ul>
+                        </div>
+                        <f:if condition="{workspaceFilterMenu}">
+                            <div class="neos-dropdown" id="workspace-filter-menu">
+                            <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#workspace-filter-menu">
+                                 <i class="icon-th-large"></i>
+                                </a>
+                            </span>
+                            <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                <li><f:link.action action="index" ><i class="icon-th-large"></i> All</f:link.action></li>
+                                <f:for each="{workspaceFilterMenu}" as="workspace" key="workspaceName">
+                                    <li><f:link.action action="index" arguments="{workspaceObject: workspace, dimension: activeDimension}"><i class="icon-th-large"></i> {workspaceName}</f:link.action></li>
+                                </f:for>
+                            </ul>
+                        </div>
+                        </f:if>
+                        <f:if condition="{authorFilterMenu.0} > '1'">
+                            <div class="neos-dropdown" id="author-filter-menu">
+                            <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#author-filter-menu">
+                                 <i class="icon-user"></i>
+                                </a>
+                            </span>
+                            <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                <li><f:link.action action="index" ><i class="icon-user"></i> All</f:link.action></li>
+                                <f:for each="{authorFilterMenu}" as="authorName">
+                                    <li><f:link.action action="index" arguments="{authorName: authorName, dimension: activeDimension}"><i class="icon-user"></i> {authorName}</f:link.action></li>
+                                </f:for>
+                            </ul>
+                        </div>
+                        </f:if>
+                        <f:if condition="{categoryFilterMenu}">
+                            <div class="neos-dropdown" id="category-filter-menu">
+                            <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#category-filter-menu">
+                                 <i class="icon-bookmark"></i>
+                                </a>
+                            </span>
+                                <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                    <li><f:link.action action="index" ><i class="icon-bookmark"></i> All</f:link.action></li>
+                                    <f:for each="{categoryFilterMenu}" as="category" key="categoryName">
+                                        <li><f:link.action action="index" arguments="{categoryObject: category, dimension: activeDimension}"><i class="icon-bookmark"></i> {categoryName}</f:link.action></li>
+                                    </f:for>
+                                </ul>
+                            </div>
+                        </f:if>
+                        <div class="neos-dropdown" id="neos-sort-menu">
+                            <span title="" data-neos-toggle="tooltip" data-original-title="Sort options">
+                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#neos-sort-menu">
+
+                                <i class="icon-sort-by-order"></i>
+
+                                </a>
+                            </span>
+                            <div class="neos-dropdown-menu-list neos-pull-right" role="menu">
+                                <span class="neos-dropdown-menu-list-title" title="">Sort by</span>
+                                <ul>
+                                    <li>
+                                        <a class="neos-active" title="Sort by last modified" href="http://dev.neos/neos/management/media/?moduleArguments%5BsortBy%5D=Modified"><i class="icon-sort-by-order"></i> Last modified</a>
+                                    </li>
+                                    <li>
+                                        <a title="Sort by title" href="http://dev.neos/neos/management/media/?moduleArguments%5BsortBy%5D=Name"><i class="icon-sort-by-alphabet"></i> Title</a>
+                                    </li>
+                                </ul>
+                                <span class="neos-dropdown-menu-list-title">Sort direction</span>
+                                <ul>
+                                    <li>
+                                        <a class="neos-active" title="Sort direction Ascending" href="http://dev.neos/neos/management/media/?moduleArguments%5BsortDirection%5D=ASC"><i class="icon-sort-by-order"></i> Ascending</a>
+                                    </li>
+                                    <li>
+                                        <a title="Sort direction Descending" href="http://dev.neos/neos/management/media/?moduleArguments%5BsortDirection%5D=DESC"><i class="icon-sort-by-order-alt"></i> Descending</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <f:form action="index" class="neos-search">
+                            <f:form.button ><i class="icon-search"></i></f:form.button>
+                            <div class="post-search-input">
+                                <f:form.textfield type="search" name="searchTerm" placeholder="Search" value="" autofocus="autofocus" />
+                            </div>
+                        </f:form>
+                    </div>
+                </div>
+                <div class="neos-content neos-container-fluid">
+                    <div class="neos-module-container">
+                        <div class="neos-row-fluid">
+                            <table class="neos-table">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Blog</th>
+                                    <th>Category</th>
+                                    <th>Workspace</th>
+                                    <th>Author</th>
+                                    <th>Published</th>
+                                    <th>Modified</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:if condition="{posts}">
+                                    <f:then>
+                                        </tr>
+                                        <tr id="create" class="deactivated">
+                                            <f:form name="create" action="create" enctype="multipart/form-data">
+                                                <td class="neos-action title"><f:form.textfield name="title" value="" placeholder="Give your Post a title" /></td>
+                                                <td class="neos-action blog">
+                                                    <div class="neos-dropdown" id="create-post-menu">
+                                                        <span title="" data-neos-toggle="tooltip" data-original-title="Select Blog">
+                                                            <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#create-post-menu">
+                                                                Select Blog
+                                                            </a>
+                                                        </span>
+                                                        <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                                            <f:for each="{blogs}" as="blog">
+                                                                <li class="blog-filter-item"><a href="#"><i class="icon-book"></i> {blog.properties.title}<f:form.hidden value="{blog.identifier}" name="blogIdentifier" /></a></li>
+                                                            </f:for>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td class="disabled">Set Categories in edit mode</td>
+                                                <td class="disabled">{personalWorkspace}</td>
+                                                <td class="disabled">You</td>
+                                                <td class="disabled">Now</td>
+                                                <td class="disabled"> - </td>
+                                                <td class="neos-action submit">
+                                                    <f:form.button class="neos-disabled">Create New Post</f:form.button>
+                                                </td>
+                                            </f:form>
+                                        </tr>
+                                        <typo3cr:widget.paginate nodes="{posts}" as="paginatedPosts" configuration="{itemsPerPage: 10}">
+                                            <f:for each="{paginatedPosts}" as="post" iteration="iterator">
+                                                <tr>
+                                                    <td class="neos-action"><f:form action="index"><f:form.textfield name="title" value="{post.properties.title}" /></f:form></td>
+                                                    <td>{post.parent.properties.title}</td>
+                                                    <td>{post.properties.categories.name}</td>
+                                                    <td>{post.workspace.name}</td>
+                                                    <td>{post.properties.author}</td>
+                                                    <td>{post.properties.publishedAt -> f:format.date(format:'d-m-Y')}</td>
+                                                    <td>{post.lastModificationDateTime -> f:format.date(format:'d-m-Y')}</td>
+                                                    <td class="neos-action">
+                                                        <div class="neos-pull-right">
+                                                            <neos:link.node node="{post}" class="neos-button neos-button-primary"><i class="icon-pencil icon-white"></i></neos:link.node>
+                                                            <f:link.action action="show" class="neos-button neos-button-primary" arguments="{post: post}"><i class="icon-info-sign icon-white"></i></f:link.action>
+                                                            <button class="neos-button neos-button-danger" title="" data-toggle="modal" href="#post-{post.identifier}">
+                                                                <i class="icon-trash icon-white"></i>
+                                                            </button>
+                                                            <div class="neos-hide" id="post-{post.identifier}">
+                                                                <div class="neos-modal">
+                                                                    <div class="neos-modal-header">
+                                                                        <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                                                                        <div class="neos-header">Are you sure you want to delete this Post</div>
+                                                                        <div>
+                                                                            <div class="neos-subheader">
+                                                                                <p>This will delete the Post. All content will be gone.</p>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="neos-modal-footer">
+                                                                        <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                                                                        <f:form action="delete" arguments="{postNode: post}" class="neos-inline">
+                                                                            <f:form.button type="submit" class="neos-button neos-button-danger" title="Yes delete the Post">
+                                                                                Yes delete the Post.
+                                                                            </f:form.button>
+                                                                        </f:form>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="neos-modal-backdrop neos-in"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </f:for>
+                                        </typo3cr:widget.paginate>
+                                    </f:then>
+                                        <f:else>
+                                            <tr id="create" class="">
+                                                <f:form name="create" action="create" enctype="multipart/form-data">
+                                                    <td class="neos-action title"><f:form.textfield name="title" value="" placeholder="Give your Post a title" /></td>
+                                                    <td class="neos-action blog">
+                                                        <div class="neos-dropdown" id="create-post-menu">
+                                                            <span title="" data-neos-toggle="tooltip" data-original-title="Select Blog">
+                                                                <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#create-post-menu">
+                                                                    Select Blog
+                                                                </a>
+                                                            </span>
+                                                            <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+                                                                <f:for each="{blogs}" as="blog">
+                                                                    <li class="blog-filter-item"><a href="#"><i class="icon-book"></i> {blog.properties.title}<f:form.hidden value="{blog.identifier}" name="blogIdentifier" /></a></li>
+                                                                </f:for>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td class="disabled">Set Categories in edit mode</td>
+                                                    <td class="disabled">{personalWorkspace}</td>
+                                                    <td class="disabled">You</td>
+                                                    <td class="disabled">Now</td>
+                                                    <td class="disabled"> - </td>
+                                                    <td class="neos-action submit">
+                                                        <f:form.button class="neos-disabled">Create First Post</f:form.button>
+                                                    </td>
+                                                </f:form>
+                                            </tr>
+                                        </f:else>
+                                    </f:if>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="neos-help-block">
+                    Sorry, no Blogs were found.
+                </div>
+            </f:else>
+        </f:if>
+    </div>
+</f:section>
+
+
+

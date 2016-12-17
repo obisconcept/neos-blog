@@ -1,4 +1,0 @@
-prototype(ObisConcept.NeosBlog:CategoryList) < prototype(TYPO3.Neos:Content) {
-  @override.blogFolderNode = ${q(node).property('blogFolderNode')}
-  categoryCollection = ${q(blogFolderNode).is('[instanceof ObisConcept.NeosBlog:Folder]') ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Category]').get() : NULL}
-}

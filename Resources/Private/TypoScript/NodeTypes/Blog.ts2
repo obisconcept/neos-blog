@@ -1,0 +1,34 @@
+prototype(ObisConcept.NeosBlog:Blog) < prototype(TYPO3.Neos:Document)
+
+prototype(ObisConcept.NeosBlog:Post) < prototype(TYPO3.Neos:Document) {
+    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/Post.html'
+    
+    _hiddenInIndex = TRUE
+    
+    content = TYPO3.Neos:ContentCollection {
+    nodePath = 'content'
+    }
+}
+
+prototype(ObisConcept.NeosBlog:PostList) < prototype(TYPO3.Neos:Content) {
+    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/NodeTypes/PostList.html'
+
+    @override.blogFolderNode = ${q(node).property('blogFolderNode')}
+    postCollection = ${q(blogFolderNode).is('[instanceof ObisConcept.NeosBlog:Blog]') ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Post]').get() : NULL}
+
+    @override.categoryList = ${q(node).property('categories') != NULL ? Array.join(q(node).categoryListByProperty('categories')) : ''}
+    postCollection.@process.filterPostsByCategories = ${categoryList != NULL && categoryList != '' ? q(value).filter('[categories *= \'' + categoryList + '\']').get() : value}
+
+    postItem = ObisConcept.NeosBlog:Post {
+    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/ProtoTypes/PostItem.html'
+    }
+
+    @cache {
+        mode = 'uncached'
+            context {
+            1 = 'node'
+            2 = 'documentNode'
+            3 = 'site'
+                }
+        }
+}

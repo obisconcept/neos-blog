@@ -1,0 +1,146 @@
+#blog-module {
+  .neos-media-options {
+    border-bottom: none;
+
+    .neos-view-options {
+
+      .neos-dropdown {
+        top: 5px;
+        border-color: #222222;
+        background: #3f3f3f;
+
+        &#neos-sort-menu {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+
+  .neos-search {
+    display: inline-block;
+
+    .post-search-input {
+      float: left;
+      border-right: 1px solid #141414;
+    }
+  }
+
+  .neos-table {
+    tbody {
+      tr#create {
+        border-bottom: 10px solid #222;
+
+        &.deactivated {
+          display: none;
+        }
+
+        &.activated {
+          display: block;
+        }
+
+        td {
+          border-left: 1px solid #222;
+
+          &:last-of-type {
+            border-left: none;
+          }
+
+          &.neos-action {
+            .neos-dropdown {
+              padding: 0 16px;
+            }
+          }
+
+          &.disabled {
+            color: rgba(255, 255, 255, 0.70);
+
+            &:hover {
+              cursor: not-allowed;
+            }
+          }
+
+          &.submit {
+            button {
+              background: #00a338;
+              float: right;
+              height: 40px;
+              padding: 0 16px;
+            }
+          }
+
+          input {
+            width: 100%;
+            background: transparent;
+
+            &:active, &:focus {
+              background: white;
+            }
+          }
+
+
+          ::-webkit-input-placeholder {
+            color: white;
+          }
+
+          :-moz-placeholder { /* Firefox 18- */
+            color: white;
+          }
+
+          ::-moz-placeholder {  /* Firefox 19+ */
+            color: white;
+          }
+
+          :-ms-input-placeholder {
+            color: white;
+          }
+        }
+      }
+    }
+
+    tbody {
+      td {
+        border-right: 1px solid #222;
+
+        &:last-child {
+          border-right: none;
+          background: transparent;
+
+          &.neos-action {
+            a {
+              margin-right: -3px;
+
+              &:first-child {
+                margin-right: -2px;
+              }
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .neos-action {
+    input {
+      background-color: #323232;
+      border: none;
+      width:100%;
+
+      &:active, &:focus {
+
+        background: white;
+      }
+    }
+  }
+}
+
+#post-detail {
+  @import 'post-detail.scss';
+}
+
+#category {
+  @import 'category-index.scss';
+}

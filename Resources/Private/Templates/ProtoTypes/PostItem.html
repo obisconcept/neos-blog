@@ -1,0 +1,7 @@
+{namespace neos=TYPO3\Neos\ViewHelpers}
+
+<div class="blog-item">
+    <h3><neos:link.node node="{node}">{title}</neos:link.node></h3>
+    <p>{shortText}</p>
+    <neos:link.node node="{node}" class="blog-link-more"><f:translate id="label.readMore" package="ObisConcept.NeosBlog" source="Main"></f:translate></neos:link.node>
+</div>
