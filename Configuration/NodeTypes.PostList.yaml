@@ -22,7 +22,7 @@
         inspector:
           group: 'properties'
           editorOptions:
-            nodeTypes: ['ObisConcept.NeosBlog:Folder']
+            nodeTypes: ['ObisConcept.NeosBlog:Blog']
     categories:
       type: references
       ui:

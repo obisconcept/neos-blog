@@ -3,17 +3,17 @@
 	<file original="" product-name="ObisConcept.NeosBlog" source-language="en" datatype="plaintext">
 		<body>
 			<trans-unit id="ui.label" xml:space="preserve">
-				<source>Post list</source>
+				<source>Post List</source>
 			</trans-unit>
 			<trans-unit id="groups.properties" xml:space="preserve">
-        <source>Properties</source>
-      </trans-unit>
+				<source>Properties</source>
+			</trans-unit>
 			<trans-unit id="properties.blogFolderNode" xml:space="preserve">
-        <source>Blog folder</source>
-      </trans-unit>
+				<source>Blog</source>
+			</trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
-        <source>Categories</source>
-      </trans-unit>
+				<source>Categories</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -5,7 +5,6 @@ TYPO3:
         blog:
           position: 'end'
           label: 'Blog'
-
     typoScript:
       autoInclude:
         'ObisConcept.NeosBlog': TRUE
@@ -14,3 +13,59 @@ TYPO3:
       translation:
         autoInclude:
           'ObisConcept.NeosBlog': ['Main', 'NodeTypes/*']
+      navigateComponent:
+        nodeTree:
+          presets:
+            default:
+              baseNodeType: 'TYPO3.Neos:Document, !ObisConcept.NeosBlog:Post'
+      inspector:
+        dataTypes:
+          'ObisConcept\NeosBlog\Domain\Model\Category':
+            typeConverter: 'TYPO3\Neos\TypeConverter\EntityToIdentityConverter'
+            editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+            editorOptions:
+              dataSourceIdentifier: 'post-categories'
+
+          'ObisConcept\NeosBlog\Domain\Model\Tag':
+            typeConverter: 'TYPO3\Neos\TypeConverter\EntityToIdentityConverter'
+            editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+            editorOptions:
+              dataSourceIdentifier: 'post-tags'
+
+    modules:
+      'NeosBlog':
+        label: 'Blog Management'
+        description: 'Contains a professional Blog Management for Enterprise use'
+        icon: 'icon-book'
+        controller: '\TYPO3\Neos\Controller\Module\ManagementController'
+        submodules:
+          'posts':
+            label: 'Posts'
+            icon: 'icon-file-text'
+            controller: 'ObisConcept\NeosBlog\Controller\BlogController'
+            description: 'Managing Posts'
+            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions'
+            actions:
+              index:
+                label: 'Post List'
+                title: 'Shows a list of Posts'
+          'categories':
+            label: 'Categories'
+            icon: 'icon-bookmark'
+            controller: 'ObisConcept\NeosBlog\Controller\CategoryController'
+            description: 'Managing Categories'
+            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Categories'
+            actions:
+              index:
+                label: 'Category List'
+                title: 'Shows a list of all Categories'
+          'tags':
+            label: 'Tags'
+            icon: 'icon-tag'
+            controller: 'ObisConcept\NeosBlog\Controller\TagController'
+            description: 'Managing Tags'
+            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.tags'
+            actions:
+              index:
+                label: 'Tag List'
+                title: 'Shows a list of all Tags'

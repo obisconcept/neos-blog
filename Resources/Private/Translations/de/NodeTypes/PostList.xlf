@@ -3,21 +3,21 @@
 	<file original="" product-name="ObisConcept.NeosBlog" source-language="en" datatype="plaintext" target-language="de">
 		<body>
 			<trans-unit id="ui.label" xml:space="preserve">
-				<source>Post list</source>
-				<target xml:lang="de" state="translated">Beitragsliste</target>
+				<source>Post List</source>
+				<target xml:lang="de" state="translated">Beitragsübersicht</target>
 			</trans-unit>
 			<trans-unit id="groups.properties" xml:space="preserve">
-        <source>Properties</source>
-				<target xml:lang="de" state="translated">Eigenschaften</target>
-      </trans-unit>
+				<source>Properties</source>
+				<target xml:lang="de" state="translated">Einstellungen</target>
+			</trans-unit>
 			<trans-unit id="properties.blogFolderNode" xml:space="preserve">
-        <source>Blog folder</source>
-				<target xml:lang="de" state="translated">Blog-Ordner</target>
-      </trans-unit>
+				<source>Blog</source>
+				<target xml:lang="de" state="translated">Blog</target>
+			</trans-unit>
 			<trans-unit id="properties.categories" xml:space="preserve">
-        <source>Categories</source>
-				<target xml:lang="de" state="translated">Kategorien am</target>
-      </trans-unit>
+				<source>Categories</source>
+				<target xml:lang="de" state="translated">Kategorien</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

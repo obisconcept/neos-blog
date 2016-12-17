@@ -1,9 +1,48 @@
 privilegeTargets:
-  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+    'ObisConcept.NeosBlog:AdminActions':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->.*Action())'
+    'ObisConcept.NeosBlog:AdminActions.Categories':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->.*Action())'
+    'ObisConcept.NeosBlog:EditorActions':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->.*Action())'
+    'ObisConcept.NeosBlog:EditorActions.Categories':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->.*Action())'
+    'ObisConcept.NeosBlog:RestrictedEditorActions':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->(index|initialize|create)Action())'
+    'ObisConcept.NeosBlog:RestrictedEditorActions.Categories':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->(index|initialize)Action())'
     'ObisConcept.NeosBlog:PaginateController.indexAction':
       matcher: 'method(ObisConcept\NeosBlog\ViewHelpers\Widget\Controller\PaginateController->indexAction())'
 
 roles:
+  'TYPO3.Neos:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:AdminActions'
+        permission: GRANT
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:AdminActions.Categories'
+        permission: GRANT
+
+  'TYPO3.Neos:Editor':
+    privileges:
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:EditorActions'
+        permission: GRANT
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Categories'
+        permission: GRANT
+
+  'TYPO3.Neos:RestrictedEditor':
+    privileges:
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions'
+        permission: GRANT
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions.Categories'
+        permission: GRANT
+
   'TYPO3.Flow:Everybody':
     privileges:
       -

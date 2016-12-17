@@ -3,4 +3,3 @@
     nodeTypes:
       '*': TRUE
       'ObisConcept.NeosBlog:Post': FALSE
-      'ObisConcept.NeosBlog:Category': FALSE
