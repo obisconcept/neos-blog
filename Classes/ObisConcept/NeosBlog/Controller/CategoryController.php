@@ -3,7 +3,7 @@
 namespace ObisConcept\NeosBlog\Controller;
 
 /*
- * This file is part of the ObisConcept.NeosBlogPro package.
+ * This file is part of the ObisConcept.NeosBlog package.
  *
  * (c) Dennis Schröder
  *
@@ -24,7 +24,7 @@ use TYPO3\TYPO3CR\Domain\Repository\WorkspaceRepository;
 
 /**
  * Class CategoryController
- * @package ObisConcept\NeosBlogPro\Controller
+ * @package ObisConcept\NeosBlog\Controller
  * @Flow\Scope("singleton")
  */
 
@@ -121,7 +121,7 @@ class CategoryController extends ManagementController {
         $categoryID = $this->categoryRepository->getCategoryIdentifier($category);
 
         $objectTypeMap = array(
-            'ObisConcept\NeosBlogPro\Domain\Model\Category' => array($categoryID)
+            'ObisConcept\NeosBlog\Domain\Model\Category' => array($categoryID)
         );
 
         $posts = $this->nodeDataRepository->findNodesByRelatedEntities($objectTypeMap);
@@ -129,7 +129,7 @@ class CategoryController extends ManagementController {
         if (empty($posts)) {
             $this->categoryRepository->remove($category);
         } else {
-
+            
         }
 
         $this->redirect('index');
