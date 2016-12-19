@@ -1,0 +1,31 @@
+<div class="neos-dropdown" id="dimensions-menu">
+
+  <span title="" data-neos-toggle="tooltip" data-original-title="Dimension Menu">
+
+    <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#dimensions-menu">
+
+      <i class="icon-language"></i> {defaultLanguage}
+
+    </a>
+
+  </span>
+
+    <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+
+      <f:for each="{dimensions}" key="languageName" as="dimension">
+
+        <li>
+
+          <f:link.action action="index" arguments="{dimension: dimension, dimensionLabel: languageName}">
+
+            <i class="icon-language"></i>
+
+            {languageName}
+
+          </f:link.action></li>
+
+      </f:for>
+
+    </ul>
+
+</div>

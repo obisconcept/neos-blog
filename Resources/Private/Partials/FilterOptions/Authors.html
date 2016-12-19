@@ -1,0 +1,35 @@
+<div class="neos-dropdown" id="author-filter-menu">
+
+  <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+
+    <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#author-filter-menu">
+
+      <i class="icon-user"></i>
+
+    </a>
+
+  </span>
+
+  <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+
+    <li><f:link.action action="index" ><i class="icon-user"></i> All</f:link.action></li>
+
+    <f:for each="{authorFilterMenu}" as="authorName">
+
+      <li>
+
+        <f:link.action action="index" arguments="{authorName: authorName, dimension: activeDimension}">
+
+          <i class="icon-user"></i>
+
+          {authorName}
+
+        </f:link.action>
+
+      </li>
+
+    </f:for>
+
+  </ul>
+
+</div>

@@ -1,0 +1,61 @@
+<tr id="create" class="deactivated">
+
+  <f:form name="create" action="create" enctype="multipart/form-data">
+
+    <td class="neos-action title"><f:form.textfield name="title" value="" placeholder="Give your Post a title" /></td>
+
+    <td class="neos-action blog">
+
+      <div class="neos-dropdown" id="create-post-menu">
+
+        <span title="" data-neos-toggle="tooltip" data-original-title="Select Blog">
+
+          <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#create-post-menu">
+
+              Select Blog
+
+          </a>
+
+        </span>
+
+        <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+
+          <f:for each="{blogs}" as="blog">
+
+            <li class="blog-filter-item">
+
+              <a href="#"><i class="icon-book"></i>
+
+                {blog.properties.title}<f:form.hidden value="{blog.identifier}" name="blogIdentifier" />
+
+              </a>
+
+            </li>
+
+          </f:for>
+
+        </ul>
+
+      </div>
+
+    </td>
+
+    <td class="disabled">Set Categories in edit mode</td>
+
+    <td class="disabled">{personalWorkspace}</td>
+
+    <td class="disabled">You</td>
+
+    <td class="disabled">Now</td>
+
+    <td class="disabled"> - </td>
+
+    <td class="neos-action submit">
+
+      <f:form.button class="neos-disabled">Create New Post</f:form.button>
+
+    </td>
+
+  </f:form>
+
+</tr>

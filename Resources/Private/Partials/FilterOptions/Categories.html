@@ -1,0 +1,30 @@
+<div class="neos-dropdown" id="category-filter-menu">
+
+  <span title="" data-neos-toggle="tooltip" data-original-title="Filter options">
+
+    <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#category-filter-menu">
+
+      <i class="icon-bookmark"></i>
+
+    </a>
+
+  </span>
+
+  <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+
+    <li><f:link.action action="index" ><i class="icon-bookmark"></i> All</f:link.action></li>
+
+    <f:for each="{categoryFilterMenu}" as="category" key="categoryName">
+
+      <li>
+        <f:link.action action="index" arguments="{categoryObject: category, dimension: activeDimension}">
+          <i class="icon-bookmark"></i>
+          {categoryName}
+        </f:link.action>
+      </li>
+
+    </f:for>
+
+  </ul>
+
+</div>

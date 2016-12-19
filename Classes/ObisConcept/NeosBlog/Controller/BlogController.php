@@ -65,120 +65,136 @@ class BlogController extends ManagementController {
      */
     protected $nodeTypeManager;
 
-    /**
+  /**
+   * Shows a list of post nodes which are accessible by the current user
+   * based on the personal workspaces and the default dimension
+   *
+   * @param NodeInterface $blogNode
+   * @param Workspace $workspaceObject
+   * @param array $authorName
+   * @param Category $categoryObject
+   * @param array $dimension
+   * @param array $dimensionLabel
+
+   * ToDo: Get the all types of filtered and sorted Posts directly from the database for performance reasons
+   */
+
+
+  public function indexAction(NodeInterface $blogNode = null, Workspace $workspaceObject = null, array $authorName = null, Category $categoryObject = null, $dimension = array(), $dimensionLabel = array()) {
+
+
+    if (!$workspaceObject == null) {
+      $personalPosts = $this->postService->getPostsFilteredByWorkspace($workspaceObject, $dimension);
+    } elseif (!$authorName == null) {
+      $personalPosts = $this->postService->getPersonalPosts($authorName[0], $dimension);
+    } elseif (!$categoryObject == null) {
+      $personalPosts = $this->postService->getPostsWithCategoryRelation($categoryObject, $dimension);
+    } elseif (!$blogNode == null) {
+      $personalPosts = $blogNode->getChildNodes('ObisConcept.NeosBlog:Post');
+    } else {
+      $personalPosts = $this->postService->getPersonalPosts(' ',$dimension);
+    }
+
+    $sortedPosts = array();
+
+    /** @var NodeInterface $post */
+    foreach($personalPosts as $post) {
+      $sortedPosts[$post->getProperty('publishedAt')->format('d.m.Y H:i:s')] = $post;
+    }
+
+    if ($sortedPosts !== null) {
+      usort($sortedPosts, function($postA, $postB) {
+        return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
+      });
+    }
+
+    usort($sortedPosts, function($postA, $postB) {
+      return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
+    });
+
+    /** @var NodeInterface $a */
+    $nodes = $sortedPosts;
+
+    $workspacesInArray = array();
+    $authorsInArray = array();
+    $blogsInArray = array();
+    $categoryInArray = array();
+
+    /** @var NodeInterface $post */
+    foreach ($personalPosts as $post) {
+      $workspacesInArray[$post->getWorkspace()->getName()] = $post->getWorkspace();
+      $authorsInArray[] = $post->getProperty('author');
+
+      $blogName = ($post->getParent() !== null ? $post->getParent()->getProperty('title'): null);
+      $blogNode = ($post->getParent() !== null ? $post->getParent() : null);
+      if (!$blogName == null) $blogsInArray[$blogName] = $blogNode;
+
+      $categoryName = ($post->getProperty('categories') !== null ? $post->getProperty('categories')->getName(): null);
+      $category = ($post->getProperty('categories') !== null ? $post->getProperty('categories'): null);
+      if (!$categoryName == null) $categoryInArray[$categoryName] = $category;
+    }
+
+    $workspaceFilterMenu = $workspacesInArray;
+    $authorFilterMenu = array_unique($authorsInArray);
+    $categoryFilterMenu = $categoryInArray;
+    $blogFilterMenu = $blogsInArray;
+
+    $this->view->assign('blogFilterMenu', $blogFilterMenu);
+    $this->view->assign('workspaceFilterMenu', $workspaceFilterMenu);
+    $this->view->assign('authorFilterMenu', $authorFilterMenu);
+    $this->view->assign('categoryFilterMenu', $categoryFilterMenu);
+
+
+    $blogNodes = $this->blogService->getPersonalBlogs();
+    $this->view->assign('blogs', $blogNodes);
+
+    $userWorkspace = $this->_userService->getPersonalWorkspaceName();
+    $this->view->assign('personalWorkspace', $userWorkspace);
+
+    if (!$nodes == null){
+      $this->view->assign('posts', $nodes);
+    }
+
+
+    $languageDimensions = $this->postService->getLanguageDimensions();
+    $defaultLanguage = $this->postService->getDefaultLanguage();
+
+    if(empty($dimension) == false) {
+
+      $this->view->assign('activeDimension', $dimension);
+      unset($languageDimensions[$dimensionLabel[0]]);
+
+    } else {
+
+      unset($languageDimensions[$defaultLanguage]);
+      $this->view->assign('defaultLanguage', $defaultLanguage);
+
+    }
+
+    $this->view->assign('dimensions', $languageDimensions);
+
+    $postCount = count($nodes);
+    $this->view->assign('postCount', $postCount);
+  }
+
+  /**
      * @Flow\Inject
      * @var ContentContextFactory
      */
     protected $contentContextFactory;
 
-    /**
+  /**
      * @Flow\Inject
      * @var UserService
      */
     protected $userService;
 
-    /**
+
+  /**
      * @Flow\Inject
      * @var ContentDimensionRepository
      */
     protected $contentDimensionsRepository;
-
-
-    /**
-     * Shows a list of post nodes which are accessible by the current user
-     * based on the personal workspaces and the default dimension
-     *
-     * @param NodeInterface $blogNode
-     * @param Workspace $workspaceObject
-     * @param array $authorName
-     * @param Category $categoryObject
-     * @param array $dimension
-     *
-     * ToDo: Get the all types of filtered and sorted Posts directly from the database for performance reasons
-     */
-
-
-    public function indexAction(NodeInterface $blogNode = null, Workspace $workspaceObject = null, array $authorName = null, Category $categoryObject = null, $dimension = array()) {
-
-        $this->view->assign('activeDimension', $dimension);
-
-        if (!$workspaceObject == null) {
-            $personalPosts = $this->postService->getPostsFilteredByWorkspace($workspaceObject, $dimension);
-        } elseif (!$authorName == null) {
-            $personalPosts = $this->postService->getPersonalPosts($authorName[0], $dimension);
-        } elseif (!$categoryObject == null) {
-            $personalPosts = $this->postService->getPostsWithCategoryRelation($categoryObject, $dimension);
-        } elseif (!$blogNode == null) {
-            $personalPosts = $blogNode->getChildNodes('ObisConcept.NeosBlog:Post');
-        } else {
-            $personalPosts = $this->postService->getPersonalPosts(' ',$dimension);
-        }
-
-        $sortedPosts = array();
-
-        /** @var NodeInterface $post */
-        foreach($personalPosts as $post) {
-            $sortedPosts[$post->getProperty('publishedAt')->format('d.m.Y H:i:s')] = $post;
-        }
-
-        if ($sortedPosts !== null) {
-            usort($sortedPosts, function($postA, $postB) {
-                return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
-            });
-        }
-
-        usort($sortedPosts, function($postA, $postB) {
-            return ($postA->getProperty('publishedAt') > $postB->getProperty('publishedAt')) ? -1 : 1;
-        });
-
-        /** @var NodeInterface $a */
-        $nodes = $sortedPosts;
-
-        $workspacesInArray = array();
-        $authorsInArray = array();
-        $blogsInArray = array();
-        $categoryInArray = array();
-
-        /** @var NodeInterface $post */
-        foreach ($personalPosts as $post) {
-            $workspacesInArray[$post->getWorkspace()->getName()] = $post->getWorkspace();
-            $authorsInArray[] = $post->getProperty('author');
-
-            $blogName = ($post->getParent() !== null ? $post->getParent()->getProperty('title'): null);
-            $blogNode = ($post->getParent() !== null ? $post->getParent() : null);
-            if (!$blogName == null) $blogsInArray[$blogName] = $blogNode;
-
-            $categoryName = ($post->getProperty('categories') !== null ? $post->getProperty('categories')->getName(): null);
-            $category = ($post->getProperty('categories') !== null ? $post->getProperty('categories'): null);
-            if (!$categoryName == null) $categoryInArray[$categoryName] = $category;
-        }
-
-        $workspaceFilterMenu = $workspacesInArray;
-        $authorFilterMenu = array_unique($authorsInArray);
-        $categoryFilterMenu = $categoryInArray;
-        $blogFilterMenu = $blogsInArray;
-
-        $this->view->assign('blogFilterMenu', $blogFilterMenu);
-        $this->view->assign('workspaceFilterMenu', $workspaceFilterMenu);
-        $this->view->assign('authorFilterMenu', $authorFilterMenu);
-        $this->view->assign('categoryFilterMenu', $categoryFilterMenu);
-
-
-        $blogNodes = $this->blogService->getPersonalBlogs();
-        $this->view->assign('blogs', $blogNodes);
-
-        $userWorkspace = $this->_userService->getPersonalWorkspaceName();
-        $this->view->assign('personalWorkspace', $userWorkspace);
-
-        if (!$nodes == null){
-            $this->view->assign('posts', $nodes);
-        }
-        $languageDimensions = $this->postService->getLanguageDimensions();
-        $this->view->assign('dimensions', $languageDimensions);
-
-        $postCount = count($nodes);
-        $this->view->assign('postCount', $postCount);
-    }
 
     /**
      * Shows the details of one post node
@@ -244,10 +260,8 @@ class BlogController extends ManagementController {
         if ($this->request->getHttpRequest()->isMethodSafe() === false) {
             $this->persistenceManager->persistAll();
         }
-
         
         $this->redirect('index');
-
 
     }
 
@@ -279,25 +293,4 @@ class BlogController extends ManagementController {
 
         return $blogNode;
     }
-
-    /**
-     * @param array $unfilteredPosts
-     * @param string $workspaceName
-     * @return array|bool
-     */
-    protected function filterPostsBySelectedWorkspace(array $unfilteredPosts, string $workspaceName) {
-
-        $filteredPosts = array();
-        /** @var NodeInterface $post */
-        foreach ($unfilteredPosts as $post) {
-
-            if ($post->getWorkspace()->getName() == $workspaceName) {
-                $filteredPosts[] = $post;
-            }
-
-        }
-
-        return $filteredPosts;
-    }
-
 }

@@ -278,24 +278,53 @@ class PostService {
         return $personalPosts;
     }
 
+  /**
+   * Get the default Language preset label from the settings.yaml
+   * @return array
+   */
+    public function getDefaultLanguage() {
+        $languageSettings = $this->getLanguageDimensionsSettings();
+
+        $defaultLanguage = $languageSettings['defaultPreset'];
+
+        $defaultLanguage = $languageSettings['presets'][$defaultLanguage]['label'];
+
+        return $defaultLanguage;
+    }
+
     /**
-     * @return ConfigurationManager
+     * Get the language Dimensions from settings.yaml ordered by default language first
+     * @return array
      */
     public function getLanguageDimensions() {
+        // Get the settings from the settings.yaml
         $languageSettings = $this->getLanguageDimensionsSettings();
 
         $languageDimensions = array();
         $presets = $languageSettings['presets'];
-        
+
+        //Get the default language preset name from the setings.yaml
+        $defaultLanguage = $languageSettings['defaultPreset'];
+
+        //Put the default language in the array at first
+        $languageDimensions[$presets[$defaultLanguage]['label']] = array(
+            'language' => array(
+                0 => $defaultLanguage
+            )
+        );
+
+        unset($presets[$defaultLanguage]);
+
+        //Put the other language dimensions into the array
         foreach ($presets as $key => $preset) {
-            
+
             $languageDimensions[$preset['label']] = array(
                 'language' => array(
                     0 => $key
                 )
             );
         }
-        
+
         return $languageDimensions;
     }
 

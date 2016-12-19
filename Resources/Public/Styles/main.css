@@ -1,3 +1,8 @@
+#dimension-menu {
+  position: absolute;
+  top: 100px;
+  right: 54px; }
+
 #blog-module .neos-media-options {
   border-bottom: none; }
   #blog-module .neos-media-options .neos-view-options .neos-dropdown {

@@ -1,0 +1,88 @@
+{namespace neos=TYPO3\Neos\ViewHelpers}
+<tr>
+
+  <td class="neos-action"><f:form action="index"><f:form.textfield name="title" value="{post.properties.title}" /></f:form></td>
+
+  <td>{post.parent.properties.title}</td>
+
+  <td>{post.properties.categories.name}</td>
+
+  <td>{post.workspace.name}</td>
+
+  <td>{post.properties.author}</td>
+
+  <td>{post.properties.publishedAt -> f:format.date(format:'d-m-Y')}</td>
+
+  <td>{post.lastModificationDateTime -> f:format.date(format:'d-m-Y')}</td>
+
+  <td class="neos-action">
+
+    <div class="neos-pull-right">
+
+      <neos:link.node node="{post}" class="neos-button neos-button-primary">
+
+        <i class="icon-pencil icon-white"></i>
+
+      </neos:link.node>
+
+      <f:link.action action="show" class="neos-button neos-button-primary" arguments="{post: post}">
+
+        <i class="icon-info-sign icon-white"></i>
+
+      </f:link.action>
+
+      <button class="neos-button neos-button-danger" title="" data-toggle="modal" href="#post-{post.identifier}">
+
+        <i class="icon-trash icon-white"></i>
+
+      </button>
+
+      <div class="neos-hide" id="post-{post.identifier}">
+
+        <div class="neos-modal">
+
+          <div class="neos-modal-header">
+
+            <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+
+            <div class="neos-header">Are you sure you want to delete this Post</div>
+
+            <div>
+
+              <div class="neos-subheader">
+
+                <p>This will delete the Post. All content will be gone.</p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="neos-modal-footer">
+
+            <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+
+            <f:form action="delete" arguments="{postNode: post}" class="neos-inline">
+
+              <f:form.button type="submit" class="neos-button neos-button-danger" title="Yes delete the Post">
+
+                Yes delete the Post.
+
+              </f:form.button>
+
+            </f:form>
+
+          </div>
+
+        </div>
+
+        <div class="neos-modal-backdrop neos-in"></div>
+
+      </div>
+
+    </div>
+
+  </td>
+
+</tr>

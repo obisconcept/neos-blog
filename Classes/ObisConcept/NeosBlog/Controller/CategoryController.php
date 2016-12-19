@@ -129,7 +129,7 @@ class CategoryController extends ManagementController {
         if (empty($posts)) {
             $this->categoryRepository->remove($category);
         } else {
-            
+            $this->addErrorFlashMessage();
         }
 
         $this->redirect('index');
