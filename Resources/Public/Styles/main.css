@@ -1,7 +1,29 @@
-#dimension-menu {
+#dimensions {
   position: absolute;
-  top: 100px;
-  right: 54px; }
+  top: 70px;
+  right: 54px;
+  background-color: #323232;
+  height: 40px;
+  width: 200px; }
+  #dimensions .neos-dropdown span a {
+    line-height: 40px;
+    padding: 7px 16px;
+    width: 100%; }
+    #dimensions .neos-dropdown span a .icon-caret-down {
+      line-height: 40px;
+      padding: 0 15px; }
+      #dimensions .neos-dropdown span a .icon-caret-down:after {
+        display: block;
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 24px;
+        top: 8px;
+        right: 44px;
+        background-color: #fff;
+        opacity: .15; }
+  #dimensions .neos-dropdown-menu {
+    width: 100%; }
 
 #blog-module .neos-media-options {
   border-bottom: none; }
@@ -91,6 +113,9 @@
   margin-bottom: 10px; }
 
 #post-detail .post-teaser .post-image {
+  margin-bottom: 20px; }
+
+#post-detail .post-teaser #no-text {
   margin-bottom: 20px; }
 
 #post-detail .related-posts {

@@ -1,7 +1,44 @@
-#dimension-menu {
+#dimensions {
   position: absolute;
-  top: 100px;
+  top: 70px;
   right: 54px;
+  background-color: #323232;
+  height: 40px;
+  width: 200px;
+
+
+  .neos-dropdown {
+    span {
+      a {
+        line-height: 40px;
+        padding: 7px 16px;
+        width: 100%;
+
+        .icon-caret-down {
+          line-height: 40px;
+          padding:  0 15px;
+
+          &:after {
+            display: block;
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 24px;
+            top: 8px;
+            right: 44px;
+            background-color: #fff;
+            opacity: .15;
+
+          }
+        }
+      }
+    }
+  }
+
+  .neos-dropdown-menu {
+    width: 100%;
+  }
+
 }
 
 #blog-module {

@@ -12,7 +12,7 @@
 
     <f:if condition="{dimensions -> f:count()} > 0">
 
-        <div id="dimension-menu">
+        <div id="dimensions">
 
             <f:render partial="FilterOptions/Dimensions" arguments="{_all}" />
 
@@ -49,13 +49,13 @@
 
                         </f:if>
 
-                        <f:if condition="{authorFilterMenu -> f:count()} < 1">
+                        <f:if condition="{authorFilterMenu -> f:count()} > 1">
 
                             <f:render partial="FilterOptions/Authors" arguments="{_all}" />
 
                         </f:if>
 
-                        <f:if condition="{categoryFilterMenu -> f:count()} < 1}">
+                        <f:if condition="{categoryFilterMenu -> f:count()} > 1}">
 
                             <f:render partial="FilterOptions/Categories" arguments="{_all}" />
 
@@ -119,13 +119,13 @@
 
                                     </f:then>
 
-                                        <f:else>
+                                    <f:else>
 
-                                            <f:render partial="Forms/Create" arguments="{blogs: blogs, personalWorkspace: personalWorkspace}" />
+                                        <f:render partial="Forms/Create" arguments="{blogs: blogs, personalWorkspace: personalWorkspace, firstPost: true}" />
 
-                                        </f:else>
+                                    </f:else>
 
-                                    </f:if>
+                                </f:if>
 
                                 </tbody>
 

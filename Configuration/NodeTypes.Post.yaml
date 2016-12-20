@@ -41,15 +41,6 @@
         reloadIfChanged: TRUE
         inspector:
           group: 'properties'
-          reloadIfChanged: true
-    tags:
-      type: 'ObisConcept\NeosBlog\Domain\Model\Tag'
-      ui:
-        label: i18n
-        reloadIfChanged: TRUE
-        inspector:
-          group: 'properties'
-          reloadIfChanged: true
     publishedAt:
       type: DateTime
       defaultValue: 'now'
@@ -70,3 +61,11 @@
           group: 'relatedPosts'
           editorOptions:
             nodeTypes: ['ObisConcept.NeosBlog:Post']
+    archived:
+      type: boolean
+      defaultValue: false
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'

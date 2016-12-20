@@ -24,8 +24,11 @@
                 <source>Tags</source>
             </trans-unit>
 			<trans-unit id="properties.publishedAt" xml:space="preserve">
-                <source>Published at</source>
-            </trans-unit>
+          <source>Published at</source>
+          </trans-unit>
+       <trans-unit id="properties.archived" xml:space="preserve">
+				<source>archived</source>
+			</trans-unit>
         </body>
     </file>
 </xliff>

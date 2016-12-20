@@ -4,7 +4,23 @@
 
     <a class="dropdown-toggle" href="#" data-neos-toggle="dropdown" data-target="#dimensions-menu">
 
-      <i class="icon-language"></i> {defaultLanguage}
+      <i class="icon-caret-down pull-right"></i>
+
+      <f:if condition="{dimensionLabel}">
+
+        <f:then>
+
+          {dimensionLabel}
+
+        </f:then>
+
+        <f:else>
+
+          {defaultLanguage}
+
+        </f:else>
+
+      </f:if>
 
     </a>
 
@@ -17,8 +33,6 @@
         <li>
 
           <f:link.action action="index" arguments="{dimension: dimension, dimensionLabel: languageName}">
-
-            <i class="icon-language"></i>
 
             {languageName}
 

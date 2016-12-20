@@ -27,9 +27,13 @@
 				<target xml:lang="de" state="translated">Schlagwörter</target>
       		</trans-unit>
 			<trans-unit id="properties.publishedAt" xml:space="preserve">
-        		<source>Published at</source>
+				<source>Published at</source>
 				<target xml:lang="de" state="translated">Veröffentlicht am</target>
-      		</trans-unit>
+			</trans-unit>
+			<trans-unit id="properties.archived" xml:space="preserve">
+				<source>archived</source>
+				<target xml:lang="de" state="translated">Archiviert</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

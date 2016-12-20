@@ -66,6 +66,26 @@ class BlogController extends ManagementController {
     protected $nodeTypeManager;
 
   /**
+   * @Flow\Inject
+   * @var ContentContextFactory
+   */
+  protected $contentContextFactory;
+
+  /**
+   * @Flow\Inject
+   * @var UserService
+   */
+  protected $userService;
+
+
+  /**
+   * @Flow\Inject
+   * @var ContentDimensionRepository
+   */
+  protected $contentDimensionsRepository;
+
+
+  /**
    * Shows a list of post nodes which are accessible by the current user
    * based on the personal workspaces and the default dimension
    *
@@ -75,8 +95,8 @@ class BlogController extends ManagementController {
    * @param Category $categoryObject
    * @param array $dimension
    * @param array $dimensionLabel
-
-   * ToDo: Get the all types of filtered and sorted Posts directly from the database for performance reasons
+   *
+   * ToDo: Refactor indexAction / Move some of the code into separate Service classes
    */
 
 
@@ -93,6 +113,14 @@ class BlogController extends ManagementController {
       $personalPosts = $blogNode->getChildNodes('ObisConcept.NeosBlog:Post');
     } else {
       $personalPosts = $this->postService->getPersonalPosts(' ',$dimension);
+    }
+
+    /** @var NodeInterface $personalPost */
+    foreach ($personalPosts as $key => $personalPost) {
+
+      if($personalPost->getProperty('archived') == true) {
+        unset($personalPosts[$key]);
+      }
     }
 
     $sortedPosts = array();
@@ -161,7 +189,7 @@ class BlogController extends ManagementController {
 
     if(empty($dimension) == false) {
 
-      $this->view->assign('activeDimension', $dimension);
+      $this->view->assign('dimensionLabel', $dimensionLabel[0]);
       unset($languageDimensions[$dimensionLabel[0]]);
 
     } else {
@@ -177,25 +205,6 @@ class BlogController extends ManagementController {
     $this->view->assign('postCount', $postCount);
   }
 
-  /**
-     * @Flow\Inject
-     * @var ContentContextFactory
-     */
-    protected $contentContextFactory;
-
-  /**
-     * @Flow\Inject
-     * @var UserService
-     */
-    protected $userService;
-
-
-  /**
-     * @Flow\Inject
-     * @var ContentDimensionRepository
-     */
-    protected $contentDimensionsRepository;
-
     /**
      * Shows the details of one post node
      * @param NodeInterface $post
@@ -204,23 +213,25 @@ class BlogController extends ManagementController {
     public function showAction(NodeInterface $post) {
 
         if(!$post == Null) {
-            $imageRessource = $this->contentService->getPostImageResourceObject($post);
+            $imageResource = $this->contentService->getPostImageResourceObject($post);
             $teaserText = $this->contentService->getPostTextTeaser($post);
 
             if (!$teaserText == null) {
                 $this->view->assign('postTextTeaser', $teaserText);
-                $this->view->assign('postImage', $imageRessource[0]);
+                $this->view->assign('postImage', $imageResource[0]);
             }
 
             /** @var NodeInterface $personalPosts */
             $properties =  $post->getProperties();
 
-            //make each property available in the template with it's propertyname
+            //make each property available in the template with it's property name
             foreach ($properties as $propertyName => $property) {
                 $this->view->assign($propertyName, $property);
             }
 
             $this->view->assign('post', $post);
+        } else {
+
         }
     }
 
@@ -246,6 +257,7 @@ class BlogController extends ManagementController {
         $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
         $nodeTemplate->setProperty('title', $title);
         $nodeTemplate->setProperty('author', $author);
+        $nodeTemplate->setProperty('archived', false);
         $nodeTemplate->setHiddenInIndex(true);
 
         $published = new \DateTime();
