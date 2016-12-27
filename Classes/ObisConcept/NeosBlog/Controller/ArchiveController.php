@@ -34,7 +34,7 @@ use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
  * @Flow\Scope("singleton")
  */
 
-class BlogController extends ManagementController {
+class ArchiveController extends ManagementController {
 
 
     /**
@@ -96,7 +96,7 @@ class BlogController extends ManagementController {
    * @param array $dimension
    * @param array $dimensionLabel
    *
-   * ToDo: Refactor indexAction / Move some of the code into separate Service classes and create own queries to get the data directly from the database
+   * ToDo: Refactor indexAction / Move some of the code into separate Service classes and create own queries to get the data form the database
    */
 
 
@@ -119,7 +119,7 @@ class BlogController extends ManagementController {
     /** @var NodeInterface $personalPost */
     foreach ($personalPosts as $key => $personalPost) {
 
-      if($personalPost->getProperty('archived') == true) {
+      if($personalPost->getProperty('archived') == false) {
         unset($personalPosts[$key]);
       }
     }
@@ -206,6 +206,16 @@ class BlogController extends ManagementController {
     $this->view->assign('postCount', $postCount);
   }
 
+  /**
+   * Moves the archived Post back to normal post status
+   * @param NodeInterface $postNode
+   */
+  public function moveAction(NodeInterface $postNode) {
+      $postNode->setProperty('archived', false);
+
+      $this->redirect('index');
+    }
+
     /**
      * Shows the details of one post node
      * @param NodeInterface $post
@@ -234,48 +244,6 @@ class BlogController extends ManagementController {
         } else {
 
         }
-    }
-
-    /**
-     * @param string $title
-     * @param string $blogIdentifier
-     * @throws \TYPO3\TYPO3CR\Exception\NodeTypeNotFoundException
-     */
-    public function createAction(string $title, string $blogIdentifier) {
-
-        if($title == null) {
-            $title = 'Unnamed';
-        }
-
-        $userWorkspace = $this->_userService->getPersonalWorkspaceName();
-
-        /** @var NodeInterface $blogNode */
-        $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
-
-        $author = $this->userService->getCurrentUser()->getName()->getFullName();
-
-        $nodeTemplate = new NodeTemplate();
-        $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
-        $nodeTemplate->setProperty('title', $title);
-        $nodeTemplate->setProperty('author', $author);
-        $nodeTemplate->setProperty('archived', false);
-        $nodeTemplate->setHiddenInIndex(true);
-
-        $published = new \DateTime();
-
-        $nodeTemplate->setProperty('publishedAt', $published );
-
-        $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
-
-
-        $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
-
-        if ($this->request->getHttpRequest()->isMethodSafe() === false) {
-            $this->persistenceManager->persistAll();
-        }
-        
-        $this->redirect('index');
-
     }
 
     /**

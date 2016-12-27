@@ -4,13 +4,19 @@ privilegeTargets:
       matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->.*Action())'
     'ObisConcept.NeosBlog:AdminActions.Categories':
       matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->.*Action())'
+    'ObisConcept.NeosBlog:AdminActions.Archive':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\ArchiveController->.*Action())'
     'ObisConcept.NeosBlog:EditorActions':
       matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->.*Action())'
     'ObisConcept.NeosBlog:EditorActions.Categories':
       matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->.*Action())'
+    'ObisConcept.NeosBlog:EditorActions.Archive':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\ArchiveController->.*Action())'
     'ObisConcept.NeosBlog:RestrictedEditorActions':
       matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->(index|initialize|create)Action())'
     'ObisConcept.NeosBlog:RestrictedEditorActions.Categories':
+      matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->(index|initialize)Action())'
+    'ObisConcept.NeosBlog:RestrictedEditorActions.Archive':
       matcher: 'method(ObisConcept\NeosBlog\Controller\CategoryController->(index|initialize)Action())'
     'ObisConcept.NeosBlog:PaginateController.indexAction':
       matcher: 'method(ObisConcept\NeosBlog\ViewHelpers\Widget\Controller\PaginateController->indexAction())'
@@ -25,6 +31,10 @@ roles:
         privilegeTarget: 'ObisConcept.NeosBlog:AdminActions.Categories'
         permission: GRANT
 
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:AdminActions.Archive'
+        permission: GRANT
+
   'TYPO3.Neos:Editor':
     privileges:
       -
@@ -34,6 +44,10 @@ roles:
         privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Categories'
         permission: GRANT
 
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Archive'
+        permission: GRANT
+
   'TYPO3.Neos:RestrictedEditor':
     privileges:
       -
@@ -41,6 +55,10 @@ roles:
         permission: GRANT
       -
         privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions.Categories'
+        permission: GRANT
+
+      -
+        privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions.Archive'
         permission: GRANT
 
   'TYPO3.Flow:Everybody':

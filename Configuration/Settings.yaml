@@ -25,9 +25,11 @@ TYPO3:
             editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
             editorOptions:
               dataSourceIdentifier: 'post-categories'
+              allowEmpty: true
+              placeholder: 'select Category'
 
     modules:
-      'NeosBlog':
+      'Blog':
         label: 'Blog Management'
         description: 'Contains a professional Blog Management for Enterprise use'
         icon: 'icon-book'
@@ -53,13 +55,13 @@ TYPO3:
               index:
                 label: 'Category List'
                 title: 'Shows a list of all Categories'
-          'tags':
-            label: 'Tags'
-            icon: 'icon-tag'
-            controller: 'ObisConcept\NeosBlog\Controller\TagController'
-            description: 'Managing Tags'
-            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.tags'
+          'archive':
+            label: 'Archive'
+            icon: 'icon-archive'
+            controller: 'ObisConcept\NeosBlog\Controller\ArchiveController'
+            description: 'Managing Archived Posts'
+            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Archive'
             actions:
               index:
-                label: 'Tag List'
-                title: 'Shows a list of all Tags'
+                label: 'Archive List'
+                title: 'Shows a list of all archived Posts'

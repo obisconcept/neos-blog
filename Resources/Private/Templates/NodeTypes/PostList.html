@@ -2,10 +2,11 @@
 {namespace ts=TYPO3\TypoScript\ViewHelpers}
 {namespace blog=ObisConcept\NeosBlog\ViewHelpers}
 
+
 <div class="blog-post-list">
-    <f:if condition="{postCollection}">
+    <f:if condition="{filteredPostCollection}">
         <f:then>
-            <blog:widget.paginate widgetId="blog-paginator" nodes="{postCollection}" as="paginatedPostCollection" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1, maximumNumberOfLinks: 10}">
+            <blog:widget.paginate widgetId="blog-paginator" nodes="{filteredPostCollection}" as="paginatedPostCollection" configuration="{itemsPerPage: 5, insertAbove: 0, insertBelow: 1, maximumNumberOfLinks: 10}">
                 <f:for each="{paginatedPostCollection}" as="post" iteration="postIteration">
                     <ts:render path="postItem" context="{node: post}" />
                     <f:if condition="{postIteration.isLast} == 0">
@@ -16,7 +17,7 @@
         </f:then>
         <f:else>
             <f:if condition="{neos:rendering.inBackend()}">
-                <f:if condition="{node.nodeType.name} == 'ObisConcept.NeosBlog:Folder'">
+                <f:if condition="{node.nodeType.name} == 'ObisConcept.NeosBlog:Blog'">
                     <f:then>
                         <f:translate id="message.noPosts" package="ObisConcept.NeosBlog" source="Main"></f:translate>
                     </f:then>
