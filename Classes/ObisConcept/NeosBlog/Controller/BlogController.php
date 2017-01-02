@@ -252,7 +252,7 @@ class BlogController extends ManagementController {
         /** @var NodeInterface $blogNode */
         $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
 
-        $author = $this->userService->getCurrentUser()->getName()->getFullName();
+        $author = $this->userService->getCurrentUser();
 
         $nodeTemplate = new NodeTemplate();
         $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
