@@ -2,7 +2,7 @@
 {namespace blog=ObisConcept\NeosBlog\ViewHelpers}
 {namespace typo3cr=TYPO3\TYPO3CR\ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="Title"> </f:section>
 
@@ -10,19 +10,15 @@
     <link href="{f:uri.resource(path: 'Styles/main.min.css')}" rel="stylesheet" />
     <script src="{f:uri.resource(path: 'JavaScript/main.min.js')}" type="text/javascript" ></script>
 
-
     <f:if condition="{dimensions -> f:count()} > 0">
-        <f:form name="dimensions" action="index">
 
-            <div id="dimensions">
+        <div id="dimensions">
 
-                <f:render partial="FilterOptions/Dimensions" arguments="{_all}" />
+            <f:render partial="FilterOptions/Dimensions" arguments="{_all}" />
 
-            </div>
+        </div>
 
-        </f:form>
     </f:if>
-
 
     <div id="blog-module" class="neos neos-module media-browser media-module">
 
@@ -30,60 +26,48 @@
 
             <f:then>
 
-
-
                 <div class="neos-media-options">
 
                     <div class="neos-file-options">
-                            <span class="count">
-                                {postCount} Posts
-                            </span>
+                        <span class="count">
+                            {postCount} Posts
+                        </span>
                         <f:if condition="{posts}"><a id="create-new-post" href="#"><i class="icon-plus"></i>New Post</a></f:if>
                     </div>
 
-                    <f:form name="filter" action="index">
-                        <div class="neos-view-options">
+                    <div class="neos-view-options">
 
-                            <f:if condition="{blogs -> f:count()} > 1">
+                        <f:if condition="{blogs -> f:count()} > 1">
 
-                                <f:render partial="FilterOptions/Blogs" arguments="{_all}" />
-
-                            </f:if>
-
-                            <f:if condition="{workspaceFilterMenu -> f:count()} > 1">
-
-                                <f:render partial="FilterOptions/Workspaces" arguments="{_all}" />
-
-                            </f:if>
-
-                            <f:if condition="{authorFilterMenu -> f:count()} > 1">
-
-                                <f:render partial="FilterOptions/Authors" arguments="{_all}" />
-
-                            </f:if>
-
-                            <f:if condition="{categoryFilterMenu -> f:count()} > 1}">
-
-                                <f:render partial="FilterOptions/Categories" arguments="{_all}" />
-
-                            </f:if>
-
-                            <f:comment><f:render partial="SortOptions/SortMenu" arguments="{_all}" /></f:comment>
-
-                            <f:comment><f:render partial="Search/PostSearch" /></f:comment>
-
-                        </div>
-
-                        <f:if condition="{activeDimension}">
-
-                            <f:form.hidden name="dimension" value="{activeDimension -> f:format.json()}" />
+                            <f:render partial="FilterOptions/Blogs" arguments="{_all}" />
 
                         </f:if>
 
-                    </f:form>
+                        <f:if condition="{workspaceFilterMenu -> f:count()} > 1">
+
+                            <f:render partial="FilterOptions/Workspaces" arguments="{_all}" />
+
+                        </f:if>
+
+                        <f:if condition="{authorFilterMenu -> f:count()} > 1">
+
+                            <f:render partial="FilterOptions/Authors" arguments="{_all}" />
+
+                        </f:if>
+
+                        <f:if condition="{categoryFilterMenu -> f:count()} > 1}">
+
+                            <f:render partial="FilterOptions/Categories" arguments="{_all}" />
+
+                        </f:if>
+
+                        <f:render partial="SortOptions/SortMenu" arguments="{_all}" />
+
+                        <f:render partial="Search/PostSearch" />
+
+                    </div>
 
                 </div>
-
 
                 <div class="neos-content neos-container-fluid">
 
@@ -95,23 +79,23 @@
 
                                 <thead>
 
-                                <tr>
+                                    <tr>
 
-                                    <th>Title</th>
+                                        <th>Title</th>
 
-                                    <th>Blog</th>
+                                        <th>Blog</th>
 
-                                    <th>Category</th>
+                                        <th>Category</th>
 
-                                    <th>Workspace</th>
+                                        <th>Workspace</th>
 
-                                    <th>Author</th>
+                                        <th>Author</th>
 
-                                    <th>Published</th>
+                                        <th>Published</th>
 
-                                    <th>Modified</th>
+                                        <th>Modified</th>
 
-                                </tr>
+                                    </tr>
 
                                 </thead>
 
@@ -168,7 +152,5 @@
         </f:if>
 
     </div>
-
-
 
 </f:section>

@@ -12,19 +12,18 @@
 
   <ul class="neos-dropdown-menu neos-pull-right" role="menu">
 
-    <li><f:link.action action="index" ><i class="icon-th-large"></i> All</f:link.action></li>
-
     <f:for each="{workspaceFilterMenu}" as="workspace" key="workspaceName">
 
       <li>
-
-        <f:link.action action="index" arguments="{workspaceObject: workspace, dimension: activeDimension}">
+        <f:form.hidden name="workspaceObject" value="{workspace}" />
+        <f:form.button class="neos-button">
 
           <i class="icon-th-large"></i>
-
           {workspaceName}
 
-        </f:link.action></li>
+        </f:form.button>
+
+      </li>
 
     </f:for>
 

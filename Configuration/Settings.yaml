@@ -18,6 +18,7 @@ TYPO3:
           presets:
             default:
               baseNodeType: 'TYPO3.Neos:Document, !ObisConcept.NeosBlog:Post'
+
       inspector:
         dataTypes:
           'ObisConcept\NeosBlog\Domain\Model\Category':
@@ -25,6 +26,13 @@ TYPO3:
             editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
             editorOptions:
               dataSourceIdentifier: 'post-categories'
+              allowEmpty: true
+              placeholder: 'select Category'
+          'TYPO3\Neos\Domain\Model\User':
+            typeConverter: 'TYPO3\Neos\TypeConverter\EntityToIdentityConverter'
+            editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+            editorOptions:
+              dataSourceIdentifier: 'post-authors'
               allowEmpty: true
               placeholder: 'select Category'
 

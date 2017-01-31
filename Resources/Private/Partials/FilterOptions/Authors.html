@@ -12,19 +12,17 @@
 
   <ul class="neos-dropdown-menu neos-pull-right" role="menu">
 
-    <li><f:link.action action="index" ><i class="icon-user"></i> All</f:link.action></li>
-
     <f:for each="{authorFilterMenu}" as="authorName">
 
       <li>
-
-        <f:link.action action="index" arguments="{authorName: authorName, dimension: activeDimension}">
+        <f:form.hidden name="authorName" value="{authorName}" />
+        <f:form.button class="neos-button">
 
           <i class="icon-user"></i>
 
           {authorName}
 
-        </f:link.action>
+        </f:form.button>
 
       </li>
 

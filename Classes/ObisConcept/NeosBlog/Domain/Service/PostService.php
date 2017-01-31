@@ -12,9 +12,10 @@ namespace ObisConcept\NeosBlog\Domain\Service;
      * source code.
      */
 
+use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
+use TYPO3\Flow\Annotations as Flow;
 use ObisConcept\NeosBlog\Domain\Model\Category;
 use ObisConcept\NeosBlog\Domain\Repository\CategoryRepository;
-use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Configuration\ConfigurationManager;
 use TYPO3\Neos\Domain\Repository\DomainRepository;
 use TYPO3\Neos\Domain\Repository\SiteRepository;
@@ -45,6 +46,12 @@ class PostService {
      * @var NodeDataRepository
      */
     protected $nodeDataRepository;
+
+    /**
+     * @Flow\Inject
+     * @var PostNodeDataRepository
+     */
+    protected $postNodeDataRepository;
 
     /**
      * @Flow\Inject
@@ -100,6 +107,30 @@ class PostService {
      */
 
     protected $configurationManager;
+
+
+    public function testFunction($dimension) {
+        $userWorkspace = $this->userService->getPersonalWorkspace();
+        $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace);
+        
+        return $this->postNodeCreator($nodeData, $dimension);
+    }
+    
+    public function postNodeCreator(array $nodeDataRecords, $dimension) {
+
+        $userWorkspace = $this->userService->getPersonalWorkspace();
+
+        $context = $this->createContentContext($userWorkspace->getName(), $dimension);
+
+        foreach ($nodeDataRecords as $nodeData) {
+            $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
+            if ($node !== null && $node->getNodeType() == self::POSTNODETYPE) {
+                $posts[$node->getPath()] = $node;
+            }
+        }
+
+        return $posts;
+    }
 
     public function getPostsFilteredByBlog(string $path, array $dimension) {
         $nodeDataRecords = $this->nodeDataRepository->findByPath($path);

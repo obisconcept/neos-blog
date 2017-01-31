@@ -12,15 +12,14 @@
 
   <ul class="neos-dropdown-menu neos-pull-right" role="menu">
 
-    <li><f:link.action action="index" ><i class="icon-bookmark"></i> All</f:link.action></li>
-
     <f:for each="{categoryFilterMenu}" as="category" key="categoryName">
 
       <li>
-        <f:link.action action="index" arguments="{categoryObject: category, dimension: activeDimension}">
+        <f:form.hidden name="categoryObject" value="{category}" />
+        <f:form.button class="neos-button" >
           <i class="icon-bookmark"></i>
           {categoryName}
-        </f:link.action>
+        </f:form.button>
       </li>
 
     </f:for>

@@ -10,10 +10,11 @@ prototype(ObisConcept.NeosBlog:Post) < prototype(TYPO3.Neos:Document) {
     }
 }
 
-prototype(ObisConcept.NeosBlog:CategoryFilter) {
-    @class = 'ObisConcept\\NeosBlog\\TypoScript\\FilterPostByCategoryImplementation'
-    postCollection = NULL
-    categoryFilter = NULL
+prototype(ObisConcept.NeosBlog:PropertiesFilter) {
+    @class = 'ObisConcept\\NeosBlog\\TypoScript\\FilterPostByPropertiesImplementation'
+    postCollection = null
+    categoryFilter = null
+    authorCollection = null
 }
 
 prototype(ObisConcept.NeosBlog:PostList) < prototype(TYPO3.Neos:Content) {
@@ -21,14 +22,18 @@ prototype(ObisConcept.NeosBlog:PostList) < prototype(TYPO3.Neos:Content) {
 
     @override.blogFolderNode = ${q(node).property('blogFolderNode')}
 
-   filteredPostCollection = ObisConcept.NeosBlog:CategoryFilter
+   filteredPostCollection = ObisConcept.NeosBlog:PropertiesFilter
    filteredPostCollection {
         postCollection = ${q(node).property('archivedOnly') == true ? q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Post][archived = true]').get() : q(blogFolderNode).children('[instanceof ObisConcept.NeosBlog:Post][archived = false]').get()}
         categoryFilter = ${q(node).property('categories') == '' ? null : q(node).property('categories')}
+        authorFilter = ${q(node).property('author') == '' ? null : q(node).property('author')}
    }
 
+
+
     postItem = ObisConcept.NeosBlog:Post {
-    templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/ProtoTypes/PostItem.html'
+        templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/ProtoTypes/PostItem.html'
+
     }
 
     @cache {

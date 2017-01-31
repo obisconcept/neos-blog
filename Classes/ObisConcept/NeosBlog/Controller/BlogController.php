@@ -13,6 +13,7 @@ namespace ObisConcept\NeosBlog\Controller;
      */
 
 
+use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
 use TYPO3\Flow\Annotations as Flow;
 use ObisConcept\NeosBlog\Domain\Model\Category;
 use ObisConcept\NeosBlog\Domain\Service\BlogService;
@@ -93,14 +94,32 @@ class BlogController extends ManagementController {
    * @param Workspace $workspaceObject
    * @param array $authorName
    * @param Category $categoryObject
-   * @param array $dimension
+   * @param string $dimension
    * @param array $dimensionLabel
    *
    * ToDo: Refactor indexAction / Move some of the code into separate Service classes and create own queries to get the data directly from the database
    */
 
 
-  public function indexAction(NodeInterface $blogNode = null, Workspace $workspaceObject = null, array $authorName = null, Category $categoryObject = null, $dimension = array(), $dimensionLabel = array()) {
+  public function indexAction(NodeInterface $blogNode = null, Workspace $workspaceObject = null, array $authorName = null, Category $categoryObject = null, string $dimension = '' ,  $dimensionLabel = array()) {
+
+//    \TYPO3\Flow\var_dump(json_decode($dimension, true));
+
+    if ($dimension == '') {
+      $dimension = array();
+    } else {
+      $dimension = json_decode($dimension, true);
+    }
+
+//    $posts = $this->postService->testFunction($dimension);
+//
+//    foreach ($posts as $post) {
+//      \TYPO3\Flow\var_dump($post->getWorkspace()->getName());
+//    }
+//
+//    die();
+
+
 
 
     if (!$workspaceObject == null) {
@@ -167,6 +186,9 @@ class BlogController extends ManagementController {
     $authorFilterMenu = array_unique($authorsInArray);
     $categoryFilterMenu = $categoryInArray;
     $blogFilterMenu = $blogsInArray;
+
+    \TYPO3\Flow\var_dump($authorFilterMenu);
+    die();
 
     $this->view->assign('blogFilterMenu', $blogFilterMenu);
     $this->view->assign('workspaceFilterMenu', $workspaceFilterMenu);

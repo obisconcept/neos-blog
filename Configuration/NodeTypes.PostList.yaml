@@ -30,6 +30,13 @@
         reloadIfChanged: TRUE
         inspector:
           group: 'properties'
+    author:
+      type: 'TYPO3\Neos\Domain\Model\User'
+      ui:
+        label: i18n
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'properties'
     archivedOnly:
       type: boolean
       ui:

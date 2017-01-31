@@ -22,8 +22,11 @@
         right: 44px;
         background-color: #fff;
         opacity: .15; }
-  #dimensions .neos-dropdown-menu {
+  #dimensions .neos-dropdown .neos-dropdown-menu {
     width: 100%; }
+    #dimensions .neos-dropdown .neos-dropdown-menu li button.neos-button {
+      width: 100%;
+      text-align: left; }
 
 #blog-module .neos-media-options {
   border-bottom: none; }

@@ -12,19 +12,18 @@
 
   <ul class="neos-dropdown-menu neos-pull-right" role="menu">
 
-    <li><f:link.action action="index" ><i class="icon-book"></i> All</f:link.action></li>
 
     <f:for each="{blogFilterMenu}" as="blog" key="blogName">
 
       <li>
-
-        <f:link.action action="index" arguments="{blogNode: blog}">
+        <f:form.hidden name="blogNode" value="{blog}" />
+        <f:form.button class="neos-button">
 
           <i class="icon-book"></i>
 
           {blogName}
 
-        </f:link.action>
+        </f:form.button>
 
       </li>
 

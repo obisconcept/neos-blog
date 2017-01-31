@@ -33,11 +33,19 @@
         }
       }
     }
+    .neos-dropdown-menu {
+      width: 100%;
+
+      li {
+        button.neos-button {
+          width: 100%;
+          text-align: left;
+        }
+      }
+    }
   }
 
-  .neos-dropdown-menu {
-    width: 100%;
-  }
+
 
 }
 

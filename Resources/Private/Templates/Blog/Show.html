@@ -135,7 +135,7 @@
 
                             <td>{post.properties.categories.name}</td>
 
-                            <td>{post.properties.author}</td>
+                            <td>{blog:authorDetails(identifier: post.properties.author)}</td>
 
                             <td>{publishedAt -> f:format.date(format:'d-m-Y')}</td>
 

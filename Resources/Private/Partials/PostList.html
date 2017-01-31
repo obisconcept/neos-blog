@@ -1,4 +1,6 @@
 {namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace blog=ObisConcept\NeosBlog\ViewHelpers}
+
 <tr>
 
   <td class="neos-action"><f:form action="index"><f:form.textfield name="title" value="{post.properties.title}" /></f:form></td>
@@ -9,7 +11,7 @@
 
   <td>{post.workspace.name}</td>
 
-  <td>{post.properties.author}</td>
+  <td>{blog:authorDetails(identifier: post.properties.author)}</td>
 
   <td>{post.properties.publishedAt -> f:format.date(format:'d-m-Y')}</td>
 
