@@ -1,6 +1,6 @@
 {
     "name": "obisconcept/neos-blog",
-    "type": "typo3-flow-plugin",
+    "type": "neos-flow-plugin",
     "authors": [
         {
             "name": "obis|CONCEPT GmbH & Co. KG",
@@ -14,8 +14,8 @@
     "description": "A Neos CMS package with a node type based blog",
     "license": ["MIT"],
     "require": {
-        "typo3/neos": "~2.3.0",
-        "typo3/neos-nodetypes": "~2.3.0"
+        "neos/neos": "~3.0.0",
+        "neos/nodetypes": "~3.0.0",
     },
     "suggest": {
         "obisconcept/neos-bootstrap": "Provides Twitter Bootstrap which classes are used for pagination",
