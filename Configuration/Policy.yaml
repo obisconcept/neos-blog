@@ -1,5 +1,5 @@
 privilegeTargets:
-  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+  Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
     'ObisConcept.NeosBlog:AdminActions':
       matcher: 'method(ObisConcept\NeosBlog\Controller\BlogController->.*Action())'
     'ObisConcept.NeosBlog:AdminActions.Categories':
@@ -22,7 +22,7 @@ privilegeTargets:
       matcher: 'method(ObisConcept\NeosBlog\ViewHelpers\Widget\Controller\PaginateController->indexAction())'
 
 roles:
-  'TYPO3.Neos:Administrator':
+  'Neos.Neos:Administrator':
     privileges:
       -
         privilegeTarget: 'ObisConcept.NeosBlog:AdminActions'
@@ -35,7 +35,7 @@ roles:
         privilegeTarget: 'ObisConcept.NeosBlog:AdminActions.Archive'
         permission: GRANT
 
-  'TYPO3.Neos:Editor':
+  'Neos.Neos:Editor':
     privileges:
       -
         privilegeTarget: 'ObisConcept.NeosBlog:EditorActions'
@@ -48,7 +48,7 @@ roles:
         privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Archive'
         permission: GRANT
 
-  'TYPO3.Neos:RestrictedEditor':
+  'Neos.Neos:RestrictedEditor':
     privileges:
       -
         privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions'
@@ -61,7 +61,7 @@ roles:
         privilegeTarget: 'ObisConcept.NeosBlog:RestrictedEditorActions.Archive'
         permission: GRANT
 
-  'TYPO3.Flow:Everybody':
+  'Neos.Flow:Everybody':
     privileges:
       -
         privilegeTarget: 'ObisConcept.NeosBlog:PaginateController.indexAction'

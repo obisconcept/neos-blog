@@ -1,71 +1,73 @@
+
 'ObisConcept.NeosBlog:Post':
   superTypes:
-    'TYPO3.Neos:Document': TRUE
+    'Neos.Neos:Document': true
   childNodes:
-    'content':
-      type: 'TYPO3.Neos:ContentCollection'
+    content:
+      type: 'Neos.Neos:ContentCollection'
   constraints:
     nodeTypes:
-      'TYPO3.Neos.NodeTypes:Page': FALSE
-      'TYPO3.Neos:Shortcut': FALSE
-      'ObisConcept.NeosBlog:Blog': FALSE
-      'ObisConcept.NeosBlog:Post': FALSE
+      'Neos.NodeTypes:Page': false
+      'Neos.Neos:Shortcut': false
+      'ObisConcept.NeosBlog:Blog': false
+      'ObisConcept.NeosBlog:Post': false
   ui:
-    label: 'Post'
+    label: Post
     icon: 'fa fa-file-text'
-    group: 'blog'
+    group: blog
     inspector:
       tabs:
-        'relatedPosts':
+        relatedPosts:
           label: i18n
           icon: 'fa fa-copy'
       groups:
-        'document':
+        document:
           label: i18n
-        'properties':
+        properties:
           label: i18n
           icon: 'fa fa-cog'
-        'relatedPosts':
+        relatedPosts:
           label: i18n
           icon: 'fa fa-copy'
-          tab: 'relatedPosts'
+          tab: relatedPosts
   properties:
     _hiddenInIndex:
-      defaultValue: TRUE
+      defaultValue: true
     author:
       type: string
     categories:
-      type: 'ObisConcept\NeosBlog\Domain\Model\Category'
+      type: ObisConcept\NeosBlog\Domain\Model\Category
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties
     publishedAt:
       type: DateTime
-      defaultValue: 'now'
+      defaultValue: now
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties
           editorOptions:
             format: 'd.m.Y H:i'
       validation:
-        'TYPO3.Neos/Validation/NotEmptyValidator': []
-        'TYPO3.Neos/Validation/DateTimeValidator': []
+        Neos.Neos/Validation/NotEmptyValidator: {  }
+        Neos.Neos/Validation/DateTimeValidator: {  }
     relatedPosts:
       type: references
       ui:
         inspector:
-          group: 'relatedPosts'
+          group: relatedPosts
           editorOptions:
-            nodeTypes: ['ObisConcept.NeosBlog:Post']
+            nodeTypes:
+              - 'ObisConcept.NeosBlog:Post'
     archived:
       type: boolean
       defaultValue: false
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties

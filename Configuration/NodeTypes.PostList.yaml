@@ -1,16 +1,17 @@
+
 'ObisConcept.NeosBlog:PostList':
   superTypes:
-    'TYPO3.Neos:Content': TRUE
+    'Neos.Neos:Content': true
   constraints:
     nodeTypes:
-      '*': FALSE
+      '*': false
   ui:
     label: i18n
     icon: 'fa fa-list'
-    group: 'blog'
+    group: blog
     inspector:
       groups:
-        'properties':
+        properties:
           label: i18n
           icon: 'fa fa-cog'
   properties:
@@ -18,30 +19,30 @@
       type: reference
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties
           editorOptions:
-            nodeTypes: ['ObisConcept.NeosBlog:Blog']
+            nodeTypes:
+              - 'ObisConcept.NeosBlog:Blog'
     categories:
-      type: 'ObisConcept\NeosBlog\Domain\Model\Category'
+      type: ObisConcept\NeosBlog\Domain\Model\Category
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties
     author:
-      type: 'TYPO3\Neos\Domain\Model\User'
+      type: Neos\Neos\Domain\Model\User
       ui:
         label: i18n
-        reloadIfChanged: TRUE
+        reloadIfChanged: true
         inspector:
-          group: 'properties'
+          group: properties
     archivedOnly:
       type: boolean
       ui:
         label: i18n
         reloadIfChanged: true
         inspector:
-          group: 'properties'
-
+          group: properties

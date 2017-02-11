@@ -1,19 +1,20 @@
+
 'ObisConcept.NeosBlog:Blog':
   superTypes:
-    'TYPO3.Neos:Document': TRUE
+    'Neos.Neos:Document': true
   constraints:
     nodeTypes:
-      'TYPO3.Neos.NodeTypes:Page': FALSE
-      'TYPO3.Neos:Shortcut': FALSE
-      'ObisConcept.NeosBlog:Blog': FALSE
-      'ObisConcept.NeosBlog:Post': TRUE
+      'Neos.NodeTypes:Page': false
+      'Neos.Neos:Shortcut': false
+      'ObisConcept.NeosBlog:Blog': false
+      'ObisConcept.NeosBlog:Post': true
   ui:
     label: i18n
-    icon: 'icon-book'
-    group: 'blog'
+    icon: icon-book
+    group: blog
     inspector:
       groups:
-        'document':
-          label: 'Blog'
-        'blog':
+        document:
+          label: Blog
+        blog:
           label: i18n

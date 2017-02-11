@@ -10,7 +10,7 @@
   name: 'ObisConcept.NeosBlog pagination - page = 1'
   uriPattern: '{node}'
   defaults:
-    '@package': 'TYPO3.Neos'
+    '@package': 'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format': 'html'
     '@action': 'show'
@@ -22,14 +22,14 @@
       currentPage: 1
   routeParts:
     node:
-      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler: Neos\Neos\Routing\FrontendNodeRoutePartHandler
   appendExceedingArguments: TRUE
 
 -
   name: 'ObisConcept.NeosBlog pagination - page > 1'
   uriPattern: 'page/{--blog-paginator.currentPage}'
   defaults:
-    '@package': 'TYPO3.Neos'
+    '@package': 'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format': 'html'
     '@action': 'show'
@@ -40,14 +40,14 @@
       '@action': 'index'
   routeParts:
     node:
-      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler: Neos\Neos\Routing\FrontendNodeRoutePartHandler
   appendExceedingArguments: TRUE
 
 -
   name: 'ObisConcept.NeosBlog pagination - page > 1'
   uriPattern: '{node}/page/{--blog-paginator.currentPage}'
   defaults:
-    '@package': 'TYPO3.Neos'
+    '@package': 'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format': 'html'
     '@action': 'show'
@@ -58,5 +58,5 @@
       '@action': 'index'
   routeParts:
     node:
-      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler: Neos\Neos\Routing\FrontendNodeRoutePartHandler
   appendExceedingArguments: TRUE
