@@ -6,10 +6,9 @@
 
 <f:section name="Title"> </f:section>
 
-<f:section name="Content">
+<f:section name="content">
     <link href="{f:uri.resource(path: 'Styles/main.min.css')}" rel="stylesheet" />
     <script src="{f:uri.resource(path: 'JavaScript/main.min.js')}" type="text/javascript" ></script>
-
 
     <f:if condition="{dimensions -> f:count()} > 0">
         <f:form name="dimensions" action="index">
@@ -24,7 +23,7 @@
     </f:if>
 
 
-    <div id="blog-module" class="neos neos-module media-browser media-module">
+    <div id="blog-module">
 
         <f:if condition="{blogs}">
 
@@ -32,15 +31,16 @@
 
 
 
-                <div class="neos-media-options">
+                <div class="neos-blog-options neos-clearfix">
 
-                    <div class="neos-file-options">
+                    <div class="neos-post-options">
                             <span class="count">
                                 {postCount} Posts
                             </span>
-                        <f:if condition="{posts}"><a id="create-new-post" href="#"><i class="icon-plus"></i>New Post</a></f:if>
+                        <f:if condition="{posts}"><a id="create-new-post" class="neos-button neos-button-success" href="#"><i class="icon-plus"></i> New Post</a></f:if>
                     </div>
 
+                  <f:comment>
                     <f:form name="filter" action="index">
                         <div class="neos-view-options">
 
@@ -70,9 +70,11 @@
 
                             <f:comment><f:render partial="SortOptions/SortMenu" arguments="{_all}" /></f:comment>
 
-                            <f:comment><f:render partial="Search/PostSearch" /></f:comment>
-
                         </div>
+                    </f:form>
+                  </f:comment>
+
+                      <f:render partial="Search/PostSearch" />
 
                         <f:if condition="{activeDimension}">
 
@@ -80,16 +82,13 @@
 
                         </f:if>
 
-                    </f:form>
-
                 </div>
 
 
                 <div class="neos-content neos-container-fluid">
 
-                    <div class="neos-module-container">
-
-                        <div class="neos-row-fluid">
+                  <div class="neos-module-container"></div>
+                  <div class="neos-row-fluid">
 
                             <table class="neos-table">
 
@@ -148,8 +147,6 @@
                             </table>
 
                         </div>
-
-                    </div>
 
                 </div>
 

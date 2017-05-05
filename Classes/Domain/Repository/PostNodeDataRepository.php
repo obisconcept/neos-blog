@@ -5,7 +5,6 @@ namespace ObisConcept\NeosBlog\Domain\Repository;
 use Doctrine\ORM\QueryBuilder;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\Doctrine\Repository;
-use Neos\ContentRepository\Domain\Model\NodeData;
 use Neos\ContentRepository\Domain\Model\Workspace;
 
 /**
@@ -17,31 +16,48 @@ class PostNodeDataRepository extends Repository{
 
   const ENTITY_CLASSNAME = 'Neos\ContentRepository\Domain\Model\NodeData';
 
-  const POST_NODETYPE = 'ObisConcept.NeosBlog:Post';
+  /**
+   * Main repository method to get data from the database.
+   * This is used to get post and blog Nodes.
+   *
+   * @param array $dimension
+   * @param Workspace $workspace
+   * @param string $nodeType
+   * @param string $searchTerm
+   * @return array
+   */
 
-
-  public function getPostNodeData(array $dimension, Workspace $workspace){
+  public function getPostNodeData(array $dimension, Workspace $workspace, string $nodeType, string $searchTerm = ''){
 
     $workspaces = $this->collectWorkspaceAndAllBaseWorkspaces($workspace);
-
-    $postQuery = $this->postQueryBuilder();
+    $postQuery = $this->postQueryBuilder($nodeType);
 
     $this->addDimensionJoinConstraintsToQueryBuilder($postQuery, $dimension);
-    $this->addArchivedJoinConstraintsToQueryBuilder($postQuery, 'false');
     $this->addWorkspaceJoinContraintsToQueryBuilder($postQuery, $workspaces);
+    // archive and searchTerm constraints are only for Posts
+    if ($nodeType == 'ObisConcept.NeosBlog:Post') {
+      $this->addArchivedJoinConstraintsToQueryBuilder($postQuery, 'false');
+      $this->addSearchTermJoinConstraintsToQueryBuilder($postQuery, $searchTerm);
+    }
 
     $data = $postQuery->getQuery()->getResult();
-    
+
     return $data;
+  }
+
+  protected function addSearchTermJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $searchTerm) {
+    $queryBuilder
+      ->andWhere('n.properties LIKE :searchTerm')
+      ->setParameter('searchTerm', '%' . $searchTerm . '%');
   }
 
   /**
    * Limit the QueryResult to the given Workspaces
    * 
-   * 
    * @param QueryBuilder $queryBuilder
    * @param array $workspaces
    */
+
   protected function addWorkspaceJoinContraintsToQueryBuilder(QueryBuilder $queryBuilder, array $workspaces) {
     $queryBuilder
       ->andWhere('n.workspace IN (:workspaces)')
@@ -56,6 +72,7 @@ class PostNodeDataRepository extends Repository{
    * @param array $dimensions
    * @return void
    */
+
   protected function addDimensionJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, array $dimensions) {
 
     $count = 0;
@@ -76,20 +93,25 @@ class PostNodeDataRepository extends Repository{
    * @param QueryBuilder $queryBuilder
    * @param string $archiveFilter
    */
+
   protected function addArchivedJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $archiveFilter ) {
     $queryBuilder
       ->andWhere('n.properties LIKE :archived')
       ->setParameter('archived', '%"archived": ' .  $archiveFilter .'%');
   }
 
-  protected function postQueryBuilder(){
+  /**
+   * @param string $nodeType
+   * @return QueryBuilder
+   */
 
-    $queryBuilder = $this->createQueryBuilder('post');
+  protected function postQueryBuilder(string $nodeType){
+
+    $queryBuilder = $this->createQueryBuilder('n');
 
     $queryBuilder->select('n')
-      ->from(NodeData::class, 'n')
       ->where('n.nodeType IN (:nodeType)')
-      ->setParameter('nodeType', self::POST_NODETYPE);
+      ->setParameter('nodeType', $nodeType);
     
     return $queryBuilder;
     
@@ -101,6 +123,7 @@ class PostNodeDataRepository extends Repository{
    * @param Workspace $workspace
    * @return array
    */
+
   protected function collectWorkspaceAndAllBaseWorkspaces(Workspace $workspace) {
     $workspaces = [];
     while ($workspace !== null) {

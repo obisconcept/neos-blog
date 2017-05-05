@@ -12,23 +12,15 @@ namespace ObisConcept\NeosBlog\Domain\Service;
      * source code.
      */
 
-use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
 use Neos\Flow\Annotations as Flow;
-use ObisConcept\NeosBlog\Domain\Model\Category;
-use ObisConcept\NeosBlog\Domain\Repository\CategoryRepository;
+use Neos\Neos\Service\UserService;
 use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Neos\Domain\Repository\DomainRepository;
 use Neos\Neos\Domain\Repository\SiteRepository;
 use Neos\Neos\Domain\Service\ContentContext;
 use Neos\Neos\Domain\Service\ContentContextFactory;
-use Neos\Neos\Domain\Service\NodeSearchServiceInterface;
-use Neos\Neos\Service\UserService;
 use Neos\ContentRepository\Domain\Factory\NodeFactory;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Model\NodeType;
-use Neos\ContentRepository\Domain\Model\Workspace;
-use Neos\ContentRepository\Domain\Repository\NodeDataRepository;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
 
 /**
  * Class PostService
@@ -37,15 +29,8 @@ use Neos\ContentRepository\Domain\Service\NodeTypeManager;
  */
 
 class PostService {
-
-    const BLOGPOSTTYPE = 'ObisConcept.NeosBlog:Blog';
-    const POSTNODETYPE = 'ObisConcept.NeosBlog:Post';
-
-    /**
-     * @Flow\Inject
-     * @var NodeDataRepository
-     */
-    protected $nodeDataRepository;
+  
+    const POST_NODETYPE = 'ObisConcept.NeosBlog:Post';
 
     /**
      * @Flow\Inject
@@ -55,21 +40,9 @@ class PostService {
 
     /**
      * @Flow\Inject
-     * @var CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * @Flow\Inject
      * @var NodeFactory
      */
     protected $nodeFactory;
-
-    /**
-     * @Flow\Inject
-     * @var NodeSearchServiceInterface
-     */
-    protected $nodeSearchService;
 
     /**
      * @Flow\Inject
@@ -91,12 +64,6 @@ class PostService {
 
     /**
      * @Flow\Inject
-     * @var NodeTypeManager
-     */
-    protected $nodeTypeManager;
-
-    /**
-     * @Flow\Inject
      * @var UserService
      */
     protected $userService;
@@ -109,9 +76,14 @@ class PostService {
     protected $configurationManager;
 
 
-    public function testFunction($dimension) {
+  /**
+   * @param $dimension
+   * @param $searchTerm
+   * @return array
+   */
+  public function getPersonalPosts($dimension, $searchTerm) {
         $userWorkspace = $this->userService->getPersonalWorkspace();
-        $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace);
+        $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace, self::POST_NODETYPE, $searchTerm);
         
         return $this->postNodeCreator($nodeData, $dimension);
     }
@@ -119,197 +91,18 @@ class PostService {
     public function postNodeCreator(array $nodeDataRecords, $dimension) {
 
         $userWorkspace = $this->userService->getPersonalWorkspace();
-
         $context = $this->createContentContext($userWorkspace->getName(), $dimension);
+
+        $posts = array();
 
         foreach ($nodeDataRecords as $nodeData) {
             $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
-            if ($node !== null && $node->getNodeType() == self::POSTNODETYPE) {
+            if ($node !== null && $node->getNodeType() == self::POST_NODETYPE) {
                 $posts[$node->getPath()] = $node;
             }
         }
 
         return $posts;
-    }
-
-
-    //**OLD Methods **//  
-
-    public function getPostsFilteredByBlog(string $path, array $dimension) {
-        $nodeDataRecords = $this->nodeDataRepository->findByPath($path);
-        $context = $this->createContentContext($workspace = 'live', $dimension);
-
-        $blog = array();
-        foreach ($nodeDataRecords as $nodeData) {
-            $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
-            if ($node !== null && $node->getNodeType() == self::BLOGPOSTTYPE) {
-                $categoryRelatedPosts[$node->getPath()] = $node;
-            }
-        }
-
-        return $categoryRelatedPosts;
-    }
-
-    /**
-     * @param Workspace $workspace
-     * @param array $dimensions
-     * @return array
-     * @throws \Neos\ContentRepository\Exception\NodeConfigurationException
-     */
-    public function getPostsFilteredByWorkspace(Workspace $workspace, array $dimension){
-
-        $nodeDataRecords = $this->nodeDataRepository->findByWorkspace($workspace);
-        $context = $this->createContentContext($workspace->getName(), $dimension);
-
-        $categoryRelatedPosts = array();
-        foreach ($nodeDataRecords as $nodeData) {
-            $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
-            if ($node !== null && $node->getNodeType() == self::POSTNODETYPE) {
-                $categoryRelatedPosts[$node->getPath()] = $node;
-            }
-        }
-
-        return $categoryRelatedPosts;
-        
-    }
-    
-    
-    /**
-     * @param Category $category
-     * @param array $dimensions
-     * @param string $workspaceName
-     * @return array
-     * @throws \Neos\ContentRepository\Exception\NodeConfigurationException
-     */
-    public function getPostsWithCategoryRelation(Category $category, array $dimensions, string $workspaceName = 'live' ) {
-
-
-        $categoryIdentifier = $this->categoryRepository->getCategoryIdentifier($category);
-        
-        $objectTypeMap = array(
-            'ObisConcept\NeosBlog\Domain\Model\Category' => array($categoryIdentifier)
-        );
-
-        $nodeDataRecords = $this->nodeDataRepository->findNodesByRelatedEntities($objectTypeMap);
-        $context = $this->createContentContext($workspaceName, $dimensions);
-
-        $categoryRelatedPosts = array();
-        foreach ($nodeDataRecords as $nodeData) {
-            $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
-            if ($node !== null) {
-                $categoryRelatedPosts[$node->getPath()] = $node;
-            }
-        }
-
-        return $categoryRelatedPosts;
-    }
-
-    /**
-     * Returns a list of postnodes filtered by a search term
-     *
-     * @param string $searchTerm An optional search term used for filtering the list of nodes
-     * @param string $workspaceName Name of the workspace to search in, "live" by default
-     * @param array $dimensions Optional list of dimensions and their values which should be used for querying
-     * @param NodeInterface $contextNode a node to use as context for the search
-     * @return string
-     * @throws \Neos\Flow\Mvc\Exception\StopActionException
-     */
-
-    public function getPostsByTerm($searchTerm = '', $workspaceName = 'live', array $dimensions = array(), NodeInterface $contextNode = null) {
-
-        $nodeTypes = array(self::POSTNODETYPE);
-
-        $searchableNodeTypeNames = array();
-        foreach ($nodeTypes as $nodeTypeName) {
-            if (!$this->nodeTypeManager->hasNodeType($nodeTypeName)) {
-                $this->throwStatus(400, sprintf('Unknown node type "%s"', $nodeTypeName));
-            }
-
-            $searchableNodeTypeNames[$nodeTypeName] = $nodeTypeName;
-            /** @var NodeType $subNodeType */
-            foreach ($this->nodeTypeManager->getSubNodeTypes($nodeTypeName, false) as $subNodeTypeName => $subNodeType) {
-                $searchableNodeTypeNames[$subNodeTypeName] = $subNodeTypeName;
-            }
-        }
-
-        $contentContext = $this->createContentContext($workspaceName, $dimensions);
-
-        $nodes = $this->nodeSearchService->findByProperties($searchTerm, $searchableNodeTypeNames, $contentContext, $contextNode);
-
-        return $nodes;
-
-    }
-
-    /**
-     * Returns a list of filtered postnodes
-     *
-     * @param string $workspaceName Name of the workspace to search in, "live" by default
-     * @param array $nodeIdentifiers One or a list of node identifiers
-     * @param array $dimensions Optional list of dimensions and their values which should be used for querying
-     * @return mixed
-     * @throws \Neos\Flow\Mvc\Exception\StopActionException
-     */
-
-    public function getPostsByIdentifiers($nodeIdentifiers = array(), $workspaceName = 'live', array $dimensions = array()) {
-
-        $contentContext = $this->createContentContext($workspaceName, $dimensions);
-
-        $nodes = array_map(function ($identifier) use ($contentContext) {
-            return $contentContext->getNodeByIdentifier($identifier);
-        }, $nodeIdentifiers);
-
-        return $nodes;
-    }
-
-    /**
-     * Returns one postnode with a given identifier
-     *
-     * @param string $workspaceName Name of the workspace to search in, "live" by default
-     * @param string $nodeIdentifier One or a list of node identifiers
-     * @param array $dimensions Optional list of dimensions and their values which should be used for querying
-     * @return mixed
-     * @throws \Neos\Flow\Mvc\Exception\StopActionException
-     */
-
-    public function getPostsByIdentifier($nodeIdentifier, $workspaceName = 'live', array $dimensions = array()) {
-
-        $contentContext = $this->createContentContext($workspaceName, $dimensions);
-
-        $node = $contentContext->getNodeByIdentifier($nodeIdentifier);
-
-        return $node;
-    }
-
-
-    /**
-     * Returns a list of postnodes in the users workspace
-     * @param string $term
-     * @param array $dimensions
-     * @return array
-     */
-
-    public function getPersonalPosts(string $term , array $dimensions = array()) {
-        $userWorkspaceName = $this->userService->getPersonalWorkspaceName();
-
-        $personalPosts = $this->getPostsByTerm($term, $userWorkspaceName, $dimensions);
-
-        return $personalPosts;
-
-    }
-
-    /**
-     * Returns a list of postnodes filtered by identifiers
-     * @param array $identifiers
-     * @param array $dimensions optional
-     * @return array
-     */
-
-    public function getPersonalPostsByIdentifers($identifiers, array $dimensions = array()) {
-        $userWorkspaceName = $this->userService->getPersonalWorkspaceName();
-
-        $personalPosts = $this->getPostsByIdentifiers($identifiers, $userWorkspaceName, $dimensions);
-
-        return $personalPosts;
     }
 
   /**
@@ -337,10 +130,10 @@ class PostService {
         $languageDimensions = array();
         $presets = $languageSettings['presets'];
 
-        //Get the default language preset name from the setings.yaml
+        // Get the default language preset name from the settings.yaml
         $defaultLanguage = $languageSettings['defaultPreset'];
 
-        //Put the default language in the array at first
+        // Put the default language in the array at first
         $languageDimensions[$presets[$defaultLanguage]['label']] = array(
             'language' => array(
                 0 => $defaultLanguage
@@ -349,7 +142,7 @@ class PostService {
 
         unset($presets[$defaultLanguage]);
 
-        //Put the other language dimensions into the array
+        // Put the other language dimensions into the array
         foreach ($presets as $key => $preset) {
 
             $languageDimensions[$preset['label']] = array(

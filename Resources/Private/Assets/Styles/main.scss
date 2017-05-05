@@ -44,15 +44,33 @@
       }
     }
   }
-
-
-
 }
 
 #blog-module {
 
-  .neos-media-options {
-    border-bottom: none;
+  .neos-blog-options {
+    margin-bottom: 50px;
+    
+    .neos-post-options {
+      float: left;
+
+      .count {
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 18px 0 0;
+        border-right: 1px solid #3f3f3f;
+      }
+
+      #create-new-post {
+        background-color: transparent;
+        margin-left: -5px;
+
+        &:hover {
+          background-color: #00a338;
+        }
+      }
+    }
 
     .neos-view-options {
 
@@ -66,14 +84,13 @@
         }
       }
     }
-  }
+    #post-search {
+      float: right;
 
-  .neos-search {
-    display: inline-block;
-
-    .post-search-input {
-      float: left;
-      border-right: 1px solid #141414;
+      .post-search-input {
+        float: left;
+        border-right: 1px solid #141414;
+      }
     }
   }
 
