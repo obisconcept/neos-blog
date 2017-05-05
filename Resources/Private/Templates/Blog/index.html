@@ -29,16 +29,21 @@
 
             <f:then>
 
-
-
                 <div class="neos-blog-options neos-clearfix">
 
                     <div class="neos-post-options">
-                            <span class="count">
-                                {postCount} Posts
-                            </span>
+
+                        <span class="count">{postCount} Posts</span>
+
                         <f:if condition="{posts}"><a id="create-new-post" class="neos-button neos-button-success" href="#"><i class="icon-plus"></i> New Post</a></f:if>
+
                     </div>
+
+                    <f:if condition="{searchSubmitted}">
+                      
+                      <f:link.action action="index" class="neos-button neos-button-icon" >{searchTerm} <i class="icon-remove"></i></f:link.action>
+
+                    </f:if>
 
                   <f:comment>
                     <f:form name="filter" action="index">
@@ -74,21 +79,22 @@
                     </f:form>
                   </f:comment>
 
-                      <f:render partial="Search/PostSearch" />
-
+                      <f:render partial="Search/PostSearch" arguments="{_all}"/>
+                      <f:comment>
                         <f:if condition="{activeDimension}">
-
+                          <f:form action="index" class="neos-dimension">
                             <f:form.hidden name="dimension" value="{activeDimension -> f:format.json()}" />
-
+                          </f:form>
                         </f:if>
+                      </f:comment>
 
                 </div>
-
 
                 <div class="neos-content neos-container-fluid">
 
                   <div class="neos-module-container"></div>
-                  <div class="neos-row-fluid">
+
+                      <div class="neos-row-fluid">
 
                             <table class="neos-table">
 

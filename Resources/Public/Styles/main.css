@@ -49,6 +49,8 @@
     background: #3f3f3f; }
     #blog-module .neos-blog-options .neos-view-options .neos-dropdown#neos-sort-menu {
       margin-right: 20px; }
+  #blog-module .neos-blog-options #filter-settings {
+    display: inline-block; }
   #blog-module .neos-blog-options #post-search {
     float: right; }
     #blog-module .neos-blog-options #post-search .post-search-input {

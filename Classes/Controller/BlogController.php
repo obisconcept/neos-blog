@@ -91,15 +91,25 @@ class BlogController extends ManagementController {
    * @param string $dimension
    * @param array $dimensionLabel
    * @param string $searchTerm
+   * @param bool $searchSubmitted
    */
 
+  public function indexAction(string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
 
-  public function indexAction(string $dimension = '' , $dimensionLabel = array(), $searchTerm = '') {
-    
     // convert json string to array
     ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
 
+    // pass the searchh was submitted flag to the view
+    $this->view->assign('searchSubmitted', $searchSubmitted);
+
+    // get the posts filtered by searchterm if defined
     $posts = $this->postService->getPersonalPosts($dimension, $searchTerm);
+
+    // pass the posts to the view
+    if (!$posts == null){
+      $this->view->assign('posts', $posts);
+      $this->view->assign('searchTerm', $searchTerm);
+    }
 
     // pass all blogs to the view to create new posts
     $blogNodes = $this->blogService->getPersonalBlogs();
@@ -109,13 +119,11 @@ class BlogController extends ManagementController {
     $userWorkspace = $this->_userService->getPersonalWorkspaceName();
     $this->view->assign('personalWorkspace', $userWorkspace);
 
-    if (!$posts == null){
-      $this->view->assign('posts', $posts);
-    }
-
+    // get all language Dimensions and the defaultLanguage
     $languageDimensions = $this->postService->getLanguageDimensions();
     $defaultLanguage = $this->postService->getDefaultLanguage();
 
+    // passs the language Dimensions and the defaultLanguage to view
     if(empty($dimension) == false) {
 
       $this->view->assign('dimensionLabel', $dimensionLabel[0]);
@@ -130,6 +138,7 @@ class BlogController extends ManagementController {
 
     $this->view->assign('dimensions', $languageDimensions);
 
+    // count the posts and pass the number to the view
     $postCount = count($posts);
     $this->view->assign('postCount', $postCount);
   }
