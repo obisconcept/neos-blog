@@ -88,22 +88,26 @@ class BlogController extends ManagementController {
    * Shows a list of post nodes which are accessible by the current user
    * based on the personal workspaces and the default dimension
    *
+   * @param bool $showArchived
    * @param string $dimension
    * @param array $dimensionLabel
    * @param string $searchTerm
    * @param bool $searchSubmitted
    */
 
-  public function indexAction(string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
+  public function indexAction(bool $showArchived = false ,string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
 
     // convert json string to array
     ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
 
-    // pass the searchh was submitted flag to the view
+    // pass the search was submitted flag to the view
     $this->view->assign('searchSubmitted', $searchSubmitted);
 
+    // pass the showArchived flag to the view
+    $this->view->assign('showArchived', $showArchived);
+
     // get the posts filtered by searchterm if defined
-    $posts = $this->postService->getPersonalPosts($dimension, $searchTerm);
+    $posts = $this->postService->getPersonalPosts($dimension, $searchTerm, $showArchived);
 
     // pass the posts to the view
     if (!$posts == null){

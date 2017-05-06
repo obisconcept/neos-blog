@@ -4,28 +4,26 @@
 
 <f:layout name="Default" />
 
-<f:section name="Title"> </f:section>
+<f:section name="Title"> Blogs</f:section>
 
 <f:section name="content">
     <link href="{f:uri.resource(path: 'Styles/main.min.css')}" rel="stylesheet" />
     <script src="{f:uri.resource(path: 'JavaScript/main.min.js')}" type="text/javascript" ></script>
 
     <f:if condition="{dimensions -> f:count()} > 0">
-        <f:form name="dimensions" action="index">
 
-            <div id="dimensions">
+        <div id="blog-controls">
 
-                <f:render partial="FilterOptions/Dimensions" arguments="{_all}" />
+            <f:render partial="FilterOptions/ArchivedButton" arguments="{_all}" />
+            <f:render partial="FilterOptions/Dimensions" arguments="{_all}" />
 
-            </div>
-
-        </f:form>
+        </div>
     </f:if>
 
 
     <div id="blog-module">
 
-        <f:if condition="{blogs}">
+        <f:if condition="{blogs">
 
             <f:then>
 
@@ -35,13 +33,13 @@
 
                         <span class="count">{postCount} Posts</span>
 
-                        <f:if condition="{posts}"><a id="create-new-post" class="neos-button neos-button-success" href="#"><i class="icon-plus"></i> New Post</a></f:if>
+                        <f:if condition="{posts} && {showArchived} == false"><a id="create-new-post" class="neos-button neos-button-success" href="#"><i class="icon-plus"></i> New Post</a></f:if>
 
                     </div>
 
                     <f:if condition="{searchSubmitted}">
-                      
-                      <f:link.action action="index" class="neos-button neos-button-icon" >{searchTerm} <i class="icon-remove"></i></f:link.action>
+
+                      <f:link.action action="index" class="neos-button neos-button-danger">{searchTerm} <i class="icon-remove"></i></f:link.action>
 
                     </f:if>
 

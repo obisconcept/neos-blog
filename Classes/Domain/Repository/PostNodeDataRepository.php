@@ -24,25 +24,42 @@ class PostNodeDataRepository extends Repository{
    * @param Workspace $workspace
    * @param string $nodeType
    * @param string $searchTerm
+   * @param bool $showArchived
    * @return array
    */
 
-  public function getPostNodeData(array $dimension, Workspace $workspace, string $nodeType, string $searchTerm = ''){
+  public function getPostNodeData(array $dimension, Workspace $workspace, string $nodeType, string $searchTerm = '', bool $showArchived){
 
+    // get workspaceobjects
     $workspaces = $this->collectWorkspaceAndAllBaseWorkspaces($workspace);
+    // get base queryBuilder
     $postQuery = $this->postQueryBuilder($nodeType);
 
+    // add constraints
     $this->addDimensionJoinConstraintsToQueryBuilder($postQuery, $dimension);
     $this->addWorkspaceJoinContraintsToQueryBuilder($postQuery, $workspaces);
-    // archive and searchTerm constraints are only for Posts
+
+    // some constraints are only for Posts
     if ($nodeType == 'ObisConcept.NeosBlog:Post') {
-      $this->addArchivedJoinConstraintsToQueryBuilder($postQuery, 'false');
+      $this->addArchivedJoinConstraintsToQueryBuilder($postQuery, $showArchived);
       $this->addSearchTermJoinConstraintsToQueryBuilder($postQuery, $searchTerm);
+      $this->sortPosts($postQuery);
     }
 
+    // finally get the query result and return data
     $data = $postQuery->getQuery()->getResult();
 
     return $data;
+  }
+
+  /**
+   * Sort Posts by creationDateTime as default
+   *
+   * @param QueryBuilder $queryBuilder
+   */
+  protected function sortPosts(QueryBuilder $queryBuilder) {
+
+    $queryBuilder->orderBy('n.creationDateTime', 'DESC');
   }
 
   protected function addSearchTermJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $searchTerm) {
@@ -91,13 +108,16 @@ class PostNodeDataRepository extends Repository{
    * Filters postNodes by Dimensions
    *
    * @param QueryBuilder $queryBuilder
-   * @param string $archiveFilter
+   * @param bool $archiveFilter
    */
 
-  protected function addArchivedJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $archiveFilter ) {
+  protected function addArchivedJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, bool $archiveFilter ) {
+
     $queryBuilder
       ->andWhere('n.properties LIKE :archived')
-      ->setParameter('archived', '%"archived": ' .  $archiveFilter .'%');
+      // We had to use var_export() to convert the boolean to string cuz we are looking in the properties
+      // of an node which is a json_string.
+      ->setParameter('archived', '%"archived": ' .  var_export($archiveFilter, true) .'%');
   }
 
   /**

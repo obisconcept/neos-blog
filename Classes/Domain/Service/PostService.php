@@ -77,13 +77,15 @@ class PostService {
 
 
   /**
-   * @param $dimension
-   * @param $searchTerm
+   * @param array $dimension
+   * @param string $searchTerm
+   * @param bool $showArchived
    * @return array
    */
-  public function getPersonalPosts($dimension, $searchTerm) {
+  public function getPersonalPosts(array $dimension, string $searchTerm, bool $showArchived) {
+
         $userWorkspace = $this->userService->getPersonalWorkspace();
-        $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace, self::POST_NODETYPE, $searchTerm);
+        $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace, self::POST_NODETYPE, $searchTerm, $showArchived);
         
         return $this->postNodeCreator($nodeData, $dimension);
     }

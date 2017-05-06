@@ -1,18 +1,22 @@
-#dimensions {
+#blog-controls {
   position: absolute;
   top: 70px;
   right: 54px;
   background-color: #323232;
   height: 40px;
   width: 200px; }
-  #dimensions .neos-dropdown span a {
+  #blog-controls .show-archived {
+    position: absolute;
+    right: 180px;
+    width: 100%; }
+  #blog-controls .neos-dropdown span a {
     line-height: 40px;
     padding: 7px 16px;
     width: 100%; }
-    #dimensions .neos-dropdown span a .icon-caret-down {
+    #blog-controls .neos-dropdown span a .icon-caret-down {
       line-height: 40px;
       padding: 0 15px; }
-      #dimensions .neos-dropdown span a .icon-caret-down:after {
+      #blog-controls .neos-dropdown span a .icon-caret-down:after {
         display: block;
         content: '';
         position: absolute;
@@ -22,9 +26,9 @@
         right: 44px;
         background-color: #fff;
         opacity: .15; }
-  #dimensions .neos-dropdown .neos-dropdown-menu {
+  #blog-controls .neos-dropdown .neos-dropdown-menu {
     width: 100%; }
-    #dimensions .neos-dropdown .neos-dropdown-menu li button.neos-button {
+    #blog-controls .neos-dropdown .neos-dropdown-menu li button.neos-button {
       width: 100%;
       text-align: left; }
 

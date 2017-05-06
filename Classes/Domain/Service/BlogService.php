@@ -79,7 +79,7 @@ class BlogService {
         $workspaceName = $this->userService->getPersonalWorkspace();
 
         // get the blogNodes
-        $blogNodeData = $this->postNodeDataRepository->getPostNodeData($dimensions, $workspaceName, self::BLOG_NODETYPE );
+        $blogNodeData = $this->postNodeDataRepository->getPostNodeData($dimensions, $workspaceName, self::BLOG_NODETYPE, '' , false );
 
       return $this->postNodeCreator($blogNodeData, $dimensions);
 

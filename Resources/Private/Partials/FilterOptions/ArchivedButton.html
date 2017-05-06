@@ -1,0 +1,26 @@
+<div class="show-archived">
+  <f:form action="index">
+    <f:if condition="{showArchived} == false">
+        <f:then>
+          <f:form.hidden name="showArchived" value="true" />
+        </f:then>
+        <f:else>
+          <f:form.hidden name="showArchived" value="false" />
+        </f:else>
+    </f:if>
+
+      <f:form.button class="neos-button">
+
+        <f:if condition="{showArchived} == false">
+        <f:then>
+          Show Archived Posts
+        </f:then>
+        <f:else>
+          Show Current Posts
+        </f:else>
+      </f:if>
+
+      </f:form.button>
+  </f:form>
+
+</div>

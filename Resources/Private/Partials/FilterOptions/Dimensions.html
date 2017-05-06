@@ -27,21 +27,21 @@
   </span>
 
     <ul class="neos-dropdown-menu neos-pull-right" role="menu">
+        <f:form action="index">
+            <f:for each="{dimensions}" key="languageName" as="dimension">
 
+                <li>
+                    <f:form.hidden name="dimension" value="{dimension -> f:format.json()}" />
+                    <f:form.hidden name="dimensionLabel" value="{languageName}" />
+                    <f:form.button class="neos-button">
 
-    <f:for each="{dimensions}" key="languageName" as="dimension">
+                      {languageName}
 
-      <li>
-        <f:form.hidden name="dimension" value="{dimension -> f:format.json()}" />
-        <f:form.hidden name="dimensionLabel" value="{languageName}" />
-        <f:form.button class="neos-button">
+                    </f:form.button>
+                </li>
 
-          {languageName}
-
-        </f:form.button></li>
-
-    </f:for>
-
+                </f:for>
+        </f:form>
 
     </ul>
 

@@ -42,34 +42,6 @@ gulp.task('build-css', function() {
             cascade: false
         }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('Resources/Public/Styles'));
-
-    gulp.src('Resources/Private/Assets/Styles/main-backend-half.scss')
-        .pipe(plumber({errorHandler: onError}))
-        .pipe(sourcemaps.init())
-        .pipe(sass())
-        .pipe(gulp.dest('Resources/Public/Styles'))
-        .pipe(rename('main-backend-half.min.css'))
-        .pipe(cleanCSS())
-        .pipe(autoprefixer({
-            browsers: ['last 4 versions'],
-            cascade: false
-        }))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('Resources/Public/Styles'));
-
-    gulp.src('Resources/Private/Assets/Styles/main-backend-full.scss')
-        .pipe(plumber({errorHandler: onError}))
-        .pipe(sourcemaps.init())
-        .pipe(sass())
-        .pipe(gulp.dest('Resources/Public/Styles'))
-        .pipe(rename('main-backend-full.min.css'))
-        .pipe(cleanCSS())
-        .pipe(autoprefixer({
-            browsers: ['last 4 versions'],
-            cascade: false
-        }))
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest('Resources/Public/Styles'))
         .pipe(notify({
             'title': 'Gulp',
@@ -95,10 +67,7 @@ gulp.task('build-js', function() {
 
     // Website js files
     gulp.src([
-            'Resources/Private/Assets/JavaScript/Libraries/*.js',
-            'Resources/Private/Assets/Templates/build/bundle.js',
             'Resources/Private/Assets/JavaScript/!(main)*.js',
-            '!' + 'Resources/Private/Assets/JavaScript/backend.js',
             'Resources/Private/Assets/JavaScript/main.js'
         ])
         .pipe(plumber({errorHandler: onError}))
@@ -110,37 +79,6 @@ gulp.task('build-js', function() {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('Resources/Public/JavaScript'));
 
-    // Backend js files
-    gulp.src([
-            'Resources/Private/Assets/JavaScript/backend.js'
-        ])
-        .pipe(plumber({errorHandler: onError}))
-        .pipe(sourcemaps.init())
-        .pipe(concat('backend.js'))
-        .pipe(gulp.dest('Resources/Public/JavaScript'))
-        .pipe(rename('backend.min.js'))
-        .pipe(uglify())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest('Resources/Public/JavaScript'));
-
-});
-
-// Create templates js task
-gulp.task('build-tpl', function(){
-
-  gutil.log('Generate tpl files ...');
-
-  gulp.src('Resources/Private/Assets/Templates/*.hbs')
-      .pipe(handlebars({
-        handlebars: require('handlebars')
-      }))
-      .pipe(wrap('Handlebars.template(<%= contents %>)'))
-      .pipe(declare({
-        namespace: 'app.templates',
-        noRedeclare: true
-      }))
-      .pipe(concat('bundle.js'))
-      .pipe(gulp.dest('Resources/Private/Assets/Templates/build/'));
 });
 
 // Create default task
@@ -161,14 +99,4 @@ gulp.task('default', function() {
             'title': 'Gulp',
             'message': 'JavaScript files were generated'
         }));
-
-    gulp.src('Resources/Private/Assets/Templates/*.hbs', {read: false})
-      .pipe(watch('Resources/Private/Assets/Templates/*.hbs', function() {
-          gulp.start('build-tpl');
-          gulp.start('build-js');
-      }))
-      .pipe(notify({
-          'title': 'Gulp',
-          'message': 'Template files were generated'
-      }));
 });
