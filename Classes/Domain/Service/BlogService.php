@@ -98,6 +98,7 @@ class BlogService {
 
     $context = $this->createContentContext($userWorkspace->getName(), $dimension);
 
+    $posts = array();
     foreach ($nodeDataRecords as $nodeData) {
       $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
       if ($node !== null && $node->getNodeType() == self::BLOG_NODETYPE) {
