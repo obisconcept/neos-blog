@@ -2,15 +2,15 @@
 
 namespace ObisConcept\NeosBlog\Controller;
 
-    /*
-     * This file is part of the ObisConcept.NeosBlog package.
-     *
-     * (c) Dennis Schröder
-     *
-     * This package is Open Source Software. For the full copyright and license
-     * information, please view the LICENSE file which was distributed with this
-     * source code.
-     */
+/*
+ * This file is part of the ObisConcept.NeosBlog package.
+ *
+ * (c) Dennis Schröder
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 
 use Neos\Flow\Annotations as Flow;
@@ -36,33 +36,33 @@ use Neos\ContentRepository\Domain\Repository\ContentDimensionRepository;
 class BlogController extends ManagementController {
 
 
-    /**
-     * @Flow\Inject
-     * @var BlogService
-     */
+  /**
+   * @Flow\Inject
+   * @var BlogService
+   */
 
-    protected $blogService;
+  protected $blogService;
 
 
-    /**
-     * @Flow\Inject
-     * @var PostService
-     */
+  /**
+   * @Flow\Inject
+   * @var PostService
+   */
 
-    protected $postService;
+  protected $postService;
 
-    /**
-     * @Flow\Inject
-     * @var ContentService
-     */
+  /**
+   * @Flow\Inject
+   * @var ContentService
+   */
 
-    protected $contentService;
+  protected $contentService;
 
-    /**
-     * @Flow\Inject
-     * @var NodeTypeManager
-     */
-    protected $nodeTypeManager;
+  /**
+   * @Flow\Inject
+   * @var NodeTypeManager
+   */
+  protected $nodeTypeManager;
 
   /**
    * @Flow\Inject
@@ -95,10 +95,30 @@ class BlogController extends ManagementController {
    * @param bool $searchSubmitted
    */
 
-  public function indexAction(bool $showArchived = false ,string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
+  public function indexAction(bool $showArchived = false , string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
 
     // convert json string to array
     ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
+
+    // we need a little logic here to control no posts status
+    if ($showArchived == true && $searchSubmitted == false ) {
+      $this->view->assign('showArchivedNoResults', true);
+      $this->view->assign('showSearchNoResults', false);
+      $this->view->assign('showCreateNewForm', false);
+    }
+
+    if ($searchSubmitted == true && $showArchived == false ) {
+      $this->view->assign('showSearchNoResults', true);
+      $this->view->assign('showArchivedNoResults', false);
+      $this->view->assign('showCreateNewForm', false);
+    }
+
+    if ($searchSubmitted == false && $showArchived == false ) {
+      $this->view->assign('showSearchNoResults', false);
+      $this->view->assign('showArchivedNoResults', false);
+      $this->view->assign('showCreateNewForm', true);
+    }
+    
 
     // pass the search was submitted flag to the view
     $this->view->assign('searchSubmitted', $searchSubmitted);
@@ -141,110 +161,106 @@ class BlogController extends ManagementController {
     }
 
     $this->view->assign('dimensions', $languageDimensions);
-
-    // count the posts and pass the number to the view
-    $postCount = count($posts);
-    $this->view->assign('postCount', $postCount);
   }
 
-    /**
-     * Shows the details of one post node
-     * @param NodeInterface $post
-     */
-    
-    public function showAction(NodeInterface $post) {
+  /**
+   * Shows the details of one post node
+   * @param NodeInterface $post
+   */
 
-        if(!$post == Null) {
-            $imageResource = $this->contentService->getPostImageResourceObject($post);
-            $teaserText = $this->contentService->getPostTextTeaser($post);
+  public function showAction(NodeInterface $post) {
 
-            if (!$teaserText == null) {
-                $this->view->assign('postTextTeaser', $teaserText);
-                $this->view->assign('postImage', $imageResource[0]);
-            }
+    if(!$post == Null) {
+      $imageResource = $this->contentService->getPostImageResourceObject($post);
+      $teaserText = $this->contentService->getPostTextTeaser($post);
 
-            /** @var NodeInterface $personalPosts */
-            $properties =  $post->getProperties();
+      if (!$teaserText == null) {
+        $this->view->assign('postTextTeaser', $teaserText);
+        $this->view->assign('postImage', $imageResource[0]);
+      }
 
-            //make each property available in the template with it's property name
-            foreach ($properties as $propertyName => $property) {
-                $this->view->assign($propertyName, $property);
-            }
+      /** @var NodeInterface $personalPosts */
+      $properties =  $post->getProperties();
 
-            $this->view->assign('post', $post);
-        } else {
+      //make each property available in the template with it's property name
+      foreach ($properties as $propertyName => $property) {
+        $this->view->assign($propertyName, $property);
+      }
 
-        }
-    }
-
-    /**
-     * @param string $title
-     * @param string $blogIdentifier
-     * @throws \Neos\ContentRepository\Exception\NodeTypeNotFoundException
-     */
-    public function createAction(string $title, string $blogIdentifier) {
-
-        if($title == null) {
-            $title = 'Unnamed';
-        }
-
-        $userWorkspace = $this->_userService->getPersonalWorkspaceName();
-
-        /** @var NodeInterface $blogNode */
-        $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
-
-        $author = $this->userService->getCurrentUser();
-
-        $nodeTemplate = new NodeTemplate();
-        $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
-        $nodeTemplate->setProperty('title', $title);
-        $nodeTemplate->setProperty('author', $author);
-        $nodeTemplate->setProperty('archived', false);
-        $nodeTemplate->setHiddenInIndex(true);
-
-        $published = new \DateTime();
-
-        $nodeTemplate->setProperty('publishedAt', $published );
-
-        $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
-
-
-        $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
-
-        if ($this->request->getHttpRequest()->isMethodSafe() === false) {
-            $this->persistenceManager->persistAll();
-        }
-        
-        $this->redirect('index');
+      $this->view->assign('post', $post);
+    } else {
 
     }
+  }
 
-    /**
-     * Deletes the specified node and all of its sub nodes
-     *
-     * @param $postNode
-     */
-    public function deleteAction(NodeInterface $postNode) {
+  /**
+   * @param string $title
+   * @param string $blogIdentifier
+   * @throws \Neos\ContentRepository\Exception\NodeTypeNotFoundException
+   */
+  public function createAction(string $title, string $blogIdentifier) {
 
-        if ($this->request->getHttpRequest()->isMethodSafe() === false) {
-            $this->persistenceManager->persistAll();
-        }
-
-        /** @var NodeInterface $node */
-        $postNode->remove();
-        $this->redirect('index');
+    if($title == null) {
+      $title = 'Unnamed';
     }
 
+    $userWorkspace = $this->_userService->getPersonalWorkspaceName();
 
-    protected function getBlogNode(string $workspace, string $blogIdentifier){
-        $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
+    /** @var NodeInterface $blogNode */
+    $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
 
-        $blogNode = $context->getNodeByIdentifier($blogIdentifier);
+    $author = $this->userService->getCurrentUser();
 
-        if (!($blogNode instanceof NodeInterface)) {
-           return;
-        }
+    $nodeTemplate = new NodeTemplate();
+    $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
+    $nodeTemplate->setProperty('title', $title);
+    $nodeTemplate->setProperty('author', $author);
+    $nodeTemplate->setProperty('archived', false);
+    $nodeTemplate->setHiddenInIndex(true);
 
-        return $blogNode;
+    $published = new \DateTime();
+
+    $nodeTemplate->setProperty('publishedAt', $published );
+
+    $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
+
+
+    $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
+
+    if ($this->request->getHttpRequest()->isMethodSafe() === false) {
+      $this->persistenceManager->persistAll();
     }
+
+    $this->redirect('index');
+
+  }
+
+  /**
+   * Deletes the specified node and all of its sub nodes
+   *
+   * @param $postNode
+   */
+  public function deleteAction(NodeInterface $postNode) {
+
+    if ($this->request->getHttpRequest()->isMethodSafe() === false) {
+      $this->persistenceManager->persistAll();
+    }
+
+    /** @var NodeInterface $node */
+    $postNode->remove();
+    $this->redirect('index');
+  }
+
+
+  protected function getBlogNode(string $workspace, string $blogIdentifier){
+    $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
+
+    $blogNode = $context->getNodeByIdentifier($blogIdentifier);
+
+    if (!($blogNode instanceof NodeInterface)) {
+      return;
+    }
+
+    return $blogNode;
+  }
 }

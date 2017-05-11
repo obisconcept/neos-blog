@@ -42,7 +42,9 @@ class PostNodeDataRepository extends Repository{
     // some constraints are only for Posts
     if ($nodeType == 'ObisConcept.NeosBlog:Post') {
       $this->addArchivedJoinConstraintsToQueryBuilder($postQuery, $showArchived);
-      $this->addSearchTermJoinConstraintsToQueryBuilder($postQuery, $searchTerm);
+
+      // add the searchTerm constraint only when not empty searchTerm
+      if ($searchTerm != '') $this->addSearchTermJoinConstraintsToQueryBuilder($postQuery, $searchTerm);
       $this->sortPosts($postQuery);
     }
 
