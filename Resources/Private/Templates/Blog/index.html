@@ -4,7 +4,7 @@
 
 <f:layout name="Default" />
 
-<f:section name="Title"> Blogs</f:section>
+<f:section name="Title">Posts</f:section>
 
 <f:section name="content">
     <link href="{f:uri.resource(path: 'Styles/main.min.css')}" rel="stylesheet" />
@@ -31,7 +31,7 @@
 
                     <div class="neos-post-options">
 
-                        <span class="count">{postCount} Posts</span>
+                        <span class="count">{posts -> f:count()} Posts</span>
 
                         <f:if condition="{posts} && {showArchived} == false"><a id="create-new-post" class="neos-button neos-button-success" href="#"><i class="icon-plus"></i> New Post</a></f:if>
 
@@ -77,7 +77,12 @@
                     </f:form>
                   </f:comment>
 
-                      <f:render partial="Search/PostSearch" arguments="{_all}"/>
+                      <f:if condition="{posts -> f:count()} > 10">
+
+                        <f:render partial="Search/PostSearch" arguments="{_all}"/>
+
+                      </f:if>
+
                       <f:comment>
                         <f:if condition="{activeDimension}">
                           <f:form action="index" class="neos-dimension">
@@ -140,7 +145,23 @@
 
                                     <f:else>
 
-                                        <f:render partial="Forms/Create" arguments="{blogs: blogs, personalWorkspace: personalWorkspace, firstPost: true}" />
+                                        <f:if condition="{showArchivedNoResults}">
+
+                                            <td>Sorry, no archived posts found!</td>
+
+                                        </f:if>
+
+                                        <f:if condition="{showSearchNoResults}">
+
+                                            <td>Sorry, your Search: "{searchTerm}" had no results!</td>
+
+                                        </f:if>
+
+                                        <f:if condition="{showCreateNewForm}">
+
+                                          <f:render partial="Forms/Create" arguments="{blogs: blogs, personalWorkspace: personalWorkspace, firstPost: true}" />
+
+                                        </f:if>
 
                                     </f:else>
 
