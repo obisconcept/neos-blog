@@ -1,4 +1,3 @@
-
 'ObisConcept.NeosBlog:Blog':
   superTypes:
     'Neos.Neos:Document': true
