@@ -11,7 +11,7 @@
 
   <td>{post.workspace.name}</td>
 
-  <td>{blog:authorDetails(identifier: post.properties.author)}</td>
+  <td><f:if condition="{post.properties.author}">{blog:authorDetails(identifier: post.properties.author)}</f:if></td>
 
   <td>{post.properties.publishedAt -> f:format.date(format:'d-m-Y')}</td>
 

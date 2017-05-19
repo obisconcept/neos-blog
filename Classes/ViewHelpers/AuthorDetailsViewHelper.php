@@ -34,6 +34,6 @@ class AuthorDetailsViewHelper extends AbstractViewHelper {
   public function render(string $identifier) {
     $user = $this->persistenceManager->getObjectByIdentifier($identifier, 'Neos\Neos\Domain\Model\User');
 
-    return $user->getLabel();
+    return ($user->getLabel() != null) ? $user->getLabel() : '';
   }
 }

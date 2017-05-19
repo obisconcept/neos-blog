@@ -29,8 +29,6 @@ prototype(ObisConcept.NeosBlog:PostList) < prototype(Neos.Neos:Content) {
         authorFilter = ${q(node).property('author') == '' ? null : q(node).property('author')}
    }
 
-
-
     postItem = ObisConcept.NeosBlog:Post {
         templatePath = 'resource://ObisConcept.NeosBlog/Private/Templates/ProtoTypes/PostItem.html'
 
