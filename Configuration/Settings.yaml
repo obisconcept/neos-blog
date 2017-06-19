@@ -60,16 +60,6 @@ Neos:
               index:
                 label: 'Category List'
                 title: 'Shows a list of all Categories'
-          archive:
-            label: Archive
-            icon: icon-archive
-            controller: ObisConcept\NeosBlog\Controller\ArchiveController
-            description: 'Managing Archived Posts'
-            privilegeTarget: 'ObisConcept.NeosBlog:EditorActions.Archive'
-            actions:
-              index:
-                label: 'Archive List'
-                title: 'Shows a list of all archived Posts'
     fusion:
       autoInclude:
         ObisConcept.NeosBlog: true

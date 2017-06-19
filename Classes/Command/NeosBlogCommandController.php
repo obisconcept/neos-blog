@@ -47,12 +47,7 @@ class NeosBlogCommandController extends CommandController {
      */
 
     protected $categoryRepository;
-    /**
-     * @Flow\Inject
-     * @var tagRepository
-     */
-    protected $tagRepository;
-
+    
     /**
      * @return integer
      */
@@ -175,18 +170,6 @@ class NeosBlogCommandController extends CommandController {
         );
     }
 
-    public function addTagCommand($name) {
-        $tag = new Tag();
-        $tag->setName($name);
-
-        $this->tagRepository->add($tag);
-
-        $this->outputLine(
-            'The category %s was added to the database!',
-            array($tag->getName())
-        );
-    }
-
 
     public function listCategoriesCommand() {
 
@@ -208,15 +191,6 @@ class NeosBlogCommandController extends CommandController {
             $this->categoryRepository->removeAll();
         } else {
             $this->outputLine("There are currently no categories in the database");
-        }
-    }
-
-    public function deleteAllTags(){
-
-        if($this->tagRepository->countAll() > 0) {
-            $this->tagRepository->removeAll();
-        } else {
-            $this->outputLine("There are currently no tags in the database");
         }
     }
 }
