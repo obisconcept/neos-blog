@@ -135,7 +135,7 @@
 
                                             <f:for each="{paginatedPosts}" as="post" iteration="iterator">
 
-                                                <f:render partial="PostList" arguments="{post: post}" />
+                                                <f:render partial="PostList" arguments="{post: post, backendAppendix: backendAppendix}" />
 
                                             </f:for>
 

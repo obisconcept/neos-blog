@@ -118,7 +118,7 @@ class BlogController extends ManagementController {
       $this->view->assign('showArchivedNoResults', false);
       $this->view->assign('showCreateNewForm', true);
     }
-    
+
 
     // pass the search was submitted flag to the view
     $this->view->assign('searchSubmitted', $searchSubmitted);
@@ -161,6 +161,13 @@ class BlogController extends ManagementController {
     }
 
     $this->view->assign('dimensions', $languageDimensions);
+
+    if (!$posts == null) {
+      foreach ($posts as $post) {
+        $this->view->assign('backendAppendix', ('@' . explode('@', $post->getContextPath())[1]));
+        break;
+      }
+    }
   }
 
   /**

@@ -21,11 +21,11 @@
 
     <div class="neos-pull-right">
 
-      <neos:link.node node="{post}" class="neos-button neos-button-primary">
+      <a class="neos-button neos-button-primary" href="/neos/content?node={post.path}{backendAppendix}">
 
         <i class="icon-pencil icon-white"></i>
 
-      </neos:link.node>
+      </a>
 
       <f:link.action action="show" class="neos-button neos-button-primary" arguments="{post: post}">
 

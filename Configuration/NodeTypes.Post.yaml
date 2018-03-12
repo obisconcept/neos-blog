@@ -13,22 +13,22 @@
       'ObisConcept.NeosBlog:Post': false
   ui:
     label: Post
-    icon: 'fa fa-file-text'
+    icon: 'icon-file-text'
     group: blog
     inspector:
       tabs:
         relatedPosts:
           label: i18n
-          icon: 'fa fa-copy'
+          icon: 'icon-copy'
       groups:
         document:
           label: i18n
         properties:
           label: i18n
-          icon: 'fa fa-cog'
+          icon: 'icon-cog'
         relatedPosts:
           label: i18n
-          icon: 'fa fa-copy'
+          icon: 'icon-copy'
           tab: relatedPosts
   properties:
     _hiddenInIndex:
