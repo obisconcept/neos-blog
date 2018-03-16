@@ -16,7 +16,7 @@ Neos:
         nodeTree:
           presets:
             default:
-              baseNodeType: 'Neos.Neos:Document, !ObisConcept.NeosBlog:Post'
+              baseNodeType: 'Neos.Neos:Document'
       inspector:
         dataTypes:
           ObisConcept\NeosBlog\Domain\Model\Category:
