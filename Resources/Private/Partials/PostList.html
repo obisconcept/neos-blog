@@ -7,7 +7,13 @@
 
   <td>{post.parent.properties.title}</td>
 
-  <td><f:if condition="{post.properties.categories.name}">{post.properties.categories.name}</f:if></td>
+  <td>
+    <f:if condition="{post.properties.categories}">
+      <f:if condition="{post.properties.categories.name}">
+        {post.properties.categories.name}
+      </f:if>
+    </f:if>
+  </td>
 
   <td>{post.workspace.name}</td>
 
