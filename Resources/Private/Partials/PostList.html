@@ -27,11 +27,17 @@
 
     <div class="neos-pull-right">
 
-      <neos:link.node node="{post}" class="neos-button neos-button-primary">
+      <!-- <neos:link.node node="{post}" class="neos-button neos-button-primary">
 
         <i class="icon-pencil icon-white"></i>
 
-      </neos:link.node>
+      </neos:link.node> -->
+
+      <a class="neos-button neos-button-primary" href="/neos/content?node={post._path}">
+      
+        <i class="icon-pencil icon-white"></i>
+      
+      </a>
 
       <f:link.action action="show" class="neos-button neos-button-primary" arguments="{post: post}">
 

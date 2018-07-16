@@ -26,14 +26,14 @@ use ObisConcept\NeosBlog\Domain\Service\ContentService;
 use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 use Neos\ContentRepository\Domain\Repository\ContentDimensionRepository;
 
-
 /**
  * Class BlogController
  * @package ObisConcept\NeosBlog\Controller
  * @Flow\Scope("singleton")
  */
 
-class BlogController extends ManagementController {
+class BlogController extends ManagementController
+{
 
 
   /**
@@ -41,227 +41,223 @@ class BlogController extends ManagementController {
    * @var BlogService
    */
 
-  protected $blogService;
+    protected $blogService;
 
 
-  /**
-   * @Flow\Inject
-   * @var PostService
-   */
+    /**
+     * @Flow\Inject
+     * @var PostService
+     */
 
-  protected $postService;
+    protected $postService;
 
-  /**
-   * @Flow\Inject
-   * @var ContentService
-   */
+    /**
+     * @Flow\Inject
+     * @var ContentService
+     */
 
-  protected $contentService;
+    protected $contentService;
 
-  /**
-   * @Flow\Inject
-   * @var NodeTypeManager
-   */
-  protected $nodeTypeManager;
+    /**
+     * @Flow\Inject
+     * @var NodeTypeManager
+     */
+    protected $nodeTypeManager;
 
-  /**
-   * @Flow\Inject
-   * @var ContentContextFactory
-   */
-  protected $contentContextFactory;
+    /**
+     * @Flow\Inject
+     * @var ContentContextFactory
+     */
+    protected $contentContextFactory;
 
-  /**
-   * @Flow\Inject
-   * @var UserService
-   */
-  protected $userService;
-
-
-  /**
-   * @Flow\Inject
-   * @var ContentDimensionRepository
-   */
-  protected $contentDimensionsRepository;
+    /**
+     * @Flow\Inject
+     * @var UserService
+     */
+    protected $userService;
 
 
-  /**
-   * Shows a list of post nodes which are accessible by the current user
-   * based on the personal workspaces and the default dimension
-   *
-   * @param bool $showArchived
-   * @param string $dimension
-   * @param array $dimensionLabel
-   * @param string $searchTerm
-   * @param bool $searchSubmitted
-   */
+    /**
+     * @Flow\Inject
+     * @var ContentDimensionRepository
+     */
+    protected $contentDimensionsRepository;
 
-  public function indexAction(bool $showArchived = false , string $dimension = '' , $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false) {
+
+    /**
+     * Shows a list of post nodes which are accessible by the current user
+     * based on the personal workspaces and the default dimension
+     *
+     * @param bool $showArchived
+     * @param string $dimension
+     * @param array $dimensionLabel
+     * @param string $searchTerm
+     * @param bool $searchSubmitted
+     */
+
+    public function indexAction(bool $showArchived = false, string $dimension = '', $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false)
+    {
 
     // convert json string to array
-    ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
+        ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
 
-    // we need a little logic here to control no posts status
-    if ($showArchived == true && $searchSubmitted == false ) {
-      $this->view->assign('showArchivedNoResults', true);
-      $this->view->assign('showSearchNoResults', false);
-      $this->view->assign('showCreateNewForm', false);
-    }
+        // we need a little logic here to control no posts status
+        if ($showArchived == true && $searchSubmitted == false) {
+            $this->view->assign('showArchivedNoResults', true);
+            $this->view->assign('showSearchNoResults', false);
+            $this->view->assign('showCreateNewForm', false);
+        }
 
-    if ($searchSubmitted == true && $showArchived == false ) {
-      $this->view->assign('showSearchNoResults', true);
-      $this->view->assign('showArchivedNoResults', false);
-      $this->view->assign('showCreateNewForm', false);
-    }
+        if ($searchSubmitted == true && $showArchived == false) {
+            $this->view->assign('showSearchNoResults', true);
+            $this->view->assign('showArchivedNoResults', false);
+            $this->view->assign('showCreateNewForm', false);
+        }
 
-    if ($searchSubmitted == false && $showArchived == false ) {
-      $this->view->assign('showSearchNoResults', false);
-      $this->view->assign('showArchivedNoResults', false);
-      $this->view->assign('showCreateNewForm', true);
-    }
+        if ($searchSubmitted == false && $showArchived == false) {
+            $this->view->assign('showSearchNoResults', false);
+            $this->view->assign('showArchivedNoResults', false);
+            $this->view->assign('showCreateNewForm', true);
+        }
     
 
-    // pass the search was submitted flag to the view
-    $this->view->assign('searchSubmitted', $searchSubmitted);
+        // pass the search was submitted flag to the view
+        $this->view->assign('searchSubmitted', $searchSubmitted);
 
-    // pass the showArchived flag to the view
-    $this->view->assign('showArchived', $showArchived);
+        // pass the showArchived flag to the view
+        $this->view->assign('showArchived', $showArchived);
 
-    // get the posts filtered by searchterm if defined
-    $posts = $this->postService->getPersonalPosts($dimension, $searchTerm, $showArchived);
+        // get the posts filtered by searchterm if defined
+        $posts = $this->postService->getPersonalPosts($dimension, $searchTerm, $showArchived);
 
-    // pass the posts to the view
-    if (!$posts == null){
-      $this->view->assign('posts', $posts);
-      $this->view->assign('searchTerm', $searchTerm);
+        // pass the posts to the view
+        if (!$posts == null) {
+            $this->view->assign('posts', $posts);
+            $this->view->assign('searchTerm', $searchTerm);
+        }
+
+        // pass all blogs to the view to create new posts
+        $blogNodes = $this->blogService->getPersonalBlogs();
+        $this->view->assign('blogs', $blogNodes);
+
+        // pass the personalWorkspace to the view to create new posts
+        $userWorkspace = $this->_userService->getPersonalWorkspaceName();
+        $this->view->assign('personalWorkspace', $userWorkspace);
+
+        // get all language Dimensions and the defaultLanguage
+        $languageDimensions = $this->postService->getLanguageDimensions();
+        $defaultLanguage = $this->postService->getDefaultLanguage();
+
+        // passs the language Dimensions and the defaultLanguage to view
+        if (empty($dimension) == false) {
+            $this->view->assign('dimensionLabel', $dimensionLabel[0]);
+            unset($languageDimensions[$dimensionLabel[0]]);
+        } else {
+            unset($languageDimensions[$defaultLanguage]);
+            $this->view->assign('defaultLanguage', $defaultLanguage);
+        }
+
+        $this->view->assign('dimensions', $languageDimensions);
     }
 
-    // pass all blogs to the view to create new posts
-    $blogNodes = $this->blogService->getPersonalBlogs();
-    $this->view->assign('blogs', $blogNodes);
+    /**
+     * Shows the details of one post node
+     * @param NodeInterface $post
+     */
 
-    // pass the personalWorkspace to the view to create new posts
-    $userWorkspace = $this->_userService->getPersonalWorkspaceName();
-    $this->view->assign('personalWorkspace', $userWorkspace);
+    public function showAction(NodeInterface $post)
+    {
+        if (!$post == null) {
+            $imageResource = $this->contentService->getPostImageResourceObject($post);
+            $teaserText = $this->contentService->getPostTextTeaser($post);
 
-    // get all language Dimensions and the defaultLanguage
-    $languageDimensions = $this->postService->getLanguageDimensions();
-    $defaultLanguage = $this->postService->getDefaultLanguage();
+            if (!$teaserText == null) {
+                $this->view->assign('postTextTeaser', $teaserText);
+                $this->view->assign('postImage', $imageResource[0]);
+            }
 
-    // passs the language Dimensions and the defaultLanguage to view
-    if(empty($dimension) == false) {
+            /** @var NodeInterface $personalPosts */
+            $properties =  $post->getProperties();
 
-      $this->view->assign('dimensionLabel', $dimensionLabel[0]);
-      unset($languageDimensions[$dimensionLabel[0]]);
+            //make each property available in the template with it's property name
+            foreach ($properties as $propertyName => $property) {
+                $this->view->assign($propertyName, $property);
+            }
 
-    } else {
-
-      unset($languageDimensions[$defaultLanguage]);
-      $this->view->assign('defaultLanguage', $defaultLanguage);
-
+            $this->view->assign('post', $post);
+        } else {
+        }
     }
 
-    $this->view->assign('dimensions', $languageDimensions);
-  }
+    /**
+     * @param string $title
+     * @param string $blogIdentifier
+     * @throws \Neos\ContentRepository\Exception\NodeTypeNotFoundException
+     */
+    public function createAction(string $title, string $blogIdentifier)
+    {
+        if ($title == null) {
+            $title = 'Unnamed';
+        }
 
-  /**
-   * Shows the details of one post node
-   * @param NodeInterface $post
-   */
+        $userWorkspace = $this->_userService->getPersonalWorkspaceName();
 
-  public function showAction(NodeInterface $post) {
+        /** @var NodeInterface $blogNode */
+        $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
 
-    if(!$post == Null) {
-      $imageResource = $this->contentService->getPostImageResourceObject($post);
-      $teaserText = $this->contentService->getPostTextTeaser($post);
+        $author = $this->userService->getCurrentUser();
 
-      if (!$teaserText == null) {
-        $this->view->assign('postTextTeaser', $teaserText);
-        $this->view->assign('postImage', $imageResource[0]);
-      }
+        $nodeTemplate = new NodeTemplate();
+        $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
+        $nodeTemplate->setProperty('title', $title);
+        $nodeTemplate->setProperty('author', $author);
+        $nodeTemplate->setProperty('archived', false);
+        $nodeTemplate->setProperty('postType', 'news');
+        $nodeTemplate->setHiddenInIndex(true);
 
-      /** @var NodeInterface $personalPosts */
-      $properties =  $post->getProperties();
+        $published = new \DateTime();
 
-      //make each property available in the template with it's property name
-      foreach ($properties as $propertyName => $property) {
-        $this->view->assign($propertyName, $property);
-      }
+        $nodeTemplate->setProperty('publishedAt', $published);
 
-      $this->view->assign('post', $post);
-    } else {
+        $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
 
-    }
-  }
 
-  /**
-   * @param string $title
-   * @param string $blogIdentifier
-   * @throws \Neos\ContentRepository\Exception\NodeTypeNotFoundException
-   */
-  public function createAction(string $title, string $blogIdentifier) {
+        $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
 
-    if($title == null) {
-      $title = 'Unnamed';
+        if ($this->request->getHttpRequest()->isMethodSafe() === false) {
+            $this->persistenceManager->persistAll();
+        }
+
+        $this->redirect('index');
     }
 
-    $userWorkspace = $this->_userService->getPersonalWorkspaceName();
+    /**
+     * Deletes the specified node and all of its sub nodes
+     *
+     * @param $postNode
+     */
+    public function deleteAction(NodeInterface $postNode)
+    {
+        if ($this->request->getHttpRequest()->isMethodSafe() === false) {
+            $this->persistenceManager->persistAll();
+        }
 
-    /** @var NodeInterface $blogNode */
-    $blogNode = $this->getBlogNode($userWorkspace, $blogIdentifier);
-
-    $author = $this->userService->getCurrentUser();
-
-    $nodeTemplate = new NodeTemplate();
-    $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('ObisConcept.NeosBlog:Post'));
-    $nodeTemplate->setProperty('title', $title);
-    $nodeTemplate->setProperty('author', $author);
-    $nodeTemplate->setProperty('archived', false);
-    $nodeTemplate->setProperty('postType', 'news');
-    $nodeTemplate->setHiddenInIndex(true);
-
-    $published = new \DateTime();
-
-    $nodeTemplate->setProperty('publishedAt', $published );
-
-    $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
-
-
-    $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
-
-    if ($this->request->getHttpRequest()->isMethodSafe() === false) {
-      $this->persistenceManager->persistAll();
+        /** @var NodeInterface $node */
+        $postNode->remove();
+        $this->redirect('index');
     }
 
-    $this->redirect('index');
 
-  }
+    protected function getBlogNode(string $workspace, string $blogIdentifier)
+    {
+        $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
 
-  /**
-   * Deletes the specified node and all of its sub nodes
-   *
-   * @param $postNode
-   */
-  public function deleteAction(NodeInterface $postNode) {
+        $blogNode = $context->getNodeByIdentifier($blogIdentifier);
 
-    if ($this->request->getHttpRequest()->isMethodSafe() === false) {
-      $this->persistenceManager->persistAll();
+        if (!($blogNode instanceof NodeInterface)) {
+            return;
+        }
+
+        return $blogNode;
     }
-
-    /** @var NodeInterface $node */
-    $postNode->remove();
-    $this->redirect('index');
-  }
-
-
-  protected function getBlogNode(string $workspace, string $blogIdentifier){
-    $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
-
-    $blogNode = $context->getNodeByIdentifier($blogIdentifier);
-
-    if (!($blogNode instanceof NodeInterface)) {
-      return;
-    }
-
-    return $blogNode;
-  }
 }
