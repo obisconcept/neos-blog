@@ -216,6 +216,7 @@ class BlogController extends ManagementController {
     $nodeTemplate->setProperty('title', $title);
     $nodeTemplate->setProperty('author', $author);
     $nodeTemplate->setProperty('archived', false);
+    $nodeTemplate->setProperty('postType', 'news');
     $nodeTemplate->setHiddenInIndex(true);
 
     $published = new \DateTime();
