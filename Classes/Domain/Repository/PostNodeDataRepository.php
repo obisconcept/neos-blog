@@ -67,7 +67,7 @@ class PostNodeDataRepository extends Repository
         $queryBuilder->orderBy('n.creationDateTime', 'DESC');
     }
 
-    protected function addSearchTermJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $searchTerm)
+    protected function addSearchTermJoinConstraintsToQueryBuilder(QueryBuilder &$queryBuilder, string $searchTerm)
     {
         $queryBuilder
             ->andWhere('n.properties LIKE :searchTerm')
@@ -81,7 +81,7 @@ class PostNodeDataRepository extends Repository
      * @param array $workspaces
      */
 
-    protected function addWorkspaceJoinContraintsToQueryBuilder(QueryBuilder $queryBuilder, array $workspaces)
+    protected function addWorkspaceJoinContraintsToQueryBuilder(QueryBuilder &$queryBuilder, array $workspaces)
     {
         $queryBuilder
             ->andWhere('n.workspace IN (:workspaces)')
@@ -97,7 +97,7 @@ class PostNodeDataRepository extends Repository
      * @return void
      */
 
-    protected function addDimensionJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, array $dimensions)
+    protected function addDimensionJoinConstraintsToQueryBuilder(QueryBuilder &$queryBuilder, array $dimensions)
     {
         $count = 0;
         foreach ($dimensions as $dimensionName => $dimensionValues) {
@@ -118,7 +118,7 @@ class PostNodeDataRepository extends Repository
      * @param bool $archiveFilter
      */
 
-    protected function addArchivedJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, bool $archiveFilter)
+    protected function addArchivedJoinConstraintsToQueryBuilder(QueryBuilder &$queryBuilder, bool $archiveFilter)
     {
         $queryBuilder
             ->andWhere('n.properties LIKE :archived')
