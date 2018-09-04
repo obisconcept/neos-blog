@@ -15,25 +15,27 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 
-class AuthorDetailsViewHelper extends AbstractViewHelper {
+class AuthorDetailsViewHelper extends AbstractViewHelper
+{
 
   /**
    * @Flow\Inject
    * @var PersistenceManagerInterface
    */
-  protected $persistenceManager;
+    protected $persistenceManager;
 
 
-  /**
-   * Render the choosen property of an user object
-   *
-   * @param string $identifier
-   * @return string the users full name
-   */
+    /**
+     * Render the choosen property of an user object
+     *
+     * @param string $identifier
+     * @return string the users full name
+     */
 
-  public function render(string $identifier) {
-    $user = $this->persistenceManager->getObjectByIdentifier($identifier, 'Neos\Neos\Domain\Model\User');
+    public function render(string $identifier)
+    {
+        $user = $this->persistenceManager->getObjectByIdentifier($identifier, 'Neos\Neos\Domain\Model\User');
 
-    return ($user->getLabel() != null) ? $user->getLabel() : '';
-  }
+        return ($user->getLabel() != null) ? $user->getLabel() : '';
+    }
 }

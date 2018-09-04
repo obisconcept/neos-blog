@@ -2,20 +2,19 @@
 
 namespace ObisConcept\NeosBlog\Domain\Model;
 
-    /*
-     * This file is part of the ObisConcept.NeosBlog package.
-     *
-     * (c) Dennis Schröder
-     *
-     * This package is Open Source Software. For the full copyright and license
-     * information, please view the LICENSE file which was distributed with this
-     * source code.
-     */
-
+/*
+ * This file is part of the ObisConcept.NeosBlog package.
+ *
+ * (c) Dennis Schröder
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 use DateTime;
-use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
+use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Domain\Service;
 
 /**
@@ -24,7 +23,8 @@ use Neos\Neos\Domain\Service;
  * @Flow\Entity
  */
 
-class Category {
+class Category
+{
 
     /**
      * @var string
@@ -53,14 +53,14 @@ class Category {
      */
 
     protected $author;
-    
 
     /**
      * Where all the Magic begins
      */
 
-    public function __construct() {
-        $this->setCreated( new DateTime('now') );
+    public function __construct()
+    {
+        $this->setCreated(new DateTime('now'));
     }
 
     public function getName()

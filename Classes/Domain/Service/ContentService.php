@@ -13,9 +13,9 @@ namespace ObisConcept\NeosBlog\Domain\Service;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\ResourceManager;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * A service which can render specific views of blog related content
@@ -32,8 +32,6 @@ class ContentService
      * @var ResourceManager
      */
     protected $resourceManager;
-
-
 
     /**
      * Renders a teaser text with up to $maximumLength characters, with an outermost <p> and some more tags removed,
@@ -76,28 +74,25 @@ class ContentService
         }
     }
 
-
     /**
      * Gets the first Image in the Post ContentCollection as the Post Image
      * @param NodeInterface $node
      * @return mixed
      */
-    public function getPostImageResourceObject(NodeInterface $node) {
-
+    public function getPostImageResourceObject(NodeInterface $node)
+    {
         $childNodes = $this->getChildNodeContent($node, self::NODEPATH, self::NODETYPE);
 
         $imageResource = array();
-        
+
         /** @var NodeInterface $childNode */
         foreach ($childNodes as $childNode) {
-            if ($childNode-> getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
+            if ($childNode->getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
                 $imageResource[] = $childNode->getProperty('image');
-
             } elseif ($childNode->getNodeType()->isOfType('Neos.NodeTypes:Image')) {
                 $imageResource[] = $childNode->getProperty('image');
-
             } else {
-                if(!$childNode->getProperty('image')){
+                if (!$childNode->getProperty('image')) {
                     $imageResource[] = $childNode->getProperty('image');
                 }
             }
@@ -112,38 +107,35 @@ class ContentService
      * @param int $maximumLength
      * @return mixed
      */
-    public function getPostTextTeaser(NodeInterface $node, $maximumLength = 500) {
-
+    public function getPostTextTeaser(NodeInterface $node, $maximumLength = 500)
+    {
         $childNodes = $this->getChildNodeContent($node, self::NODEPATH, self::NODETYPE);
 
         $teaserText = array();
 
         /** @var NodeInterface $childNode */
         foreach ($childNodes as $childNode) {
-            if ($childNode-> getNodeType()->isOfType('Neos.NodeTypes:Text')) {
-                if($childNode->getProperty('text') !== null ){
+            if ($childNode->getNodeType()->isOfType('Neos.NodeTypes:Text')) {
+                if ($childNode->getProperty('text') !== null) {
                     $teaserText[] = $childNode->getProperty('text');
                 }
-
             } elseif ($childNode->getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
-                if($childNode->getProperty('text') !== null ){
+                if ($childNode->getProperty('text') !== null) {
                     $teaserText[] = $childNode->getProperty('text');
                 }
-
             } else {
-                if(!$childNode->getProperty('text')){
-                    if($childNode->getProperty('text') !== null ){
+                if (!$childNode->getProperty('text')) {
+                    if ($childNode->getProperty('text') !== null) {
                         $teaserText[] = $childNode->getProperty('text');
                     }
                 }
             }
         }
 
-        if(!$teaserText == null) {
+        if (!$teaserText == null) {
             $textToTrim = $teaserText[0];
 
             $jumpPosition = strpos($textToTrim, '<!-- read more -->');
-
 
             if ($jumpPosition !== false) {
                 return $this->stripUnwantedTags(substr($textToTrim, 0, ($jumpPosition - 1)));
@@ -160,10 +152,8 @@ class ContentService
                 return $this->stripUnwantedTags($textToTrim);
             }
         } else {
-
-            return ;
+            return;
         }
-
     }
 
     /**
@@ -181,7 +171,7 @@ class ContentService
                 $attributes = array(
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
-                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
+                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"',
                 );
                 $content .= $contentNode->getProperty('text');
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
@@ -190,7 +180,7 @@ class ContentService
                 $attributes = array(
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
-                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
+                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"',
                 );
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
             } else {
@@ -224,7 +214,7 @@ class ContentService
                 '/\<\\/a\\>/',
                 '/\\<span[^\\>]+\\>/',
                 '/\\<\\/span>]+\\>/',
-                '/\\<\\\\?(strong|b|blockquote)\\>/'
+                '/\\<\\\\?(strong|b|blockquote)\\>/',
             ],
             '',
             $content
@@ -244,8 +234,8 @@ class ContentService
      * @param string $postType
      * @return array
      */
-    protected function getChildNodeContent(NodeInterface $node, string $nodePath, string $postType) {
-
+    protected function getChildNodeContent(NodeInterface $node, string $nodePath, string $postType)
+    {
         return $node->getNode($nodePath)->getChildNodes($postType);
     }
 }

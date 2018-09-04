@@ -28,8 +28,8 @@ use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
  * @Flow\Scope("singleton")
  */
 
-class PostService {
-  
+class PostService
+{
     const POST_NODETYPE = 'ObisConcept.NeosBlog:Post';
 
     /**
@@ -76,22 +76,22 @@ class PostService {
     protected $configurationManager;
 
 
-  /**
-   * @param array $dimension
-   * @param string $searchTerm
-   * @param bool $showArchived
-   * @return array
-   */
-  public function getPersonalPosts(array $dimension, string $searchTerm, bool $showArchived) {
-
+    /**
+     * @param array $dimension
+     * @param string $searchTerm
+     * @param bool $showArchived
+     * @return array
+     */
+    public function getPersonalPosts(array $dimension, string $searchTerm, bool $showArchived)
+    {
         $userWorkspace = $this->userService->getPersonalWorkspace();
         $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace, self::POST_NODETYPE, $searchTerm, $showArchived);
         
         return $this->postNodeCreator($nodeData, $dimension);
     }
     
-    public function postNodeCreator(array $nodeDataRecords, $dimension) {
-
+    public function postNodeCreator(array $nodeDataRecords, $dimension)
+    {
         $userWorkspace = $this->userService->getPersonalWorkspace();
         $context = $this->createContentContext($userWorkspace->getName(), $dimension);
 
@@ -107,11 +107,12 @@ class PostService {
         return $posts;
     }
 
-  /**
-   * Get the default Language preset label from the settings.yaml
-   * @return array
-   */
-    public function getDefaultLanguage() {
+    /**
+     * Get the default Language preset label from the settings.yaml
+     * @return array
+     */
+    public function getDefaultLanguage()
+    {
         $languageSettings = $this->getLanguageDimensionsSettings();
 
         $defaultLanguage = $languageSettings['defaultPreset'];
@@ -125,7 +126,8 @@ class PostService {
      * Get the language Dimensions from settings.yaml ordered by default language first
      * @return array
      */
-    public function getLanguageDimensions() {
+    public function getLanguageDimensions()
+    {
         // Get the settings from the settings.yaml
         $languageSettings = $this->getLanguageDimensionsSettings();
 
@@ -146,7 +148,6 @@ class PostService {
 
         // Put the other language dimensions into the array
         foreach ($presets as $key => $preset) {
-
             $languageDimensions[$preset['label']] = array(
                 'language' => array(
                     0 => $key
@@ -167,7 +168,8 @@ class PostService {
      * @return ContentContext
      */
     
-    protected function createContentContext($workspaceName, array $dimensions = array()) {
+    protected function createContentContext($workspaceName, array $dimensions = array())
+    {
         $contextProperties = array(
             'workspaceName' => $workspaceName,
             'invisibleContentShown' => true,
@@ -196,7 +198,8 @@ class PostService {
      * Return the dimensions setting for the dimension language
      * @return array
      */
-    protected function getLanguageDimensionsSettings(){
+    protected function getLanguageDimensionsSettings()
+    {
         return $this->getDimensionsFromSettings('language');
     }
 
@@ -205,7 +208,8 @@ class PostService {
      * @param string $dimensionName optional
      * @return array
      */
-    protected function getDimensionsFromSettings(string $dimensionName) {
+    protected function getDimensionsFromSettings(string $dimensionName)
+    {
         $settings = $this->configurationManager->getConfiguration('Settings');
 
         $dimensionsSettings = $settings['Neos']['ContentRepository']['contentDimensions'];
@@ -215,6 +219,5 @@ class PostService {
         } else {
             return $dimensionsSettings;
         }
-
     }
 }

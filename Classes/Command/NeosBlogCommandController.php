@@ -12,22 +12,22 @@ namespace ObisConcept\NeosBlog\Command;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Repository\NodeDataRepository;
+use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\CommandController;
 use ObisConcept\NeosBlog\Domain\Model\Category;
 use ObisConcept\NeosBlog\Domain\Model\Tag;
 use ObisConcept\NeosBlog\Domain\Repository\CategoryRepository;
 use ObisConcept\NeosBlog\Domain\Repository\TagRepository;
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Cli\CommandController;
-use Neos\ContentRepository\Domain\Repository\NodeDataRepository;
-use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
-
 
 /**
  * Class NeosBlogCommandController
  * “
  */
 
-class NeosBlogCommandController extends CommandController {
+class NeosBlogCommandController extends CommandController
+{
     /**
      * @Flow\Inject
      * @var NodeDataRepository
@@ -47,27 +47,27 @@ class NeosBlogCommandController extends CommandController {
      */
 
     protected $categoryRepository;
-    
+
     /**
      * @return integer
      */
 
-    public function countPostsCommand(){
-
+    public function countPostsCommand()
+    {
         $posts = $this->nodeDataRepository->findByNodeType('ObisConcept.NeosBlog:Post');
 
         $this->outputLine(
             'I counted %s posts in the datatbase',
             array(count($posts))
-            );
+        );
     }
 
     /**
      * @return integer
      */
 
-    public function countBlogsCommand(){
-
+    public function countBlogsCommand()
+    {
         $blogs = $this->nodeDataRepository->findByNodeType('ObisConcept.NeosBlog:Blog');
 
         $this->outputLine(
@@ -80,12 +80,13 @@ class NeosBlogCommandController extends CommandController {
      * @return string
      */
 
-    public function listAllBlogsCommand(){
+    public function listAllBlogsCommand()
+    {
         $blogResult = $this->nodeDataRepository->findByNodeType('ObisConcept.NeosBlog:Blog');
 
         $blogs = $blogResult->toArray();
 
-        if(count($blogs) > 0) {
+        if (count($blogs) > 0) {
             foreach ($blogs as $blog) {
                 $this->outputLine(
                     'Title: %s | Path: %s | Identifier: %s',
@@ -97,17 +98,17 @@ class NeosBlogCommandController extends CommandController {
         }
     }
 
-
     /**
      * @return string
      */
 
-    public function listAllPostsCommand(){
+    public function listAllPostsCommand()
+    {
         $postQueryResult = $this->nodeDataRepository->findByNodeType('ObisConcept.NeosBlog:Post');
 
         $posts = $postQueryResult->toArray();
 
-        if(count($posts) > 0) {
+        if (count($posts) > 0) {
             foreach ($posts as $post) {
                 $this->outputLine(
                     'Title: %s | Path: %s | Identifier: %s',
@@ -117,7 +118,6 @@ class NeosBlogCommandController extends CommandController {
         } else {
             $this->outputLine("There are currently no Posts in the database");
         }
-
     }
     /**
      * Set Post Property
@@ -131,14 +131,14 @@ class NeosBlogCommandController extends CommandController {
      * @return void
      */
 
-    public function setPostPropertyCommand($property, $value, $id, $workspace){
-
+    public function setPostPropertyCommand($property, $value, $id, $workspace)
+    {
         $workspaceObject = $this->workspaceRepository->findByName($workspace)->toArray()[0];
 
         $postQueryResult = $this->nodeDataRepository->findOneByIdentifier($id, $workspaceObject);
 
         $postQueryResult->setProperty($property, $value);
-        $newPostQueryResult= $postQueryResult->getProperties()[$property];
+        $newPostQueryResult = $postQueryResult->getProperties()[$property];
 
         $this->outputLine(
             'The Property [%s] was changed to: %s.',
@@ -156,7 +156,8 @@ class NeosBlogCommandController extends CommandController {
      * @throws \Neos\Flow\Persistence\Exception\IllegalObjectTypeException
      */
 
-    public function addCategoryCommand(string $name, string $description) {
+    public function addCategoryCommand(string $name, string $description)
+    {
         $category = new Category();
         $category->setName($name);
         $category->setDescription($description);
@@ -170,10 +171,9 @@ class NeosBlogCommandController extends CommandController {
         );
     }
 
-
-    public function listCategoriesCommand() {
-
-        if($this->categoryRepository->countAll() > 0) {
+    public function listCategoriesCommand()
+    {
+        if ($this->categoryRepository->countAll() > 0) {
             foreach ($this->categoryRepository->findAll() as $category) {
                 $this->outputLine(
                     '%s',
@@ -185,9 +185,9 @@ class NeosBlogCommandController extends CommandController {
         }
     }
 
-    public function deleteAllCategories(){
-
-        if($this->categoryRepository->countAll() > 0) {
+    public function deleteAllCategories()
+    {
+        if ($this->categoryRepository->countAll() > 0) {
             $this->categoryRepository->removeAll();
         } else {
             $this->outputLine("There are currently no categories in the database");

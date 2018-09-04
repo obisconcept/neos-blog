@@ -16,7 +16,8 @@ use Neos\Flow\Annotations as Flow;
 use ObisConcept\NeosBlog\ViewHelpers\Widget\Controller\PaginateController;
 use Neos\ContentRepository\ViewHelpers\Widget\PaginateViewHelper as ContentRepositoryPaginateViewHelper;
 
-class PaginateViewHelper extends ContentRepositoryPaginateViewHelper {
+class PaginateViewHelper extends ContentRepositoryPaginateViewHelper
+{
 
     /**
      * @Flow\Inject

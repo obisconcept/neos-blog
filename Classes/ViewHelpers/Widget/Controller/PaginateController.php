@@ -19,5 +19,6 @@ use Neos\ContentRepository\ViewHelpers\Widget\Controller\PaginateController as C
  * @package ObisConcept\NeosBlog\ViewHelpers\Widget\Controller
  */
 
-class PaginateController extends ContentRepositoryPaginateController {
+class PaginateController extends ContentRepositoryPaginateController
+{
 }

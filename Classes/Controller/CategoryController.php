@@ -12,15 +12,14 @@ namespace ObisConcept\NeosBlog\Controller;
  * source code.
  */
 
-use ObisConcept\NeosBlog\Domain\Model\Category;
-use ObisConcept\NeosBlog\Domain\Repository\CategoryRepository;
-use ObisConcept\NeosBlog\Domain\Service\PostService;
+use Neos\ContentRepository\Domain\Repository\NodeDataRepository;
+use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
 use Neos\Flow\Annotations as Flow;
 use Neos\Neos\Controller\Module\ManagementController;
 use Neos\Neos\Domain\Service\UserService;
-use Neos\ContentRepository\Domain\Repository\NodeDataRepository;
-use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
-
+use ObisConcept\NeosBlog\Domain\Model\Category;
+use ObisConcept\NeosBlog\Domain\Repository\CategoryRepository;
+use ObisConcept\NeosBlog\Domain\Service\PostService;
 
 /**
  * Class CategoryController
@@ -28,7 +27,8 @@ use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
  * @Flow\Scope("singleton")
  */
 
-class CategoryController extends ManagementController {
+class CategoryController extends ManagementController
+{
 
     /**
      * @Flow\Inject
@@ -71,13 +71,11 @@ class CategoryController extends ManagementController {
      * @throws \Neos\Flow\Mvc\Exception\StopActionException
      */
 
-
-    public function indexAction() {
+    public function indexAction()
+    {
         $categories = $this->categoryRepository->findAll();
 
-
         $this->view->assign('categories', $categories);
-
     }
 
     /**
@@ -85,8 +83,8 @@ class CategoryController extends ManagementController {
      * @param Category $category
      */
 
-    public function editAction(Category $category) {
-
+    public function editAction(Category $category)
+    {
         $this->categoryRepository->update($category);
 
         $this->redirect('index');
@@ -97,7 +95,8 @@ class CategoryController extends ManagementController {
      * @param string $name
      * @param string $description
      */
-    public function createAction(string $name, string $description) {
+    public function createAction(string $name, string $description)
+    {
         $category = new Category();
         $category->setName($name);
         $category->setDescription($description);
@@ -115,13 +114,14 @@ class CategoryController extends ManagementController {
      * @param Category $category
      * @throws \Neos\Flow\Persistence\Exception\IllegalObjectTypeException
      */
-    public function deleteAction(Category $category) {
+    public function deleteAction(Category $category)
+    {
 
         //check first if the to be deleted category is connected with any posts
         $categoryID = $this->categoryRepository->getCategoryIdentifier($category);
 
         $objectTypeMap = array(
-            'ObisConcept\NeosBlog\Domain\Model\Category' => array($categoryID)
+            'ObisConcept\NeosBlog\Domain\Model\Category' => array($categoryID),
         );
 
         $posts = $this->nodeDataRepository->findNodesByRelatedEntities($objectTypeMap);
@@ -134,5 +134,4 @@ class CategoryController extends ManagementController {
 
         $this->redirect('index');
     }
-
 }

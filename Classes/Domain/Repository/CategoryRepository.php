@@ -11,15 +11,16 @@ use Neos\Flow\Persistence\Repository;
  * @package ObisConcept\NeosBlog\Domain\Repository
  * @Flow\Scope("singleton")
  */
-class CategoryRepository extends Repository {
+class CategoryRepository extends Repository
+{
 
 
     /**
      * @param Category $category
      * @return mixed
      */
-    public function getCategoryIdentifier(Category $category){
-
+    public function getCategoryIdentifier(Category $category)
+    {
         return $this->persistenceManager->getIdentifierByObject($category);
     }
 }

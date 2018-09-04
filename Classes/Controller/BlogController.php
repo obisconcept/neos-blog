@@ -12,19 +12,18 @@ namespace ObisConcept\NeosBlog\Controller;
  * source code.
  */
 
-
-use Neos\Flow\Annotations as Flow;
-use Neos\Neos\Domain\Service\UserService;
-use Neos\ContentRepository\Domain\Model\Workspace;
-use Neos\Neos\Domain\Service\ContentContextFactory;
-use ObisConcept\NeosBlog\Domain\Service\BlogService;
-use ObisConcept\NeosBlog\Domain\Service\PostService;
-use Neos\Neos\Controller\Module\ManagementController;
-use Neos\ContentRepository\Domain\Model\NodeTemplate;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
-use ObisConcept\NeosBlog\Domain\Service\ContentService;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Domain\Model\NodeTemplate;
+use Neos\ContentRepository\Domain\Model\Workspace;
 use Neos\ContentRepository\Domain\Repository\ContentDimensionRepository;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\Flow\Annotations as Flow;
+use Neos\Neos\Controller\Module\ManagementController;
+use Neos\Neos\Domain\Service\ContentContextFactory;
+use Neos\Neos\Domain\Service\UserService;
+use ObisConcept\NeosBlog\Domain\Service\BlogService;
+use ObisConcept\NeosBlog\Domain\Service\ContentService;
+use ObisConcept\NeosBlog\Domain\Service\PostService;
 
 /**
  * Class BlogController
@@ -35,14 +34,12 @@ use Neos\ContentRepository\Domain\Repository\ContentDimensionRepository;
 class BlogController extends ManagementController
 {
 
-
-  /**
-   * @Flow\Inject
-   * @var BlogService
-   */
+    /**
+     * @Flow\Inject
+     * @var BlogService
+     */
 
     protected $blogService;
-
 
     /**
      * @Flow\Inject
@@ -76,13 +73,11 @@ class BlogController extends ManagementController
      */
     protected $userService;
 
-
     /**
      * @Flow\Inject
      * @var ContentDimensionRepository
      */
     protected $contentDimensionsRepository;
-
 
     /**
      * Shows a list of post nodes which are accessible by the current user
@@ -98,7 +93,7 @@ class BlogController extends ManagementController
     public function indexAction(bool $showArchived = false, string $dimension = '', $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false)
     {
 
-    // convert json string to array
+        // convert json string to array
         ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
 
         // we need a little logic here to control no posts status
@@ -119,7 +114,6 @@ class BlogController extends ManagementController
             $this->view->assign('showArchivedNoResults', false);
             $this->view->assign('showCreateNewForm', true);
         }
-    
 
         // pass the search was submitted flag to the view
         $this->view->assign('searchSubmitted', $searchSubmitted);
@@ -177,7 +171,7 @@ class BlogController extends ManagementController
             }
 
             /** @var NodeInterface $personalPosts */
-            $properties =  $post->getProperties();
+            $properties = $post->getProperties();
 
             //make each property available in the template with it's property name
             foreach ($properties as $propertyName => $property) {
@@ -221,7 +215,6 @@ class BlogController extends ManagementController
 
         $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $title));
 
-
         $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
 
         if ($this->request->getHttpRequest()->isMethodSafe() === false) {
@@ -246,7 +239,6 @@ class BlogController extends ManagementController
         $postNode->remove();
         $this->redirect('index');
     }
-
 
     protected function getBlogNode(string $workspace, string $blogIdentifier)
     {

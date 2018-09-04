@@ -3,14 +3,14 @@
 namespace ObisConcept\NeosBlog\Domain\Service;
 
 /*
-     * This file is part of the ObisConcept.NeosBlog package.
-     *
-     * (c) Dennis Schröder
-     *
-     * This package is Open Source Software. For the full copyright and license
-     * information, please view the LICENSE file which was distributed with this
-     * source code.
-     */
+ * This file is part of the ObisConcept.NeosBlog package.
+ *
+ * (c) Dennis Schröder
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 use Neos\ContentRepository\Domain\Factory\NodeFactory;
 use Neos\Flow\Annotations as Flow;
@@ -27,8 +27,8 @@ use ObisConcept\NeosBlog\Domain\Repository\PostNodeDataRepository;
  * @Flow\Scope("singleton")
  */
 
-class BlogService {
-
+class BlogService
+{
     const BLOG_NODETYPE = 'ObisConcept.NeosBlog:Blog';
 
     /**
@@ -67,50 +67,48 @@ class BlogService {
      */
     protected $nodeFactory;
 
-
     /**
      * Returns a list of blognodes in the users workspace
      * @param array $dimensions optional
      * @return array
      */
 
-    public function getPersonalBlogs(array $dimensions= array()) {
+    public function getPersonalBlogs(array $dimensions = array())
+    {
         // to show only user related blogs get the personal Workspace
         $workspaceName = $this->userService->getPersonalWorkspace();
 
         // get the blogNodes
-        $blogNodeData = $this->postNodeDataRepository->getPostNodeData($dimensions, $workspaceName, self::BLOG_NODETYPE, '' , false );
+        $blogNodeData = $this->postNodeDataRepository->getPostNodeData($dimensions, $workspaceName, self::BLOG_NODETYPE, '', false);
 
-      return $this->postNodeCreator($blogNodeData, $dimensions);
-
+        return $this->postNodeCreator($blogNodeData, $dimensions);
     }
 
-  /**
-   * Create a Node
-   *
-   * @param array $nodeDataRecords
-   * @param $dimension
-   * @return mixed
-   */
-  public function postNodeCreator(array $nodeDataRecords, $dimension) {
+    /**
+     * Create a Node
+     *
+     * @param array $nodeDataRecords
+     * @param $dimension
+     * @return mixed
+     */
+    public function postNodeCreator(array $nodeDataRecords, $dimension)
+    {
+        $userWorkspace = $this->userService->getPersonalWorkspace();
 
-    $userWorkspace = $this->userService->getPersonalWorkspace();
+        $context = $this->createContentContext($userWorkspace->getName(), $dimension);
 
-    $context = $this->createContentContext($userWorkspace->getName(), $dimension);
+        $posts = array();
+        foreach ($nodeDataRecords as $nodeData) {
+            $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
+            if ($node !== null && $node->getNodeType() == self::BLOG_NODETYPE) {
+                $posts[$node->getPath()] = $node;
+            }
+        }
 
-    $posts = array();
-    foreach ($nodeDataRecords as $nodeData) {
-      $node = $this->nodeFactory->createFromNodeData($nodeData, $context);
-      if ($node !== null && $node->getNodeType() == self::BLOG_NODETYPE) {
-        $posts[$node->getPath()] = $node;
-      }
+        return $posts;
     }
 
-    return $posts;
-  }
-
-
-  /**
+    /**
      * Create a ContentContext based on the given workspace name
      *
      * @param string $workspaceName Name of the workspace to set for the context
@@ -118,11 +116,12 @@ class BlogService {
      * @return ContentContext
      */
 
-    protected function createContentContext($workspaceName, array $dimensions = array()) {
+    protected function createContentContext($workspaceName, array $dimensions = array())
+    {
         $contextProperties = array(
             'workspaceName' => $workspaceName,
             'invisibleContentShown' => true,
-            'inaccessibleContentShown' => true
+            'inaccessibleContentShown' => true,
         );
 
         if ($dimensions !== array()) {
