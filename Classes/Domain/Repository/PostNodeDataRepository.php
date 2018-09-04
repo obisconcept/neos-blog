@@ -70,7 +70,7 @@ class PostNodeDataRepository extends Repository
     protected function addSearchTermJoinConstraintsToQueryBuilder(QueryBuilder $queryBuilder, string $searchTerm)
     {
         $queryBuilder
-            ->andWhere('n.properties LIKE ":searchTerm"')
+            ->andWhere('n.properties LIKE :searchTerm')
             ->setParameter('searchTerm', '%' . $searchTerm . '%');
     }
 
