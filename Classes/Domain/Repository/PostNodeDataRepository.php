@@ -71,7 +71,7 @@ class PostNodeDataRepository extends Repository
     {
         $queryBuilder
             ->andWhere('LOWER(n.properties) LIKE :searchTerm')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+            ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
     }
 
     /**
