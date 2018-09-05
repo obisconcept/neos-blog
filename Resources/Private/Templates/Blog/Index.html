@@ -77,7 +77,7 @@
                     </f:form>
                   </f:comment>
 
-                      <f:if condition="{posts -> f:count()} > 10">
+                      <f:if condition="{posts -> f:count()} > 10 || {searchSubmitted} == true">
 
                         <f:render partial="Search/PostSearch" arguments="{_all}"/>
 
