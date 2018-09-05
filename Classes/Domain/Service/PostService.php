@@ -87,7 +87,8 @@ class PostService
         $userWorkspace = $this->userService->getPersonalWorkspace();
         $nodeData = $this->postNodeDataRepository->getPostNodeData($dimension, $userWorkspace, self::POST_NODETYPE, $searchTerm, $showArchived);
         
-        return $this->postNodeCreator($nodeData, $dimension);
+        $postNodes = $this->postNodeCreator($nodeData, $dimension);
+        return $postNodes;
     }
     
     public function postNodeCreator(array $nodeDataRecords, $dimension)

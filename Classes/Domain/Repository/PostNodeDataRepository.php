@@ -28,11 +28,11 @@ class PostNodeDataRepository extends Repository
      * @return array
      */
 
-    public function getPostNodeData(array $dimension, Workspace $workspace, string $nodeType, string $searchTerm = '', bool $showArchived)
+    public function getPostNodeData(array $dimension, Workspace $workspace, string $nodeType, string $searchTerm = '', bool $showArchived = false)
     {
-
         // get workspaceobjects
         $workspaces = $this->collectWorkspaceAndAllBaseWorkspaces($workspace);
+
         // get base queryBuilder
         $postQuery = $this->postQueryBuilder($nodeType);
 
@@ -62,7 +62,7 @@ class PostNodeDataRepository extends Repository
      *
      * @param QueryBuilder $queryBuilder
      */
-    protected function sortPosts(QueryBuilder $queryBuilder)
+    protected function sortPosts(QueryBuilder &$queryBuilder)
     {
         $queryBuilder->orderBy('n.creationDateTime', 'DESC');
     }

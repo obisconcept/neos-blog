@@ -81,7 +81,9 @@ class BlogService
         // get the blogNodes
         $blogNodeData = $this->postNodeDataRepository->getPostNodeData($dimensions, $workspaceName, self::BLOG_NODETYPE, '', false);
 
-        return $this->postNodeCreator($blogNodeData, $dimensions);
+        $blogNodes = $this->postNodeCreator($blogNodeData, $dimensions);
+
+        return $blogNodes;
     }
 
     /**

@@ -92,9 +92,14 @@ class BlogController extends ManagementController
 
     public function indexAction(bool $showArchived = false, string $dimension = '', $dimensionLabel = array(), $searchTerm = '', $searchSubmitted = false)
     {
+        set_time_limit(0);
 
         // convert json string to array
-        ($dimension == '') ? $dimension = array() : $dimension = json_decode($dimension, true);
+        if (empty($dimension)) {
+            $dimension = [];
+        } else {
+            $dimension = json_decode($dimension, true);
+        }
 
         // we need a little logic here to control no posts status
         if ($showArchived == true && $searchSubmitted == false) {
@@ -125,7 +130,7 @@ class BlogController extends ManagementController
         $posts = $this->postService->getPersonalPosts($dimension, $searchTerm, $showArchived);
 
         // pass the posts to the view
-        if (!$posts == null) {
+        if ($posts !== null) {
             $this->view->assign('posts', $posts);
             $this->view->assign('searchTerm', $searchTerm);
         }
